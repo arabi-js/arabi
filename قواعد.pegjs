@@ -429,44 +429,44 @@ Zs = [\u0020\u00A0\u1680\u2000-\u200A\u202F\u205F\u3000]
 
 // Tokens
 
-BreakToken      = "توقف"      !IdentifierPart
-CaseToken       = "حالة"       !IdentifierPart
-CatchToken      = "اكتشف"      !IdentifierPart
-ClassToken      = "فئة"      !IdentifierPart
-ConstToken      = "ثابت"      !IdentifierPart
-ContinueToken   = "اسمتر"   !IdentifierPart
-DebuggerToken   = "debugger"   !IdentifierPart
-DefaultToken    = "افتراضي"    !IdentifierPart
-DeleteToken     = "امسح"     !IdentifierPart
-DoToken         = "افعل"         !IdentifierPart
-ElseToken       = "وإلا"       !IdentifierPart
-EnumToken       = "enum"       !IdentifierPart
-ExportToken     = "صدر"     !IdentifierPart
-ExtendsToken    = "امتداد"    !IdentifierPart
-FalseToken      = "خطأ"      !IdentifierPart
-FinallyToken    = "في النهاية"    !IdentifierPart
-ForToken        = "لكل"        !IdentifierPart
-FunctionToken   = "دالة"   !IdentifierPart
-GetToken        = "احضر"        !IdentifierPart
-IfToken         = "لو"         !IdentifierPart
-ImportToken     = "استورد"     !IdentifierPart
+BreakToken      = "توقف" !IdentifierPart
+CaseToken       = "حالة" !IdentifierPart
+CatchToken      = "اكتشف" !IdentifierPart
+ClassToken      = "فئة" !IdentifierPart
+ConstToken      = "ثابت" !IdentifierPart
+ContinueToken   = "اسمتر" !IdentifierPart
+DebuggerToken   = "debugger" !IdentifierPart
+DefaultToken    = "افتراضي" !IdentifierPart
+DeleteToken     = "امسح" !IdentifierPart
+DoToken         = "افعل" !IdentifierPart
+ElseToken       = "وإلا" !IdentifierPart / "وإﻻ" !IdentifierPart
+EnumToken       = "enum" !IdentifierPart
+ExportToken     = "تصدير" !IdentifierPart
+ExtendsToken    = "امتداد" !IdentifierPart
+FalseToken      = "خطأ" !IdentifierPart
+FinallyToken    = "في النهاية" !IdentifierPart
+ForToken        = "لكل" !IdentifierPart
+FunctionToken   = "دالة" !IdentifierPart
+GetToken        = "احضر" !IdentifierPart
+IfToken         = "لو" !IdentifierPart
+ImportToken     = "استيراد" !IdentifierPart
 InstanceofToken = "من_فئة" !IdentifierPart
-InToken         = "في"         !IdentifierPart
-NewToken        = "انشئ"        !IdentifierPart
-NullToken       = "العدم"       !IdentifierPart
-ReturnToken     = "ارجع"     !IdentifierPart
-SetToken        = "ضع"        !IdentifierPart
-SuperToken      = "الأم"      !IdentifierPart
-SwitchToken     = "اختر"     !IdentifierPart
-ThisToken       = "هذا"       !IdentifierPart
-ThrowToken      = "ارمي"      !IdentifierPart
-TrueToken       = "صحيح"       !IdentifierPart
-TryToken        = "حاول"        !IdentifierPart
-TypeofToken     = "نوع"     !IdentifierPart
-VarToken        = "عرف"        !IdentifierPart
-VoidToken       = "void"       !IdentifierPart
-WhileToken      = "بينما"      !IdentifierPart
-WithToken       = "مع"       !IdentifierPart
+InToken         = "في" !IdentifierPart
+NewToken        = "انشئ" !IdentifierPart
+NullToken       = "عدم" !IdentifierPart
+ReturnToken     = "ارجع" !IdentifierPart
+SetToken        = "ضع" !IdentifierPart
+SuperToken      = "الأم" !IdentifierPart
+SwitchToken     = "اختر" !IdentifierPart
+ThisToken       = "هذا" !IdentifierPart
+ThrowToken      = "ارمي" !IdentifierPart
+TrueToken       = "صحيح" !IdentifierPart
+TryToken        = "حاول" !IdentifierPart
+TypeofToken     = "نوع" !IdentifierPart
+VarToken        = "متغير" !IdentifierPart
+VoidToken       = "فارغ" !IdentifierPart
+WhileToken      = "بينما" !IdentifierPart
+WithToken       = "مع" !IdentifierPart
 
 // Skipped
 
@@ -495,11 +495,16 @@ EOF
 
 PrimaryExpression
   = ThisToken { return { type: "ThisExpression" }; }
+  / ArrowFunction
   / Identifier
   / Literal
   / ArrayLiteral
   / ObjectLiteral
-  / "(" __ expression:Expression __ ")" { return expression; }
+  / "(" __ expression:Expression __ ")" { return {
+    type: "Parentheses",
+    content: expression
+  }; }
+  
 
 ArrayLiteral
   = "[" __ elision:(Elision __)? "]" {
@@ -520,6 +525,18 @@ ArrayLiteral
         elements: elements.concat(optionalList(extractOptional(elision, 0)))
       };
     }
+
+ArrowFunction =
+  params:(
+    "(" __ params:(FormalParameterList __)? ")" { return extractOptional(params, 0); }
+    / id:Identifier { return [ id ]; }
+  ) __ "=>" __ body:Statement {
+    return {
+      type: "ArrowFunction",
+      params,
+      body
+    }
+  }
 
 ElementList
   = head:(
@@ -853,7 +870,7 @@ LogicalOROperator
 
 ConditionalExpression
   = test:LogicalORExpression __
-    "?" __ consequent:AssignmentExpression __
+    "؟" __ consequent:AssignmentExpression __
     ":" __ alternate:AssignmentExpression
     {
       return {
@@ -867,7 +884,7 @@ ConditionalExpression
 
 ConditionalExpressionNoIn
   = test:LogicalORExpressionNoIn __
-    "?" __ consequent:AssignmentExpression __
+    "؟" __ consequent:AssignmentExpression __
     ":" __ alternate:AssignmentExpressionNoIn
     {
       return {
@@ -1297,9 +1314,13 @@ FunctionExpression
     }
 
 FormalParameterList
-  = head:Identifier tail:(__ "," __ Identifier)* {
+  = head:FunctionParameter tail:(__ "," __ FunctionParameter)* {
       return buildList(head, tail, 3);
     }
+
+FunctionParameter =
+  Identifier / 
+  id:Identifier __ "=" __ def:LeftHandSideExpression { return { type: "Parameter", id, default: def }  }
 
 FunctionBody
   = body:SourceElements? {
