@@ -10,7 +10,8 @@ const OUTPUT_FILE = path.resolve(DEST, './محلل.js');
 function generateFromGrammar() {
   return pegjs.generate(
     fs.readFileSync('./قواعد.pegjs').toString('utf8'), {
-      output: 'source'
+      output: 'source',
+      format: 'commonjs'
     });
 }
 
