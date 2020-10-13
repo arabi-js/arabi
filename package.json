@@ -36,5 +36,8 @@
     "webpack-clean-plugin": "^0.2.3",
     "webpack-cli": "^4.0.0",
     "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "charcodes": "^0.2.0"
   }
 }
