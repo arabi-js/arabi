@@ -1,15 +1,21 @@
 const path = require('path');
 const CleanPlugin = require('webpack-clean-plugin')
 
+let mode = process.env.MODE || (i = process.argv.indexOf('--mode')) ? process.argv[i+1] : null || 'production';
+
 module.exports = {
+  devtool: mode === 'development' ? 'source-map' : false,
+
   entry: {
     arjs: "./مصدر/مدخل.js",
   },
+
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "./حزمة"),
-    library: "[name]",
     libraryTarget: "umd",
+    library: "[name]",
+    globalObject: "(typeof global === 'object' ? global : typeof self === 'object' ? self : window)",
   },
 
   module: {
