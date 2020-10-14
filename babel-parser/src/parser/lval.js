@@ -24,6 +24,8 @@ import { type BindingTypes, BIND_NONE } from "../util/scopeflags";
 import { ExpressionErrors } from "./util";
 import { Errors } from "./error";
 
+import keyMap from '../keywords-map'
+
 const unwrapParenthesizedExpression = (node: Node) => {
   return node.type === "ParenthesizedExpression"
     ? unwrapParenthesizedExpression(node.expression)
@@ -393,7 +395,7 @@ export default class LValParser extends NodeUtils {
             checkClashes[key] = true;
           }
         }
-        if (disallowLetBinding && expr.name === "let") {
+        if (disallowLetBinding && expr.name === keyMap._let) {
           this.raise(expr.start, Errors.LetInLexicalBinding);
         }
         if (!(bindingType & BIND_NONE)) {

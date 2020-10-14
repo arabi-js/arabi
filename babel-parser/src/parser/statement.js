@@ -30,6 +30,7 @@ import {
 } from "../util/scopeflags";
 import { ExpressionErrors } from "./util";
 import { PARAM, functionFlags } from "../util/production-parameter";
+import keyMap from '../keywords-map'
 
 const loopLabel = { kind: "loop" },
   switchLabel = { kind: "switch" };
@@ -110,7 +111,7 @@ export default class StatementParser extends ExpressionParser {
   }
 
   isLet(context: ?string): boolean {
-    if (!this.isContextual("let")) {
+    if (!this.isContextual(keyMap._let)) {
       return false;
     }
     const next = this.nextTokenStart();
@@ -158,7 +159,7 @@ export default class StatementParser extends ExpressionParser {
 
     if (this.isLet(context)) {
       starttype = tt._var;
-      kind = "let";
+      kind = keyMap._let;
     }
 
     // Most types of statements are recognized by the keyword they
@@ -502,7 +503,7 @@ export default class StatementParser extends ExpressionParser {
     const isLet = this.isLet();
     if (this.match(tt._var) || this.match(tt._const) || isLet) {
       const init = this.startNode();
-      const kind = isLet ? "let" : this.state.value;
+      const kind = isLet ? keyMap._let : this.state.value;
       this.next();
       this.parseVar(init, true, kind);
       this.finishNode(init, "VariableDeclaration");
@@ -688,7 +689,7 @@ export default class StatementParser extends ExpressionParser {
 
   parseVarStatement(
     node: N.VariableDeclaration,
-    kind: "var" | "let" | "const",
+    kind: keyMap._var | keyMap._let | keyMap._const,
   ): N.VariableDeclaration {
     this.next();
     this.parseVar(node, false, kind);
@@ -996,7 +997,7 @@ export default class StatementParser extends ExpressionParser {
   parseVar(
     node: N.VariableDeclaration,
     isFor: boolean,
-    kind: "var" | "let" | "const",
+    kind: keyMap._var | keyMap._let | keyMap._const,
   ): N.VariableDeclaration {
     const declarations = (node.declarations = []);
     const isTypescript = this.hasPlugin("typescript");
@@ -1040,7 +1041,7 @@ export default class StatementParser extends ExpressionParser {
     return node;
   }
 
-  parseVarId(decl: N.VariableDeclarator, kind: "var" | "let" | "const"): void {
+  parseVarId(decl: N.VariableDeclarator, kind: keyMap._var | keyMap._let | keyMap._const): void {
     decl.id = this.parseBindingAtom();
     this.checkLVal(
       decl.id,
@@ -1830,7 +1831,7 @@ export default class StatementParser extends ExpressionParser {
   isExportDefaultSpecifier(): boolean {
     if (this.match(tt.name)) {
       const value = this.state.value;
-      if ((value === "async" && !this.state.containsEsc) || value === "let") {
+      if ((value === "async" && !this.state.containsEsc) || value === keyMap._let) {
         return false;
       }
       if (

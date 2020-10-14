@@ -26,6 +26,7 @@ import {
 } from "../util/scopeflags";
 import type { ExpressionErrors } from "../parser/util";
 import { Errors } from "../parser/error";
+import keyMap from '../keywords-map';
 
 const reservedTypes = new Set([
   "_",
@@ -2593,7 +2594,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     // parse flow type annotations on variable declarator heads - let foo: string = bar
     parseVarId(
       decl: N.VariableDeclarator,
-      kind: "var" | "let" | "const",
+      kind: "var" | keyMap._let | "const",
     ): void {
       super.parseVarId(decl, kind);
       if (this.match(tt.colon)) {

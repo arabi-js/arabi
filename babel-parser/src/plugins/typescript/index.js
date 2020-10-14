@@ -1473,9 +1473,9 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       let starttype = this.state.type;
       let kind;
 
-      if (this.isContextual("let")) {
+      if (this.isContextual(keyMap._let)) {
         starttype = tt._var;
-        kind = "let";
+        kind = keyMap._let;
       }
 
       return this.tsInDeclareContext(() => {
@@ -2410,7 +2410,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     // `let x: number;`
     parseVarId(
       decl: N.VariableDeclarator,
-      kind: "var" | "let" | "const",
+      kind: "var" | keyMap._let | "const",
     ): void {
       super.parseVarId(decl, kind);
       if (decl.id.type === "Identifier" && this.eat(tt.bang)) {

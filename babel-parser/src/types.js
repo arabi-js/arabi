@@ -4,6 +4,7 @@ import type { SourceType } from "./options";
 import type { Token } from "./tokenizer";
 import type { SourceLocation } from "./util/location";
 import type { PlaceholderTypes } from "./plugins/placeholders";
+import * as keyMap from './keywords-map';
 
 /*
  * If making any changes to the AST, update:
@@ -331,7 +332,7 @@ export type VariableDeclaration = DeclarationBase &
   HasDecorators & {
     type: "VariableDeclaration",
     declarations: $ReadOnlyArray<VariableDeclarator>,
-    kind: "var" | "let" | "const",
+    kind: keyMap._var | keyMap._let | keyMap._const,
   };
 
 export type VariableDeclarator = NodeBase & {
