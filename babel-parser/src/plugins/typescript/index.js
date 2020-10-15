@@ -31,6 +31,7 @@ import * as charCodes from "charcodes";
 import type { ExpressionErrors } from "../../parser/util";
 import { PARAM } from "../../util/production-parameter";
 import { Errors } from "../../parser/error";
+import * as keyMap from "../../keywords-map";
 
 type TsModifier =
   | "readonly"
@@ -547,7 +548,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
             node,
           );
         } else {
-          node.key = this.createIdentifier(id, "new");
+          node.key = this.createIdentifier(id, keyMap._new);
           return this.tsParsePropertyOrMethodSignature(node, false);
         }
       }
@@ -2410,7 +2411,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     // `let x: number;`
     parseVarId(
       decl: N.VariableDeclarator,
-      kind: "var" | keyMap._let | "const",
+      kind: keyMap._var | keyMap._let | keyMap._const,
     ): void {
       super.parseVarId(decl, kind);
       if (decl.id.type === "Identifier" && this.eat(tt.bang)) {

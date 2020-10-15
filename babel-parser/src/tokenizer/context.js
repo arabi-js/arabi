@@ -5,6 +5,7 @@
 // See https://github.com/mozilla/sweet.js/wiki/design
 
 import { types as tt } from "./types";
+import * as keyMap from '../keywords-map'
 
 export class TokContext {
   constructor(
@@ -63,7 +64,7 @@ tt.name.updateContext = function (prevType) {
         !this.state.exprAllowed &&
         prevType !== tt._function &&
         prevType !== tt._class) ||
-      (this.state.value === "yield" && this.prodParam.hasYield)
+      (this.state.value === keyMap._yield && this.prodParam.hasYield)
     ) {
       allowed = true;
     }

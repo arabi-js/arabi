@@ -50,6 +50,7 @@ import {
   functionFlags,
 } from "../util/production-parameter";
 import { Errors } from "./error";
+import * as keyMap from '../keywords-map';
 
 export default class ExpressionParser extends LValParser {
   // Forward-declaration: defined in statement.js
@@ -234,7 +235,7 @@ export default class ExpressionParser extends LValParser {
   ): N.Expression {
     const startPos = this.state.start;
     const startLoc = this.state.startLoc;
-    if (this.isContextual("yield")) {
+    if (this.isContextual(keyMap._yield)) {
       if (this.prodParam.hasYield) {
         let left = this.parseYield();
         if (afterLeftParse) {
@@ -405,7 +406,7 @@ export default class ExpressionParser extends LValParser {
         ) {
           if (
             this.match(tt.name) &&
-            this.state.value === "await" &&
+            this.state.value === keyMap._await &&
             this.prodParam.hasAwait
           ) {
             throw this.raise(
@@ -486,7 +487,7 @@ export default class ExpressionParser extends LValParser {
   // Parse unary operators, both prefix and postfix.
   // https://tc39.es/ecma262/#prod-UnaryExpression
   parseMaybeUnary(refExpressionErrors: ?ExpressionErrors): N.Expression {
-    if (this.isContextual("await") && this.isAwaitAllowed()) {
+    if (this.isContextual(keyMap._await) && this.isAwaitAllowed()) {
       return this.parseAwait();
     }
     const update = this.match(tt.incDec);
@@ -587,7 +588,7 @@ export default class ExpressionParser extends LValParser {
       }
       base = this.parseSubscript(base, startPos, startLoc, noCalls, state);
 
-      // After parsing a subscript, this isn't "async" for sure.
+      // After parsing a subscript, this isn't keyMap._async for sure.
       state.maybeAsyncArrow = false;
       this.state.maybeInAsyncArrowHead = oldMaybeInAsyncArrowHead;
     } while (!state.stop);
@@ -758,7 +759,7 @@ export default class ExpressionParser extends LValParser {
       //   (x = async(yield)) => {}
       //
       // Hi developer of the future :) If you are implementing generator
-      // arrow functions, please read the note below about "await" and
+      // arrow functions, please read the note below about keyMap._await and
       // verify if the same logic is needed for yield.
       if (oldYieldPos !== -1) this.state.yieldPos = oldYieldPos;
 
@@ -767,10 +768,10 @@ export default class ExpressionParser extends LValParser {
       // parameters will actually be inside an async arrow function or if it is
       // a normal call expression.
       // If it ended up being a call expression, if we are in a context where
-      // await expression are disallowed (and thus "await" is an identifier)
+      // await expression are disallowed (and thus keyMap._await is an identifier)
       // we must be careful not to leak this.state.awaitPos to an even outer
-      // context, where "await" could not be an identifier.
-      // For example, this code is valid because "await" isn't directly inside
+      // context, where keyMap._await could not be an identifier.
+      // For example, this code is valid because keyMap._await isn't directly inside
       // an async function:
       //
       //     async function a() {
@@ -814,7 +815,7 @@ export default class ExpressionParser extends LValParser {
   atPossibleAsyncArrow(base: N.Expression): boolean {
     return (
       base.type === "Identifier" &&
-      base.name === "async" &&
+      base.name === keyMap._async &&
       this.state.lastTokEnd === base.end &&
       !this.canInsertSemicolon() &&
       // check there are no escape sequences, such as \u{61}sync
@@ -987,15 +988,15 @@ export default class ExpressionParser extends LValParser {
         const containsEsc = this.state.containsEsc;
         const id = this.parseIdentifier();
 
-        if (!containsEsc && id.name === "async" && !this.canInsertSemicolon()) {
+        if (!containsEsc && id.name === keyMap._async && !this.canInsertSemicolon()) {
           if (this.match(tt._function)) {
             const last = this.state.context.length - 1;
             if (this.state.context[last] !== ct.functionStatement) {
-              // Since "async" is an identifier and normally identifiers
+              // Since keyMap._async is an identifier and normally identifiers
               // can't be followed by expression, the tokenizer assumes
-              // that "function" starts a statement.
+              // that keyMap._function starts a statement.
               // Fixing it in the tokenizer would mean tracking not only the
-              // previous token ("async"), but also the one before to know
+              // previous token (keyMap._async), but also the one before to know
               // its beforeExpr value.
               // It's easier and more efficient to adjust the context here.
               throw new Error("Internal error");
@@ -1284,16 +1285,16 @@ export default class ExpressionParser extends LValParser {
     const node = this.startNode();
 
     // We do not do parseIdentifier here because when parseFunctionOrFunctionSent
-    // is called we already know that the current token is a "name" with the value "function"
+    // is called we already know that the current token is a "name" with the value keyMap._function
     // This will improve perf a tiny little bit as we do not do validation but more importantly
     // here is that parseIdentifier will remove an item from the expression stack
-    // if "function" or "class" is parsed as identifier (in objects e.g.), which should not happen here.
+    // if keyMap._function or "class" is parsed as identifier (in objects e.g.), which should not happen here.
     this.next(); // eat `function`
 
     if (this.prodParam.hasYield && this.match(tt.dot)) {
       const meta = this.createIdentifier(
         this.startNodeAtNode(node),
-        "function",
+        keyMap._function,
       );
       this.next(); // eat `.`
       return this.parseMetaProperty(node, meta, "sent");
@@ -1308,7 +1309,7 @@ export default class ExpressionParser extends LValParser {
   ): N.MetaProperty {
     node.meta = meta;
 
-    if (meta.name === "function" && propertyName === "sent") {
+    if (meta.name === keyMap._function && propertyName === "sent") {
       // https://github.com/tc39/proposal-function.sent#syntax-1
       if (this.isContextual(propertyName)) {
         this.expectPlugin("functionSent");
@@ -1336,7 +1337,7 @@ export default class ExpressionParser extends LValParser {
 
   // https://tc39.es/ecma262/#prod-ImportMeta
   parseImportMetaProperty(node: N.MetaProperty): N.MetaProperty {
-    const id = this.createIdentifier(this.startNodeAtNode(node), "import");
+    const id = this.createIdentifier(this.startNodeAtNode(node), keyMap._import);
     this.next(); // eat `.`
 
     if (this.isContextual("meta")) {
@@ -1519,7 +1520,7 @@ export default class ExpressionParser extends LValParser {
     this.next();
     if (this.match(tt.dot)) {
       // https://tc39.es/ecma262/#prod-NewTarget
-      const meta = this.createIdentifier(this.startNodeAtNode(node), "new");
+      const meta = this.createIdentifier(this.startNodeAtNode(node), keyMap._new);
       this.next();
       const metaProp = this.parseMetaProperty(node, meta, "target");
 
@@ -1756,7 +1757,7 @@ export default class ExpressionParser extends LValParser {
       const keyName = key.name;
       // https://tc39.es/ecma262/#prod-AsyncMethod
       // https://tc39.es/ecma262/#prod-AsyncGeneratorMethod
-      if (keyName === "async" && !this.hasPrecedingLineBreak()) {
+      if (keyName === keyMap._async && !this.hasPrecedingLineBreak()) {
         isAsync = true;
         isGenerator = this.eat(tt.star);
         this.parsePropertyName(prop, /* isPrivateNameAllowed */ false);
@@ -2359,12 +2360,12 @@ export default class ExpressionParser extends LValParser {
     checkKeywords: boolean,
     isBinding: boolean,
   ): void {
-    if (this.prodParam.hasYield && word === "yield") {
+    if (this.prodParam.hasYield && word === keyMap._yield) {
       this.raise(startLoc, Errors.YieldBindingIdentifier);
       return;
     }
 
-    if (word === "await") {
+    if (word === keyMap._await) {
       if (this.prodParam.hasAwait) {
         this.raise(startLoc, Errors.AwaitBindingIdentifier);
         return;
@@ -2397,7 +2398,7 @@ export default class ExpressionParser extends LValParser {
       : isStrictReservedWord;
 
     if (reservedTest(word, this.inModule)) {
-      if (!this.prodParam.hasAwait && word === "await") {
+      if (!this.prodParam.hasAwait && word === keyMap._await) {
         this.raise(startLoc, Errors.AwaitNotInAsyncFunction);
       } else {
         this.raise(startLoc, Errors.UnexpectedReservedWord, word);

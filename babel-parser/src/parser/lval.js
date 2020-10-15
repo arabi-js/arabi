@@ -24,7 +24,7 @@ import { type BindingTypes, BIND_NONE } from "../util/scopeflags";
 import { ExpressionErrors } from "./util";
 import { Errors } from "./error";
 
-import keyMap from '../keywords-map'
+import * as keyMap from '../keywords-map'
 
 const unwrapParenthesizedExpression = (node: Node) => {
   return node.type === "ParenthesizedExpression"

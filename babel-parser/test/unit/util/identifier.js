@@ -6,7 +6,7 @@ import {
 describe("identifier", () => {
   describe("isKeyword", () => {
     it("break is a keyword", () => {
-      expect(isKeyword("break")).toBe(true);
+      expect(isKeyword(keyMap._break)).toBe(true);
     });
     it("const is a keyword", () => {
       expect(isKeyword("const")).toBe(true);

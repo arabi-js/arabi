@@ -35,12 +35,27 @@ export const _instanceof = "مثال_من"
 export const _typeof = "نوع"
 export const _void = "فارغ"
 export const _delete = "امسح"
-
 export const _let = "عرف"
 export const _from = "من"
 export const _of = "من"
 export const _as = "ك"
-export const _yeild = "انتج"
+export const _yield = "انتج"
 export const _async = "تزامن"
 export const _await = "انتظر"
+
+export const _package = 'حزمة';
+export const _private = 'خاص';
+export const _protected = 'محمي';
+export const _public = 'عام';
+export const _static = 'ثابت';
+export const _enum = 'تعداد';
+export const _interface = 'واجهة';
+export const _type = 'نوع';
+export const _implements = 'تنفيذ';
+
+
+// this should be a reversed defined variable in strict mode
+// make sure that these are the same in the APIs translation maps
+export const _arguments = "وسائط"
+export const _eval = "قدر"
 

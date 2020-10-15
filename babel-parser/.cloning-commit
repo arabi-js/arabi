@@ -1,0 +1,6 @@
+commit d49e5507aedc48e9abc4856065319626d943c294 (HEAD -> main, origin/main, origin/HEAD)
+Author: Nicolò Ribaudo <nicolo.ribaudo@gmail.com>
+Date:   Mon Oct 12 16:07:30 2020 +0200
+
+    Remove unused devDependency from @babel/register (#12166)
+

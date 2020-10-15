@@ -455,10 +455,10 @@ export type UnaryOperator =
   | "+"
   | "!"
   | "~"
-  | "typeof"
-  | "void"
-  | "delete"
-  | "throw";
+  | keyMap._typeof
+  | keyMap._void
+  | keyMap._delete
+  | keyMap._throw;
 
 export type UpdateExpression = NodeBase & {
   type: "UpdateExpression",
@@ -498,8 +498,8 @@ export type BinaryOperator =
   | "|"
   | "^"
   | "&"
-  | "in"
-  | "instanceof";
+  | keyMap._in
+  | keyMap._instanceof;
 
 export type AssignmentExpression = NodeBase & {
   type: "AssignmentExpression",

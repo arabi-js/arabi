@@ -22,6 +22,10 @@ import State from "./state";
 
 const VALID_REGEX_FLAGS = new Set(["g", "m", "s", "i", "y", "u"]);
 
+const ARABIC_SEMI_CODE = 1563;
+const ARABIC_COMMA_CODE = 1548;
+const ARABIC_QUESTION_CODE = 1567;
+
 // The following character codes are forbidden from being
 // an immediate sibling of NumericLiteralSeparator _
 
@@ -728,10 +732,18 @@ export default class Tokenizer extends ParserErrors {
         ++this.state.pos;
         this.finishToken(tt.parenR);
         return;
+      case ARABIC_SEMI_CODE :
+        // we now use the arabic semicolon
+        // so let do the same as the english one
+        // don't return or break
       case charCodes.semicolon:
         ++this.state.pos;
         this.finishToken(tt.semi);
         return;
+      case ARABIC_COMMA_CODE:
+        // we now use the arabic comma
+        // so let do the same as the english one
+        // don't return or break
       case charCodes.comma:
         ++this.state.pos;
         this.finishToken(tt.comma);
@@ -784,7 +796,6 @@ export default class Tokenizer extends ParserErrors {
         ++this.state.pos;
         this.finishToken(tt.braceR);
         return;
-
       case charCodes.colon:
         if (
           this.hasPlugin("functionBind") &&
@@ -796,11 +807,13 @@ export default class Tokenizer extends ParserErrors {
           this.finishToken(tt.colon);
         }
         return;
-
+      case ARABIC_QUESTION_CODE:
+        // we now use the arabic comma
+        // so let do the same as the english one
+        // don't return or break
       case charCodes.questionMark:
         this.readToken_question();
         return;
-
       case charCodes.graveAccent:
         ++this.state.pos;
         this.finishToken(tt.backQuote);
