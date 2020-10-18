@@ -1,0 +1,13 @@
+import handler from "../مدخل";
+import { type Handler } from '../../أنواع.js';
+
+export const ifHandler: Handler = {
+  test(node) {
+    return node.type === "IfStatement";
+  },
+  handle(node, indent=handler.indent) {
+    let code = indent + `if (${handler(node.test)}) ` + handler(node.consequent, '');
+    if (node.alternate) code += `\n${handler.indent}else ` + handler(node.alternate, '');
+    return code;
+  },
+};
