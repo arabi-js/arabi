@@ -1,2 +1,10 @@
 import * as handlers from './معالجات';
-export default Object.values(handlers);
+
+let typeHandlers = {};
+Object.values(handlers).forEach((h) => {
+  h.types.forEach((t) => {
+    typeHandlers[t] = h.handle;
+  });
+});
+
+export default typeHandlers;

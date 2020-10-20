@@ -69,7 +69,13 @@ export default class ScopeHandler {
   }
 
   has(name: string) {
-    return this.hasVar(name) || this.hasFunction(name) || this.hasLexical(name);
+    for(let b of this.blockScopes) {
+      if (b.lexicals.indexOf(name) > -1) return true;
+    }
+    for(let c of this.closures) {
+      if (c.vars.indexOf(name) > -1) return true;
+      if (c.functions.indexOf(name) > -1) return true;
+    }
   }
 
   //#region vars
@@ -91,7 +97,9 @@ export default class ScopeHandler {
   }
 
   hasVar(name: string) {
-    return this.curClosure.vars.indexOf(name) > -1;
+    for(let c of this.closures) {
+      if (c.vars.indexOf(name) > -1) return true;
+    }
   }
 
   clearVars() {
@@ -103,7 +111,9 @@ export default class ScopeHandler {
   //#region functions
 
   addFunction(name: string) {
-    this.curClosure.functions.push(name);
+    for(let c of this.closures) {
+      if (c.functions.indexOf(name) > -1) return true;
+    }
   }
 
   addFunctions(...names: string | Array) {
@@ -147,7 +157,9 @@ export default class ScopeHandler {
   }
 
   hasLexical(name: string) {
-    return this.curBlockScope.lexical.indexOf(name) > -1;
+    for(let b of this.blockScopes) {
+      if (b.lexicals.indexOf(name) > -1) return true;
+    }
   }
 
   clearLexical() { 

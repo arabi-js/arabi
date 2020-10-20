@@ -1,81 +1,100 @@
-import handler from "../مدخل";
-import { type Handler } from "../../أنواع.js";
+import handler from '../مدخل';
+import { type Handler } from '../../أنواع.js';
 
 // المعالجات
-export { ifHandler } from "./جملة-لو";
-export { blockHandler } from "./قطاع";
-export { literalHandler } from "./جملة-حرفية";
-export { functionHandler } from "./دالة";
-export { declarationHandler } from "./تعريف-متغير";
-export { objectHandler } from "./نمط-الكائن";
-export { arrayHandler } from "./مصفوفة";
-
-export const sequenceHandler: Handler = {
-  test(node) {
-    return node instanceof Array;
-  },
-  handle(node, indent = handler.indent) {
-    return node.map((a) => handler(a)).join("\n\n");
-  },
-};
+export { ifHandler } from './جملة-لو';
+export { blockHandler } from './قطاع';
+export { literalHandler } from './جملة-حرفية';
+export { functionHandler } from './دالة';
+export { declarationHandler } from './تعريف-متغير';
+export { objectHandler } from './نمط-الكائن';
+export { arrayHandler } from './مصفوفة';
+export { forHandler } from './حلقة-لكل';
+export { whileHandler } from './حلقة-بينما';
+export { switchHandler } from './بدائل';
+export { memExpressionHandler } from './تعبير-العضو';
 
 export const expressionHandler: Handler = {
-  test(node) {
-    return node.type === "ExpressionStatement";
-  },
+  types: ['ExpressionStatement'],
   handle(node, indent = handler.indent) {
     return indent + handler(node.expression) + handler.semi;
   },
 };
 
-export const memExprHandler: Handler = {
-  test(node) {
-    return node.type === "MemberExpression";
-  },
-  handle(node, indent='') {
-    return indent + `${handler(node.object)}.${handler(node.property)}`;
-  },
-};
-
 export const callHandler: Handler = {
-  test(node) {
-    return node.type === "CallExpression";
-  },
-  handle(node, indent='') {
-    return indent + `${handler(node.callee)}(${node.arguments
-      .map((n) => handler(n))
-      .join(", ")})`;
+  types: ['CallExpression'],
+  handle(node, indent = '') {
+    return (
+      indent +
+      `${handler(node.callee)}(${node.arguments
+        .map((n) => handler(n))
+        .join(', ')})`
+    );
   },
 };
 
 export const identifierHandler: Handler = {
-  test(node) {
-    return node.type === "Identifier";
-  },
-  handle(node, indent='') {
-    let code = indent + node.name;
-    console.log('parsing identifier:', node.name);
-    console.log('defined before:', handler.scope.has(node.name));
-    console.log('-------------');
-    return code;
+  types: ['Identifier'],
+  handle(node, indent = '') {
+    return indent + node.name;
   },
 };
 
 export const binaryExpressionHandler: Handler = {
-  test(node) {
-    return node.type === "BinaryExpression";
+  types: ['BinaryExpression'],
+  handle(node, indent = '') {
+    return (
+      indent + `${handler(node.left)} ${node.operator} ${handler(node.right)}`
+    );
   },
-  handle(node, indent='') {
-    return indent + `${handler(node.left)} ${node.operator} ${handler(node.right)}`;
+};
+
+export const updateExprHandler: Handler = {
+  types: ['UpdateExpression'],
+  handle(node, indent = '') {
+    return node.prefix
+      ? node.operator + handler(node.argument)
+      : handler(node.argument) + node.operator;
   },
 };
 
 export const parenthesizedExpression: Handler = {
-  test(node) {
-    return node.type === "ParenthesizedExpression";
+  types: ['ParenthesizedExpression'],
+  handle(node, indent = '') {
+    return indent + `(${handler(node.expression, '')})`;
   },
-  handle(node, indent = "") {
-    return indent + `(${handler(node.expression, "")})`;
+};
+
+export const exportStatment: Handler = {
+  types: ['ReturnStatement'],
+  handle(node, indent = handler.indent) {
+    return (
+      indent +
+      'return' +
+      (node.argument ? ' ' + handler(node.argument, '') : '') +
+      handler.semi
+    );
+  },
+};
+
+export const blockStatment: Handler = {
+  types: ['BreakStatement'],
+  handle(node, indent = handler.indent) {
+    return (
+      indent +
+      'break' +
+      (node.label ? ' ' + handler(node.label, '') : '') +
+      handler.semi
+    );
+  },
+};
+
+export const labeledHandler: Handler = {
+  types: ['LabeledStatement'],
+  handler(node, indent = handler.indent) {
+    let label = handler(node.label) + ': ';
+    let body = handler(node.body, '');
+    return label + body;
   },
 };
 

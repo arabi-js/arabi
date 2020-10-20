@@ -1,13 +1,19 @@
-import handler from "../مدخل";
+import handler from '../مدخل';
 import { type Handler } from '../../أنواع.js';
 
 export const literalHandler: Handler = {
-  test(node) {
-    return /[A-Z][a-z]*Literal$/.test(node.type);
-  },
+  types: [
+    'BooleanLiteral',
+    'RegExpLiteral',
+    'NullLiteral',
+    'StringLiteral',
+    'BigIntLiteral',
+    'NumericLiteral',
+    'DecimalLiteral',
+  ],
   handle(node) {
     switch (node.type) {
-      case "StringLiteral":
+      case 'StringLiteral':
         return node.extra.raw;
       default:
         return node.value;

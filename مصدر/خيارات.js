@@ -3,7 +3,7 @@
  */
 
 export type TranslationMap = {
-  target: 'global' | object,
+  target: '#global#' | object,
   map: object | string,
 };
 

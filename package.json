@@ -36,6 +36,7 @@
     "babel-loader": "^8.1.0",
     "flow-bin": "^0.135.0",
     "pegjs": "^0.10.0",
+    "prettier": "^2.1.2",
     "webpack": "4",
     "webpack-clean-plugin": "^0.2.3",
     "webpack-cli": "3.3.12",

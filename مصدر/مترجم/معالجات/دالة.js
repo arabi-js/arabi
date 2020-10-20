@@ -1,68 +1,69 @@
-import handler from "../مدخل";
-import { type Handler } from "../../أنواع.js";
-import { addToScope } from './مساعدات'
+import handler from '../مدخل';
+import { type Handler } from '../../أنواع.js';
+import { addToScope } from './مساعدات';
 
-function handleArrowFunction(node, indent=handler.indent) {
+function handleArrowFunction(node, indent = handler.indent) {
   let _async = node.async ? 'async ' : '';
 
   // a new blockScope is created automatically
   // as fn.body.type === "BlockStatement"
   handler.scope.startClosure();
 
-  let code = indent + _async + `(${node.params.map(p=>handler(p, '')).join(', ')}) => ` 
-  
-  // add params to scope
-  node.params.map(p=>addToScope(
-    p.type === "BinaryExpression"
-    ? /* operator "=" */ p.left
-    : p
-  )); 
+  let code =
+    indent +
+    _async +
+    `(${node.params.map((p) => handler(p, '')).join(', ')}) => `;
 
-  code += handler(node.body, '', false);
-  
+  // add params to scope
+  node.params.map((p) =>
+    addToScope(p.type === 'BinaryExpression' ? /* operator "=" */ p.left : p)
+  );
+
+  code += handler(node.body, '');
+
   // close the closure of this function
   handler.scope.endClosure();
 
   return code;
 }
 
-function handleReturnStatement(node, indent=handler.indent) {
-  return indent + 'return' + (node.argument ? ' ' + handler(node.argument, '') : "") + handler.semi;
-}
-
 export const functionHandler: Handler = {
-  test(node) {
-    return node.type === "FunctionExpression" || node.type === "FunctionDeclaration" || node.type === "ArrowFunctionExpression" || node.type === "ReturnStatement";
-  },
-  handle(node, indent=handler.indent) {
-    if(node.type === "ReturnStatement") return handleReturnStatement(node, indent);
-    if(node.type === "ArrowFunctionExpression") return handleArrowFunction(node, indent);
+  types: [
+    'FunctionExpression',
+    'FunctionDeclaration',
+    'ArrowFunctionExpression',
+  ],
+  handle(node, indent = handler.indent) {
+    if (node.type === 'ArrowFunctionExpression')
+      return handleArrowFunction(node, indent);
 
     let _async = node.async ? 'async ' : '';
     let _generator = node.generator ? '*' : '';
     let _name = node.id?.name || '';
-    
-    (node.type === "FunctionDeclaration" && handler.scope.addFunction(_name));
+
+    node.type === 'FunctionDeclaration' && handler.scope.addFunction(_name);
     // a new blockScope is created automatically
     // as fn.body.type === "BlockStatement"
     handler.scope.startClosure();
-    
+
     // the declaration syntax
-    let code = _async + 'function' + _generator + ' '
-      + _name + `(${node.params.map(p=>handler(p, '')).join(', ')}) `;
+    let code =
+      _async +
+      'function' +
+      _generator +
+      ' ' +
+      _name +
+      `(${node.params.map((p) => handler(p, '')).join(', ')}) `;
 
     // add params to scope
-    node.params.map(p=>addToScope(
-      p.type === "BinaryExpression"
-      ? /* operator "=" */ p.left
-      : p
-    ));
+    node.params.map((p) =>
+      addToScope(p.type === 'BinaryExpression' ? /* operator "=" */ p.left : p)
+    );
 
-    code += handler(node.body, '', false);
-    
+    code += handler(node.body, '');
+
     // close the closure of this function
     handler.scope.endClosure();
     return code;
   },
 };
-
