@@ -26,9 +26,9 @@ export const declarationHandler: Handler = {
     let dec = node.declarations.pop();
 
     function addDeclaration(dec) {
+      code += handler(dec.id) + (dec.init ? ' = ' + handler(dec.init, '') : '');
       if (kind === 'let' || kind === 'const') addToScope(dec.id, 'lex');
       else addToScope(dec.id, 'var');
-      code += handler(dec.id) + (dec.init ? ' = ' + handler(dec.init, '') : '');
     }
 
     addDeclaration(dec);

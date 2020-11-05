@@ -13,6 +13,8 @@ export { forHandler } from './حلقة-لكل';
 export { whileHandler } from './حلقة-بينما';
 export { switchHandler } from './بدائل';
 export { memExpressionHandler } from './تعبير-العضو';
+export { identifierHandler } from './معرف';
+export { importHandler, exportHandler } from './استيراد-تصدير';
 
 export const expressionHandler: Handler = {
   types: ['ExpressionStatement'],
@@ -30,13 +32,6 @@ export const callHandler: Handler = {
         .map((n) => handler(n))
         .join(', ')})`
     );
-  },
-};
-
-export const identifierHandler: Handler = {
-  types: ['Identifier'],
-  handle(node, indent = '') {
-    return indent + node.name;
   },
 };
 

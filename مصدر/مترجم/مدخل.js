@@ -1,3 +1,5 @@
+// @flow
+
 import handlers from './معالجات/مدخل';
 import { type Node } from '../../babel-parser/src/types.js';
 
@@ -20,19 +22,16 @@ export default function handler(node: Node, indent?: string): string {
 
 // NOTICE: the inline statement such as Idetifier and CallExpression won't be indented.
 let indentCount = 0;
-Object.defineProperty(handler, 'indentCount', {
-  get() {
-    return indentCount;
-  },
-  set(v) {
-    if (typeof v !== 'number' || v < 0 || v % 1 !== 0)
-      throw 'invalid value for indentation, count of indents must be positive integer or zer0';
-    indentCount = v;
-    handler.indent = new Array(handler.options.indentSize * indentCount)
-      .fill(handler.options.indentUnit)
-      .join('');
-  },
-});
-handler.increaseIndent = () => ++handler.indentCount;
-handler.decreaseIndent = () => --handler.indentCount;
+function setIndent(v) {
+  if (typeof v !== 'number' || v < 0 || v % 1 !== 0)
+    throw 'invalid value for indentation, count of indents must be positive integer or zer0';
+  indentCount = handler.indentCount = v;
+  handler.indent =
+    new Array(indentCount)
+    .fill(handler.options.indent)
+    .join('');
+}
+
+handler.increaseIndent = () => setIndent(handler.indentCount + 1);
+handler.decreaseIndent = () => setIndent(handler.indentCount - 1);
 handler.indent = '';
