@@ -30,3 +30,21 @@ export function getIds(id) {
   return _ids;
 }
 
+export function test(t, v) {
+  if (t instanceof Array) return typeof t.find(_=>test(_, v)) !== 'undefined';
+  if (t instanceof Function) return t(v);
+  if (t instanceof RegExp) return t.test(v);
+  if (typeof t === 'string') return t === v;
+  throw 'unexpected test, it has to be either string, regex, function, or even arry of the previous mentioned!';
+}
+
+export function resolve(r, v) {
+  if (r instanceof Function) return r(v);
+  if (typeof r === 'string') return r;
+  throw 'unexpected resolver, it has to be either string, function!';
+}
+
+export function getRandomName() {
+  return new Date().getTime().toString(32);
+}
+

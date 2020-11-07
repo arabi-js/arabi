@@ -1,4 +1,6 @@
 const path = require('path');
+const fs = require('fs');
+const webpack = require('webpack');
 const CleanPlugin = require('webpack-clean-plugin');
 let i = process.argv.indexOf('--mode');
 let mode =
@@ -63,5 +65,11 @@ module.exports = {
     },
   ],
 
-  plugins: [new CleanPlugin()],
+  plugins: [
+    new CleanPlugin(),
+    new webpack.DefinePlugin({
+      TRANSLATOR_CODE: JSON.stringify(fs.readFileSync('./مصدر/مترجم/كود-المترجم.js', { encoding: 'utf8' })),
+      GLOBAL_TRANSLATOR_CODE: JSON.stringify(fs.readFileSync('./مصدر/مترجم/كود-مترجم-العالمي.js', { encoding: 'utf8' })),
+    })
+  ],
 };

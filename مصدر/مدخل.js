@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import * as parser from './محلل';
 import handler from './مترجم/مدخل.js';
-import { getGlobalTranslator } from './مساعدات';
+import { globalTranslatorCode, translatorCode } from './مساعدات';
 import ScopeManager from './مدير-النطاق';
 import { type Options as ParserOptions } from '../babel-parser/src/options';
 import { type Options } from './خيارات';
@@ -72,7 +72,7 @@ export function translate(
   }
 
   let translatedCode;
-  let globalTranslatorCode = '';
+  let header = '';
 
   if (options.input) {
     let input = path.resolve(options.input);
@@ -86,12 +86,14 @@ export function translate(
     } else /* it is directory */ {
 
     }
+    if (handler.importTranslator) {
+      
+    }
   } else if (options.code) {
     translatedCode = handler(parser.parse(options.code, parserOptions).program.body);
-    if (options.maps.global) {
-      globalTranslatorCode = getGlobalTranslator();
-    }
-    return globalTranslatorCode + translatedCode;
+    if (options.maps.global) header += globalTranslatorCode.replace('GLOBAL_MAP', JSON.stringify(handler.maps.global)) + "\n";
+    if (handler.importTranslator) header += translatorCode + "\n";
+    return header + translatedCode;
   }
 
   throw 'we don\'t know what to translate';
