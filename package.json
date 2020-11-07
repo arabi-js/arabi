@@ -1,13 +1,10 @@
 {
-  "name": "js-in-arabic",
+  "name": "arjs",
   "version": "1.0.0",
   "description": "It is just a trial to prove that we can.",
   "main": "حزمة/arjs.js",
-  "bin": "ثنائي/ترجم.js",
   "files": [
-    "حزمة",
-    "ثنائي",
-    "ثنائي"
+    "حزمة"
   ],
   "scripts": {
     "build": "webpack",

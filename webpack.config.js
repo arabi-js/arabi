@@ -69,7 +69,6 @@ module.exports = {
     new CleanPlugin(),
     new webpack.DefinePlugin({
       TRANSLATOR_CODE: JSON.stringify(fs.readFileSync('./مصدر/مترجم/كود-المترجم.js', { encoding: 'utf8' })),
-      GLOBAL_TRANSLATOR_CODE: JSON.stringify(fs.readFileSync('./مصدر/مترجم/كود-مترجم-العالمي.js', { encoding: 'utf8' })),
     })
   ],
 };

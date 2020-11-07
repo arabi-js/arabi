@@ -90,13 +90,13 @@ export const importHandler: Handler = {
       let importCode = '';
       if (map) {
         // we will use imports[1]
-        let alternateName = '__arjs__' + getRandomName();
+        let alternateName = `__arjs__${getRandomName()}__`;
         importCode = `import ${alternateName} from ${source}` + handler.semi;
         imports = imports[1];
-        handler.importTranslator = true;
+        handler.addTranslator = true;
         trailingCode = imports.map(tt=>`const ${tt[0]} = __arjs__translate__(${tt[1]}, ${JSON.stringify(tt[2])})`).join('; ');
       } else {
-        importCode = `import ${imports[0]} from ${source}` + handler.semi;
+        importCode = `import ${imports[0]} from ${source}`;
       }
       return importCode + (trailingCode ? ' ' + trailingCode : '') + handler.semi;
     } else {
@@ -121,17 +121,20 @@ function exportSpecifiersHandler(s) {
 export const exportHandler: Handler = {
   types: ['ExportNamedDeclaration', 'ExportDefaultDeclaration'],
   handle(node, indent = handler.indent) {
+    let code;
     if (node.type === 'ExportDefaultDeclaration') {
       let semi = handler.semi;
       handler.semi = '';
-      return `export default ${handler(node.declaration, '')}` + semi;
+      code = `export default ${handler(node.declaration, '')}` + semi;
       handler.semi = semi;
+      return code;
     }
     if (node.declaration) {
       let semi = handler.semi;
       handler.semi = '';
-      return `export ${handler(node.declaration, '')}` + semi;
+      code = `export ${handler(node.declaration, '')}` + semi;
       handler.semi = semi;
+      return code;
     }
     return `export ${exportSpecifiersHandler(node.specifiers, '')}` + handler.semi;
   },
