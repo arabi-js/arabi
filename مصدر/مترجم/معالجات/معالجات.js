@@ -15,6 +15,7 @@ export { switchHandler } from './بدائل';
 export { memExpressionHandler } from './تعبير-العضو';
 export { identifierHandler } from './معرف';
 export { importHandler, exportHandler } from './استيراد-تصدير';
+export { assignmentHandler } from './تعبير-التعيين';
 
 export const expressionHandler: Handler = {
   types: ['ExpressionStatement'],

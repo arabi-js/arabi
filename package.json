@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "It is just a trial to prove that we can.",
   "main": "حزمة/arjs.js",
-  "files": [
-    "حزمة"
-  ],
   "scripts": {
     "build": "webpack",
     "build:parser": "NODE_ENV=parser webpack",
@@ -40,6 +37,7 @@
   },
   "dependencies": {
     "@babel/runtime-corejs3": "^7.12.1",
+    "arjs-translate": "file:../arjs-translate",
     "charcodes": "^0.2.0"
   }
 }

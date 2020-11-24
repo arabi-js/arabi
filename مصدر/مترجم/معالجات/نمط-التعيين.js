@@ -1,7 +1,7 @@
 
 import handler from '../مدخل';
 import { type Handler } from '../../أنواع.js';
-import { addToScope } from './مساعدات';
+import { addToScope } from '../../مساعدات';
 
 export const assignmentHandler: Handler = {
   types: ["AssignmentPattern"],

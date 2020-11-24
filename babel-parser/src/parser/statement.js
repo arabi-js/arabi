@@ -490,10 +490,11 @@ export default class StatementParser extends ExpressionParser {
     this.next();
     this.state.labels.push(loopLabel);
 
-    let awaitAt = -1;
+    let awaitAt = -1; // for await (let num of asyncIterable) { console.log(num); }
     if (this.isAwaitAllowed() && this.eatContextual(keyMap._await)) {
       awaitAt = this.state.lastTokStart;
     }
+    
     this.scope.enter(SCOPE_OTHER);
     this.expect(tt.parenL);
 
@@ -2119,7 +2120,6 @@ export default class StatementParser extends ExpressionParser {
   }
 
   maybeParseModuleAttributes() {
-    debugger
     if (this.match(tt._with) && !this.hasPrecedingLineBreak()) {
       this.expectPlugin("moduleAttributes");
       this.next();

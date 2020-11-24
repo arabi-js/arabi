@@ -1,6 +1,6 @@
 import handler from '../مدخل';
-import { addToScope } from './مساعدات';
-import { type Handler } from '../../أنواع.js';
+import { addToScope } from '../../مساعدات';
+import { type Handler } from '../../أنواع';
 
 function handleArrowFunction(node, indent = handler.indent) {
   let _async = node.async ? 'async ' : '';

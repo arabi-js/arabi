@@ -1,19 +1,20 @@
 const windowMap = require('./window.tmap');
 const commonjsMap = require('./commonjs.tmap');
-const commonjsVar = require('./commonjsVar.tmap');
+const commonjsVars = require('./commonjsVars.tmap');
 const jqueryMap = require('./jquery.tmap');
 
-let modules = [ jqueryMap ];
+let modules = {
+  "جي-كويري": jqueryMap,
+};
 
-const commonjs = {
+exports.commonjs = {
   global: commonjsMap,
-  globalVar: commonjsVar,
+  globalVars: commonjsVars,
   modules,
 };
 
-const window = {
+exports.window = {
   global: windowMap,
   modules,
 };
 
-module.exports = commonjs;

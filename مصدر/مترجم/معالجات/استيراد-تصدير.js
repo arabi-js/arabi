@@ -1,6 +1,6 @@
 
 import handler from '../مدخل';
-import { test, resolve, getRandomName } from './مساعدات';
+import { test, resolve, getRandomName } from '../../مساعدات';
 import { type Handler } from '../../أنواع.js';
 
 function importSpecifiersHandler(s, map) {
@@ -13,19 +13,23 @@ function importSpecifiersHandler(s, map) {
     _default = handler(defaultSpecifier.local, '');
     if (isTranslated) {
       let __default = `__arjs__${getRandomName()}__`;
-      [ _default, __default ] = [ __default, _default ]; // switch the values;
-      imports.push([ __default, _default, map ]); // set [ theActualValue, theRandomGeneratedName ];
+      imports.push([ _default, __default, map ]); // set [ theActualValue, theRandomGeneratedName ];
+      // now, we changes the name, the actual name will be a proxy of translation.
+      // so the code hanceforth deals with a translated object.
+      [ _default, __default ] = [ __default, _default ];
     }
     if (!s.length) return [_default, imports];
   }
 
   if (s[0].type === 'ImportNamespaceSpecifier') {
     namespaceSpecifier = s.shift();
-    let namspaceLocal = handler(namespaceSpecifier.local, '');
+    let namespaceLocal = handler(namespaceSpecifier.local, ''); // it is "Identifier"
     if (isTranslated) {
       let _namespaceLocal = `__arjs__${getRandomName()}__`;
-      [ namspaceLocal, _namespaceLocal ] = [ _namespaceLocal, namspaceLocal ]; // switch the values;
-      imports([ _namespaceLocal, namspaceLocal, map ]); // set [ theActualValue, theRandomGeneratedName ];
+      imports.push([ namespaceLocal, _namespaceLocal, map ]); // set [ theActualValue, theRandomGeneratedName ];
+      // now, we changes the name, the actual name will be a proxy of translation.
+      // so the code hanceforth deals with a translated object
+      [ namespaceLocal, _namespaceLocal ] = [ _namespaceLocal, namespaceLocal ];
     }
     namespace = `* as ${namspaceLocal}`;
     return [
@@ -50,8 +54,8 @@ function importSpecifiersHandler(s, map) {
 
         if (_map) {
           let _local = `__arjs__${getRandomName()}__`;
+          imports.push([ local, _local, _map ]);
           [ _local, local ] = [ local, _local ];
-          imports.push([ _local, local, _map ]);
         }
  
         return `${imported} as ${local}`;
@@ -78,31 +82,33 @@ export const importHandler: Handler = {
     //   attributes?: [ ImportAttribute ];
     // }
 
-    let source = node.source.value;
-    let mdl = handler.maps.modules?.find(m=>test(m.test, source));
-    let map = mdl?.map;
-    source = mdl && mdl.resolve ? resolve(mdl.resolve, source) : source;
+    let source = node.source.value; // node.source is a "StringLiteral"
+    let mdl = handler.maps.modules?.[source];
+    let map = mdl?.[1];
+    if (map && handler.isModules) {
+      handler.moduleToTranslate.push(source);
+      source = path.relative(
+        path.dirname(handler.filepath),
+        path.resolve(handler.options.output, '__arjs__modules__') + source + '.js'
+      );
+    } else if (map) source = mdl[0];
+
     source = `"${source}"`;
 
     if (node.specifiers) {
       let imports = importSpecifiersHandler(node.specifiers, map);
       let trailingCode = '';
-      let importCode = '';
+      let importCode = `import ${imports[0]} from ${source}`;
       if (map) {
         // we will use imports[1]
-        let alternateName = `__arjs__${getRandomName()}__`;
-        importCode = `import ${alternateName} from ${source}` + handler.semi;
-        imports = imports[1];
         handler.addTranslator = true;
-        trailingCode = imports.map(tt=>`const ${tt[0]} = __arjs__translate__(${tt[1]}, ${JSON.stringify(tt[2])})`).join('; ');
-      } else {
-        importCode = `import ${imports[0]} from ${source}`;
+        trailingCode = imports[1].map(tt=>`const ${tt[0]} = __arjs__translate__(${tt[1]}, ${JSON.stringify(tt[2])})`).join('; ');
       }
-      return importCode + (trailingCode ? ' ' + trailingCode : '') + handler.semi;
+      return importCode + (trailingCode ? '; ' + trailingCode : '') + handler.semi;
     } else {
       let importCode = `import ${source}` + handler.semi;
       let trailingCode = ``;
-      return importCode + " " + trailingCode + handler.semi;
+      return indent + importCode + " " + trailingCode + handler.semi;
     }
 
   },
@@ -136,7 +142,7 @@ export const exportHandler: Handler = {
       handler.semi = semi;
       return code;
     }
-    return `export ${exportSpecifiersHandler(node.specifiers, '')}` + handler.semi;
+    return indent + `export ${exportSpecifiersHandler(node.specifiers, '')}` + handler.semi;
   },
 };
 

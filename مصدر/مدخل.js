@@ -3,20 +3,25 @@
 import path from 'path';
 import fs from 'fs';
 import * as parser from './محلل';
-import handler from './مترجم/مدخل.js';
+import handler from './مترجم/مدخل';
 import {
   getTranslatorCode,
   getGlobalTranslatorCode,
   getVarsTranslatorCode,
+  translateModule,
+  test,
+  debug
 } from './مساعدات';
 import ScopeManager from './مدير-النطاق';
 import { type Options as ParserOptions } from '../babel-parser/src/options';
 import { type Options } from './خيارات';
-import maps from '../خرائط-الترجمة/'; // DEV , delete this line in production
+import { commonjs as maps } from '../خرائط-الترجمة/'; // DEV , delete this line in production
 
 function validateOptions(options: Options) {
   if (!/(?:\t| )+/.test(options.indent))
-    throw 'invalid indent unit! please set it to (space) or (tap)';
+    throw 'invalid indent unit! please set it to <space> or <tap>!';
+  if (!/^(?:commonjs|es6|mixed)$/.test(options.moduleType))
+    throw 'invalid moduleType, must be either "commonjs", "es6", or "mixed"!';
 }
 
 export function translate(
@@ -31,27 +36,30 @@ export function translate(
     // file depending in th input
     input: undefined,
     output: undefined,
-    // the source dest containing "options.input"
-    // context needed incase you want to have
-    // the same files tree in your output folder.
-    // we need tion option when output is dest
-    context: './',
     indent: '  ',
     semicolon: true,
     // when module is true, we will add
     // another module called index.js
     // in the dest file, make sure your
     // file doesn't contain such a file...
-    // our index/js contains the global translator
+    // our index.js contains the global translator
     // and maybe other code and will export
     // the same things exported in your moduleEntry
-    module: false,
-    moduleEntry: undefined,
+    entry: false,
+    moduleType: 'es6', // possible values: es6, commonjs
     maps, // DEV
     globalObject: 'globalThis',
-    runtime: true, // this is true by default when we translating a dirsctory, so that we will reduce the overall size. 
+    runtime: true, // this is true by default when we translating a dirsctory, so that we will reduce the overall size.
+
+    // test for files to be translated!
+    patterns: /\.(:?arjs|جس|ج.س)$/,
+    ignores: null,
+    globalIgnores: null,
+    keepExtension: false,
     ...options,
   };
+
+  let modulesToTranslate = [];
 
   // validation
   validateOptions(options);
@@ -61,34 +69,120 @@ export function translate(
   handler.maps = options.maps;
   handler.semi = options.semicolon ? ';' : '';
   handler.scope = new ScopeManager();
+  handler.reset(); // set the defaults;
 
   parserOptions = {
-    sourceType: 'unambiguous',
+    sourceType: options.moduleType === 'es6' ? 'module' : options.moduleType === 'commonjs' ? 'script' : 'unambiguous',
     createParenthesizedExpressions: true,
     ...parserOptions,
   };
+  
+  function walk(dir) {
+    let tree = { path: dir, dirs: [], files: [] };
+    let list = fs.readdirSync(dir);
+    for (let i = 0; i < list.length; i++) {
+      let p = list[i];
+      p = path.resolve(dir, p);
+      if (fs.statSync(p).isDirectory()) {
+        tree.dirs.push(walk(p));
+      } else if (testGlobal(p)) {
+        // it is the file that passed the test
+        tree.files.push(p);
+      }
+    }
+    return tree;
+  }
 
+  function testFile(fpath) {
+    return (
+      (!options.patterns || test(options.patterns, fpath)) &&
+      (!options.ignores || !test(options.ignores, fpath))
+    );
+  }
+
+  function testGlobal(fpath) {
+    return (
+      !options.globalIgnores || !test(options.globalIgnores, fpath)
+    );
+  }
+
+  /*
+   * @return the js code from the arjs file
+   */
   function translateFile(file) {
     let header = '';
-    let code = handler(
-      parser.parse(
-        fs.readFileSync(file, { encoding: 'utf8' }), 
-        parserOptions
-      ).program.body
-    );
+    let code;
 
-    let globalMap = Object.assign(
-      {},
-      options.maps?.global || {},
-      options.maps?.globalVar || {}
-    );
-    if (Object.keys(globalMap)) {
-      header += getVarsTranslatorCode(globalMap) + '\n';
+    try {
+      let parserTree = parser.parse(fs.readFileSync(file, { encoding: 'utf8' }), parserOptions);
+      code = handler(parserTree.program.body);
+    } catch (e) {
+      throw (
+        e + '\n' +
+        'in the file: ' + file
+      );
+    }
+
+    let globalMap = handler.isModules
+      ? options.maps?.globalVars || {}
+      : Object.assign(
+          {},
+          options.maps?.global || {},
+          options.maps?.globalVars || {}
+        );
+
+    if (
+      handler.isModules && typeof options.entry === 'string' &&
+      file === path.resolve(options.entry) && options.maps?.global
+    ) {
+      header += getGlobalTranslatorCode(options.maps.global) + '\n\n';
       handler.addTranslator = true;
     }
-    if (handler.addTranslator) header = getTranslatorCode() + "\n" + header;
-    
+    if (Object.keys(globalMap)) {
+      header += getVarsTranslatorCode(globalMap) + '\n\n';
+      handler.addTranslator = true;
+    }
+    if (handler.addTranslator) header = getTranslatorCode() + '\n\n' + header;
+
     return header + code;
+  }
+
+  function translateDir(tree) {
+    let p = path.relative(options.input, tree.path);
+    p = path.resolve(options.output, p);
+    fs.mkdirSync(p, { recursive: true });
+    let _tree = { path: p, dirs: [], files: [] };
+
+    for (let f of tree.files) {
+      let _f = path.relative(options.input, f);
+      debug('handling file:', _f);
+      _f = path.resolve(options.output, _f);
+      // translate if test passed
+      if (testFile(f)) {
+        handler.reset();
+        handler.isModules = !!options.entry; // redefine this always as handler.reset change it;
+        handler.filepath = f;
+
+        // now we have handler.modulesToTranslate and handler.es6{imports,exports}
+        // add them to the array to create translation modules after finishing the loop
+
+        modulesToTranslate.concat(
+          handler.modulesToTranslate.filter(
+            a => modulesToTranslate.find(m => a === m) !== undefined
+          )
+        );
+
+        let jsCode = translateFile(f);
+        // this doesn't affect the ES6 imports in other modules 
+        !options.keepExtension && (_f = _f + '.js');
+        fs.writeFileSync(_f, jsCode);
+      } else fs.copyFileSync(f, _f);
+      _tree.files.push(_f);
+    }
+
+    for (let d of tree.dirs) _tree.dirs.push(translateDir(d));
+
+    return _tree;
   }
 
   let translatedCode;
@@ -96,52 +190,82 @@ export function translate(
 
   if (options.input) {
     let input = path.resolve(options.input);
-    if (!fs.existsSync(input)) throw "input doesn't exists";
-    let inputIsFile = fs.lstatSync(input).isFile();
+    if (!fs.existsSync(input)) throw "input doesn't exists:\n" + input;
+    let inputIsFile = fs.statSync(input).isFile();
 
     if (inputIsFile) {
       let tfile = translateFile(input);
       if (options.output) {
         let filename = path.resolve(options.output);
         let dirname = path.dirname(filename);
-        if (fs.existsSync(filename) && fs.lstatSync(filename).isDirectory())
-          throw "can't overwrite an existing directory";
+        if (
+          fs.existsSync(filename) &&
+          !(fs.statSync(filename).isDirectory() && !fs.readdirSync(filename))
+        )
+          // something exists in the path of options.output, and is not a void dir
+          throw "can't overwrite an existing file or un-empty dir:\n" + filename;
         fs.mkdirSync(dirname, { recursive: true });
         fs.writeFileSync(filename, tfile);
-        return;
+        return tfile;
       } else {
         return tfile;
       }
     } /* it is directory */ else {
-    
-    }
-    
-  } else if (options.code) {
-    translatedCode = handler(
-      parser.parse(options.code, parserOptions).program.body
-    );
-    let globalMap = Object.assign(
-      {},
-      options.maps?.global || {},
-      options.maps?.globalVars || {}
-    );
-    if (Object.keys(globalMap)) {
-      header += getVarsTranslatorCode(globalMap) + '\n';
-      handler.addTranslator = true;
-    }
-    if (handler.addTranslator) header = getTranslatorCode() + "\n" + header;
+      let outputDir = path.resolve(options.output);
+      let inputTree = walk(input);
+      if (
+        fs.existsSync(outputDir) &&
+        !(fs.statSync(outputDir).isDirectory() && !fs.readdirSync(outputDir))
+      )
+        // something exists in the path of options.output, and is not a void dir
+        throw "can't overwrite an existing file or un-empty dir:\n" + outputDir;
 
-    let code = header + translatedCode;
+      debug('translating directory recursively...');
+      let outputTree = translateDir(inputTree);
+
+      // we need to translate module stored in modulesToTranslate
+      let tmodulesDir = path.resolve(outputDir, '__arjs__modules__');
+      if (modulesToTranslate.length) fs.mkdirSync(tmodulesDir); // no need to recursive mkdir
+      for (let m of modulesToTranslate) {
+        translateModule(m, tmodulesDir);
+      }
+
+      return outputTree;
+    }
+  } else if (options.code) {
+
+    function translateCode()  {
+      translatedCode = handler(
+        parser.parse(options.code, parserOptions).program.body
+      );
+      let globalMap = Object.assign(
+        {},
+        options.maps?.global || {},
+        options.maps?.globalVars || {}
+      );
+      if (Object.keys(globalMap)) {
+        header += getVarsTranslatorCode(globalMap) + '\n\n';
+        handler.addTranslator = true;
+      }
+      if (handler.addTranslator) header = getTranslatorCode() + '\n\n' + header;
+      return header + translatedCode;
+    }
+
     if (options.output) {
       let filename = path.resolve(options.output);
       let dirname = path.dirname(filename);
-      if (fs.existsSync(filename) && fs.lstatSync(filename).isDirectory())
-        throw "can't overwrite an existing directory";
+      if (
+        fs.existsSync(filename) &&
+        !(fs.statSync(filename).isDirectory() && !fs.readdirSync(filename))
+      )
+        // something exists in the path of options.output, and is not a void dir
+        throw "can't overwrite an existing file or un-empty dir:\n" + filename;
       fs.mkdirSync(dirname, { recursive: true });
-      fs.writeFileSync(filename, code);
-      return;
+      translatedCode = translateCode();
+      fs.writeFileSync(filename, translatedCode);
+      return translatedCode;
     } else {
-      return code;
+      return translateCode();
     }
   }
 

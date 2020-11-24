@@ -46,6 +46,7 @@ module.exports = {
         exclude: [
           path.resolve(__dirname, 'مصدر/محلل.js'),
           path.resolve(__dirname, 'node_modules'),
+          path.resolve(__dirname, '../arjs-translate'),
         ],
       },
     ],
@@ -67,8 +68,5 @@ module.exports = {
 
   plugins: [
     new CleanPlugin(),
-    new webpack.DefinePlugin({
-      TRANSLATOR_CODE: JSON.stringify(fs.readFileSync('./مصدر/مترجم/كود-المترجم.js', { encoding: 'utf8' })),
-    })
   ],
 };
