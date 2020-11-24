@@ -9,6 +9,7 @@ import {
   getGlobalTranslatorCode,
   getVarsTranslatorCode,
   translateModule,
+  translatingRequireCode,
   test,
   debug
 } from './مساعدات';
@@ -133,10 +134,15 @@ export function translate(
 
     if (
       handler.isModules && typeof options.entry === 'string' &&
-      file === path.resolve(options.entry) && options.maps?.global
+      file === path.resolve(options.entry)
     ) {
-      header += getGlobalTranslatorCode(options.maps.global) + '\n\n';
-      handler.addTranslator = true;
+      if(options.moduleType === 'commonjs' && options.maps?.modules) {
+        header += translatingRequireCode.replace('MODULES_TRANSLATION_MAP', JSON.stringify(options.maps.modules)) + '\n\n';
+      }
+      if (options.maps?.global) {
+        header += getGlobalTranslatorCode(options.maps.global) + '\n\n';
+        handler.addTranslator = true;
+      }
     }
     if (Object.keys(globalMap)) {
       header += getVarsTranslatorCode(globalMap) + '\n\n';
@@ -225,9 +231,9 @@ export function translate(
 
       // we need to translate module stored in modulesToTranslate
       let tmodulesDir = path.resolve(outputDir, '__arjs__modules__');
-      if (modulesToTranslate.length) fs.mkdirSync(tmodulesDir); // no need to recursive mkdir
-      for (let m of modulesToTranslate) {
-        translateModule(m, tmodulesDir);
+      if (modulesToTranslate.length) {
+        fs.mkdirSync(tmodulesDir); // no need to recursive mkdir
+        for (let m of modulesToTranslate) translateModule(m, tmodulesDir);
       }
 
       return outputTree;

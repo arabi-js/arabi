@@ -66,6 +66,7 @@ export function getRandomName() {
 //// #########  generating code **********************************
 
 export const translatorCode = arjsTranslate.code;
+export const translatingRequireCode = arjsTranslate.translatingRequireCode;
 
 export function getTranslatorCode() {
   return (handler.options.runtime ? (
