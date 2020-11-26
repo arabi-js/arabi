@@ -15,7 +15,7 @@ export {
 } from "../helper-validator-identifier";
 
 // export const keywordRelationalOperator = /^in(stanceof)?$/;
-export const keywordRelationalOperator = /^مثال_من|في$/;
+export const keywordRelationalOperator = /^عينة_من|في$/;
 
 // Test whether a current state character code and next character code is @
 

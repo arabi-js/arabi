@@ -125,7 +125,7 @@ function exportSpecifiersHandler(s) {
 }
 
 export const exportHandler: Handler = {
-  types: ['ExportNamedDeclaration', 'ExportDefaultDeclaration'],
+  types: ['ExportNamedDeclaration', 'ExportDefaultDeclaration', 'ExportAllDeclaration'],
   handle(node, indent = handler.indent) {
     let code;
     if (node.type === 'ExportDefaultDeclaration') {
@@ -134,15 +134,18 @@ export const exportHandler: Handler = {
       code = `export default ${handler(node.declaration, '')}` + semi;
       handler.semi = semi;
       return code;
-    }
-    if (node.declaration) {
+    } else if (node.type === 'ExportAllDeclaration') {
+      return `export * from ${handler(node.source, '')}`;
+    } else if (node.declaration) {
       let semi = handler.semi;
       handler.semi = '';
       code = `export ${handler(node.declaration, '')}` + semi;
       handler.semi = semi;
       return code;
     }
-    return indent + `export ${exportSpecifiersHandler(node.specifiers, '')}` + handler.semi;
+
+    let source = node.source ? ' from ' + handler(node.source) : '';
+    return indent + `export ${exportSpecifiersHandler(node.specifiers, '')}` + source + handler.semi;
   },
 };
 

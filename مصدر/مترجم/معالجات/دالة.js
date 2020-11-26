@@ -15,6 +15,7 @@ function handleArrowFunction(node, indent = handler.indent) {
     `(${node.params.map((p) => handler(p, '')).join(', ')}) => `;
 
   // add params to scope
+  // AssignmentPattern adds to scope internally
   node.params.map((p) => p.type !== 'AssignmentPattern' && addToScope(p));
 
   code += handler(node.body, '');

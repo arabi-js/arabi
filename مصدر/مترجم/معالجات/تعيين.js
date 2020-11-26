@@ -4,7 +4,7 @@ import { type Handler } from '../../أنواع.js';
 import { addToScope } from '../../مساعدات';
 
 export const assignmentHandler: Handler = {
-  types: ["AssignmentPattern"],
+  types: ["AssignmentPattern", "AssignmentExpression"],
   handle(node, indent=handler.indent) {
     // in non-script mode, the assignment of undeclared id is a declaration
     addToScope(node.left, 'var');

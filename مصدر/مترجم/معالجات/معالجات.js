@@ -1,4 +1,5 @@
 import handler from '../مدخل';
+import * as KeyMap from '../../../babel-parser/src/keywords-map';
 import { type Handler } from '../../أنواع.js';
 
 // المعالجات
@@ -7,30 +8,30 @@ export { blockHandler } from './قطاع';
 export { literalHandler } from './جملة-حرفية';
 export { functionHandler } from './دالة';
 export { declarationHandler } from './تعريف-متغير';
-export { objectHandler } from './نمط-الكائن';
+export { objectHandler } from './كائن';
 export { arrayHandler } from './مصفوفة';
+export { assignmentHandler } from './تعيين';
 export { forHandler } from './حلقة-لكل';
 export { whileHandler } from './حلقة-بينما';
 export { switchHandler } from './بدائل';
 export { memExpressionHandler } from './تعبير-العضو';
 export { identifierHandler } from './معرف';
 export { importHandler, exportHandler } from './استيراد-تصدير';
-export { assignmentHandler } from './تعبير-التعيين';
 
 export const expressionHandler: Handler = {
   types: ['ExpressionStatement'],
   handle(node, indent = handler.indent) {
-    return indent + handler(node.expression) + handler.semi;
+    return indent + handler(node.expression, '') + handler.semi;
   },
 };
 
 export const callHandler: Handler = {
   types: ['CallExpression'],
-  handle(node, indent = '') {
+  handle(node, indent=handler.indent) {
     return (
       indent +
-      `${handler(node.callee)}(${node.arguments
-        .map((n) => handler(n))
+      `${handler(node.callee, '')}(${node.arguments
+        .map((n) => handler(n, ''))
         .join(', ')})`
     );
   },
@@ -38,30 +39,53 @@ export const callHandler: Handler = {
 
 export const binaryExpressionHandler: Handler = {
   types: ['BinaryExpression'],
-  handle(node, indent = '') {
+  handle(node, indent=handler.indent) {
     return (
-      indent + `${handler(node.left)} ${node.operator} ${handler(node.right)}`
+      indent + `${handler(node.left, '')} ${node.operator} ${handler(node.right, '')}`
     );
   },
 };
 
 export const updateExprHandler: Handler = {
   types: ['UpdateExpression'],
-  handle(node, indent = '') {
-    return node.prefix
-      ? node.operator + handler(node.argument)
-      : handler(node.argument) + node.operator;
+  handle(node, indent=handler.indent) {
+    return indent + node.prefix
+      ? node.operator + handler(node.argument, '')
+      : handler(node.argument, '') + node.operator;
+  },
+};
+
+export const unaryExprHandler: Handler = {
+  types: ['UnaryExpression'],
+  handle(node, indent=handler.indent) {
+    let o = node.operator;
+    // "-" | "+" | "!" | "~" | "typeof" | "void" | "delete" | "throw"
+    switch (o) {
+      case KeyMap._typeof:
+        o = "typeof "
+        break;
+      case KeyMap._void:
+        o = "void "
+        break;
+      case KeyMap._delete:
+        o = "delete "
+        break;
+      case KeyMap._throw:
+        o = "throw "
+        break;
+    }
+    return indent + o + handler(node.argument, '');
   },
 };
 
 export const parenthesizedExpression: Handler = {
   types: ['ParenthesizedExpression'],
-  handle(node, indent = '') {
+  handle(node, indent=handler.indent) {
     return indent + `(${handler(node.expression, '')})`;
   },
 };
 
-export const exportStatment: Handler = {
+export const returnStatment: Handler = {
   types: ['ReturnStatement'],
   handle(node, indent = handler.indent) {
     return (
@@ -85,57 +109,74 @@ export const blockStatment: Handler = {
   },
 };
 
+export const debuggerStatment: Handler = {
+  types: ['DebuggerStatement'],
+  handle(node, indent = handler.indent) {
+    return (
+      indent + 'break' + handler.semi
+    );
+  },
+};
+
 export const labeledHandler: Handler = {
   types: ['LabeledStatement'],
   handler(node, indent = handler.indent) {
-    let label = handler(node.label) + ': ';
+    let label = handler(node.label, '') + ': ';
     let body = handler(node.body, '');
-    return label + body;
+    return indent + label + body;
+  },
+};
+
+export const labeledHandler: Handler = {
+  types: ['RestElement', 'SpreadElement'],
+  handler(node, indent = handler.indent) {
+    let arg = handler(node.label, '');
+    return indent + "..." + arg;
   },
 };
 
 // ----------------
 /*
-Identifier
+// Identifier
 PrivateName
-Literals
-RegExpLiteral
-NullLiteral
-StringLiteral
-BooleanLiteral
-NumericLiteral
-BigIntLiteral
-DecimalLiteral
-Programs
-Functions
-Statements
+// Literals
+// RegExpLiteral
+// NullLiteral
+// StringLiteral
+// BooleanLiteral
+// NumericLiteral
+// BigIntLiteral
+// DecimalLiteral
+// Programs
+// Functions
+// Statements
 ExpressionStatement
 BlockStatement
 EmptyStatement
-DebuggerStatement
+// DebuggerStatement
 WithStatement
-ReturnStatement
-LabeledStatement
-BreakStatement
+// ReturnStatement
+// LabeledStatement
+// BreakStatement
 ContinueStatement
 Choice
-IfStatement
+// IfStatement
 SwitchStatement
 SwitchCase
 Exceptions
 ThrowStatement
 TryStatement
 CatchClause
-Loops
-WhileStatement
-DoWhileStatement
-ForStatement
-ForInStatement
-ForOfStatement
-Declarations
-FunctionDeclaration
-VariableDeclaration
-VariableDeclarator
+// Loops
+// WhileStatement
+// DoWhileStatement
+// ForStatement
+// ForInStatement
+// ForOfStatement
+// Declarations
+// FunctionDeclaration
+// VariableDeclaration
+// VariableDeclarator
 Misc
 Decorator
 Directive
@@ -166,7 +207,7 @@ AssignmentExpression
 AssignmentOperator
 LogicalExpression
 LogicalOperator
-SpreadElement
+// SpreadElement
 ArgumentPlaceholder
 MemberExpression
 OptionalMemberExpression
@@ -181,11 +222,11 @@ DoExpression
 TemplateLiteral
 TaggedTemplateExpression
 TemplateElement
-Patterns
-ObjectPattern
-ArrayPattern
-RestElement
-AssignmentPattern
+// Patterns
+// ObjectPattern
+// ArrayPattern
+// RestElement
+// AssignmentPattern
 Classes
 ClassBody
 ClassMethod
@@ -198,15 +239,15 @@ MetaProperty
 Modules
 ModuleDeclaration
 ModuleSpecifier
-Imports
-ImportDeclaration
-ImportSpecifier
-ImportDefaultSpecifier
-ImportNamespaceSpecifier
-ImportAttribute
-Exports
-ExportNamedDeclaration
-ExportSpecifier
-ExportDefaultDeclaration
-ExportAllDeclaration
+// Imports
+// ImportDeclaration
+// ImportSpecifier
+// ImportDefaultSpecifier
+// ImportNamespaceSpecifier
+// ImportAttribute
+// Exports
+// ExportNamedDeclaration
+// ExportSpecifier
+// ExportDefaultDeclaration
+// ExportAllDeclaration
 */
