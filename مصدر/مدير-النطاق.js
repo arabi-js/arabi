@@ -33,9 +33,7 @@ export default class ScopeHandler {
 
   startBlockScope() {
     const theNewScope: closure = {
-      vars: [],
-      functions: [],
-      lexical: []
+      lexicals: []
     };
 
     this.blockScopes.push(theNewScope);
@@ -141,7 +139,7 @@ export default class ScopeHandler {
   //#region lets
 
   addLexical(name: string) {
-    this.curBlockScope.lexical.push(name);
+    this.curBlockScope.lexicals.push(name);
   }
 
   addLexicals(...names: string | Array) {
@@ -153,7 +151,7 @@ export default class ScopeHandler {
 
   deleteLexical(name: string) {
     // use splice prototype (built-in) array function
-    this.curBlockScope.lexical.splice(this.curBlockScope.lexical.indexOf(name), 1);
+    this.curBlockScope.lexicals.splice(this.curBlockScope.lexical.indexOf(name), 1);
   }
 
   hasLexical(name: string) {
@@ -163,7 +161,7 @@ export default class ScopeHandler {
   }
 
   clearLexical() { 
-    this.curBlockScope.lexical = [];
+    this.curBlockScope.lexicals = [];
   }
 
   //#endregion

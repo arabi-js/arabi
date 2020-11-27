@@ -1,3 +1,5 @@
+// @flow
+
 import handlers from './معالجات/مدخل';
 import { type Node } from '../../babel-parser/src/types.js';
 
@@ -18,21 +20,31 @@ export default function handler(node: Node, indent?: string): string {
   );
 }
 
-// NOTICE: the inline statement such as Idetifier and CallExpression won't be indented.
-let indentCount = 0;
-Object.defineProperty(handler, 'indentCount', {
-  get() {
-    return indentCount;
-  },
-  set(v) {
-    if (typeof v !== 'number' || v < 0 || v % 1 !== 0)
-      throw 'invalid value for indentation, count of indents must be positive integer or zer0';
-    indentCount = v;
-    handler.indent = new Array(handler.options.indentSize * indentCount)
-      .fill(handler.options.indentUnit)
-      .join('');
-  },
-});
-handler.increaseIndent = () => ++handler.indentCount;
-handler.decreaseIndent = () => --handler.indentCount;
-handler.indent = '';
+function setIndent(v) {
+  if (typeof v !== 'number' || v < 0 || v % 1 !== 0)
+    throw 'invalid value for indentation, count of indents must be positive integer or zer0';
+  handler.indentCount = v;
+  handler.indent =
+    new Array(handler.indentCount)
+    .fill(handler.options.indent)
+    .join('');
+}
+
+handler.increaseIndent = () => setIndent(handler.indentCount + 1);
+handler.decreaseIndent = () => setIndent(handler.indentCount - 1);
+
+handler.defaults = {
+}
+
+handler.reset = function resetHandler() {
+  handler.addTranslator = false;
+  handler.indentCount = 0;
+  handler.indent = '';
+  // will be in the dir /path/to/output/__arjs__modules__/
+  handler.modulesToTranslate = []; 
+  handler.isModules = false; // translating directory and options.entry is set
+  handler.filepath = undefined;
+  handler.es6imports = {};
+  handler.es6exports = {};
+}
+

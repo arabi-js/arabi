@@ -6,6 +6,7 @@ import { type Handler } from '../../أنواع.js';
 function handleForIn(node, indent) {
   // if > let name in iterable > body
   handler.scope.startBlockScope();
+
   // we want the following statements without a semi
   let semi = handler.semi;
   handler.semi = '';
@@ -14,11 +15,12 @@ function handleForIn(node, indent) {
   // return it back as it was
   handler.semi = semi;
 
+  // let add some checkes for the loosy mode
+  node.left.type === 'Identifier' && handler.scope.addVar(node.name);
+
   let code = indent + `for (${left} in ${right}) `;
   code += handler(node.body, '');
 
-  // let add some checkes for the loosy mode
-  node.left.type === 'Identifier' && handler.scope.addVar(node.name);
   handler.scope.endBlockScope();
   return code;
 }
@@ -26,6 +28,7 @@ function handleForIn(node, indent) {
 function handleForOf(node, indent) {
   // if > let name in iterable > body
   handler.scope.startBlockScope();
+
   // we want the following statements without a semi
   let semi = handler.semi;
   handler.semi = '';
@@ -33,13 +36,14 @@ function handleForOf(node, indent) {
   let right = handler(node.right, '');
   // return it back as it was
   handler.semi = semi;
+  
+  // let add some checkes for the loosy mode
+  node.left.type === 'Identifier' && handler.scope.addVar(node.name);
 
   let code = indent + `for (${left} of ${right}) `;
   code += handler(node.body, '');
-  handler.scope.endBlockScope();
 
-  // let add some checkes for the loosy mode
-  node.left.type === 'Identifier' && handler.scope.addVar(node.name);
+  handler.scope.endBlockScope();
   return code;
 }
 
@@ -48,8 +52,10 @@ export const forHandler: Handler = {
   handle(node, indent = handler.indent) {
     if (node.type === 'ForOfStatement') return handleForOf(node, indent);
     if (node.type === 'ForInStatement') return handleForIn(node, indent);
+    
     // if > init, test, bodate > body
     handler.scope.startBlockScope();
+
     // we want the following statements without a semi
     let semi = handler.semi;
     handler.semi = '';
@@ -61,6 +67,7 @@ export const forHandler: Handler = {
 
     let code = indent + `for (${init}; ${test}; ${update}) `;
     code += handler(node.body, '');
+    
     handler.scope.endBlockScope();
     return code;
   },

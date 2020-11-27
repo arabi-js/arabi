@@ -1,6 +1,6 @@
 import handler from '../مدخل';
-import { type Handler } from '../../أنواع.js';
-import { addToScope } from './مساعدات';
+import { addToScope } from '../../مساعدات';
+import { type Handler } from '../../أنواع';
 
 function handleArrowFunction(node, indent = handler.indent) {
   let _async = node.async ? 'async ' : '';
@@ -15,9 +15,8 @@ function handleArrowFunction(node, indent = handler.indent) {
     `(${node.params.map((p) => handler(p, '')).join(', ')}) => `;
 
   // add params to scope
-  node.params.map((p) =>
-    addToScope(p.type === 'BinaryExpression' ? /* operator "=" */ p.left : p)
-  );
+  // AssignmentPattern adds to scope internally
+  node.params.map((p) => p.type !== 'AssignmentPattern' && addToScope(p));
 
   code += handler(node.body, '');
 
@@ -56,8 +55,10 @@ export const functionHandler: Handler = {
       `(${node.params.map((p) => handler(p, '')).join(', ')}) `;
 
     // add params to scope
-    node.params.map((p) =>
-      addToScope(p.type === 'BinaryExpression' ? /* operator "=" */ p.left : p)
+    node.params.map(
+      (p) =>
+        // the assignment expression is adding to scope while handling it
+        p.type !== 'AssignmentPattern' && addToScope(p)
     );
 
     code += handler(node.body, '');

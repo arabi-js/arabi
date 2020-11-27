@@ -1,7 +1,7 @@
 import handler from '../مدخل';
 import { type Handler } from '../../أنواع.js';
 import { _let, _const, _var } from '../../../babel-parser/src/keywords-map';
-import { getIds } from './مساعدات';
+import { getIds } from '../../مساعدات';
 
 function addToScope(id, type) {
   const _ids = getIds(id);
@@ -26,9 +26,9 @@ export const declarationHandler: Handler = {
     let dec = node.declarations.pop();
 
     function addDeclaration(dec) {
+      code += handler(dec.id) + (dec.init ? ' = ' + handler(dec.init, '') : '');
       if (kind === 'let' || kind === 'const') addToScope(dec.id, 'lex');
       else addToScope(dec.id, 'var');
-      code += handler(dec.id) + (dec.init ? ' = ' + handler(dec.init, '') : '');
     }
 
     addDeclaration(dec);

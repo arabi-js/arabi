@@ -10,7 +10,7 @@ export type TranslationMap = {
 export interface Options {
   maps?: any[],
   indent?: string,
-  renameNames?: boolean,
+  renameIds?: boolean,
   maps: Array<TranslationMap>, 
 }
 
