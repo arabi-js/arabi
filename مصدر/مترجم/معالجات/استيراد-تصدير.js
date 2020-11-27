@@ -1,5 +1,6 @@
 
 import handler from '../مدخل';
+import path from 'path';
 import { test, resolve, getRandomName } from '../../مساعدات';
 import { type Handler } from '../../أنواع.js';
 
@@ -86,10 +87,10 @@ export const importHandler: Handler = {
     let mdl = handler.maps.modules?.[source];
     let map = mdl?.[1];
     if (map && handler.isModules) {
-      handler.moduleToTranslate.push(source);
+      handler.modulesToTranslate.push(source);
       source = path.relative(
         path.dirname(handler.filepath),
-        path.resolve(handler.options.output, '__arjs__modules__') + source + '.js'
+        path.resolve(handler.tmodulesDir, source + '.arjs')
       );
     } else if (map) source = mdl[0];
 

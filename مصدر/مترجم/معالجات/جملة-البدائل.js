@@ -13,7 +13,11 @@ export const switchHandler: Handler = {
       let caseCode = '';
       if (c.type !== 'SwitchCase')
         throw 'unexpected node "' + c.type + '" as switch case.';
-      caseCode += '\n' + handler.indent + 'case ' + handler(c.test, '') + ':';
+      if (c.test) {
+        caseCode += '\n' + handler.indent + 'case ' + handler(c.test, '') + ':';
+      } else {
+        caseCode += '\n' + handler.indent + 'default:';
+      }
       !inline && handler.increaseIndent() && (caseCode += '\n');
       caseCode += handler(c.consequent, '');
       !inline && handler.decreaseIndent();

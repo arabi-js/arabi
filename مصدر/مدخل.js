@@ -10,7 +10,8 @@ import {
   getVarsTranslatorCode,
   translateModule,
   translatingRequireCode,
-  test,
+  test, testFile, testGlobal,
+  walk,
   debug
 } from './مساعدات';
 import ScopeManager from './مدير-النطاق';
@@ -46,16 +47,17 @@ export function translate(
     // our index.js contains the global translator
     // and maybe other code and will export
     // the same things exported in your moduleEntry
-    entry: false,
     moduleType: 'es6', // possible values: es6, commonjs
     maps, // DEV
-    globalObject: 'globalThis',
     runtime: true, // this is true by default when we translating a dirsctory, so that we will reduce the overall size.
+    debug: true, // to console.log during the translation process or not
 
+    entry: false,
+    globalObject: "globalThis",
     // test for files to be translated!
     patterns: /\.(:?arjs|جس|ج.س)$/,
-    ignores: null,
-    globalIgnores: null,
+    ignores: null, // ignore specific files when translating 
+    globalIgnores: null, // ignore files from being copied to the output when when translating dir && isModules
     keepExtension: false,
     ...options,
   };
@@ -77,35 +79,6 @@ export function translate(
     createParenthesizedExpressions: true,
     ...parserOptions,
   };
-  
-  function walk(dir) {
-    let tree = { path: dir, dirs: [], files: [] };
-    let list = fs.readdirSync(dir);
-    for (let i = 0; i < list.length; i++) {
-      let p = list[i];
-      p = path.resolve(dir, p);
-      if (fs.statSync(p).isDirectory()) {
-        tree.dirs.push(walk(p));
-      } else if (testGlobal(p)) {
-        // it is the file that passed the test
-        tree.files.push(p);
-      }
-    }
-    return tree;
-  }
-
-  function testFile(fpath) {
-    return (
-      (!options.patterns || test(options.patterns, fpath)) &&
-      (!options.ignores || !test(options.ignores, fpath))
-    );
-  }
-
-  function testGlobal(fpath) {
-    return (
-      !options.globalIgnores || !test(options.globalIgnores, fpath)
-    );
-  }
 
   /*
    * @return the js code from the arjs file
@@ -161,10 +134,10 @@ export function translate(
 
     for (let f of tree.files) {
       let _f = path.relative(options.input, f);
-      debug('handling file:', _f);
       _f = path.resolve(options.output, _f);
       // translate if test passed
       if (testFile(f)) {
+        debug('handling file:', _f);
         handler.reset();
         handler.isModules = !!options.entry; // redefine this always as handler.reset change it;
         handler.filepath = f;
@@ -182,8 +155,13 @@ export function translate(
         // this doesn't affect the ES6 imports in other modules 
         !options.keepExtension && (_f = _f + '.js');
         fs.writeFileSync(_f, jsCode);
-      } else fs.copyFileSync(f, _f);
-      _tree.files.push(_f);
+        _tree.files.push(_f);
+      } else if (testGlobal(f)) {
+        debug('coping file:', _f);
+        fs.copyFileSync(f, _f);
+        _tree.files.push(_f);
+      } else 
+        debug('file ignored:', _f);
     }
 
     for (let d of tree.dirs) _tree.dirs.push(translateDir(d));

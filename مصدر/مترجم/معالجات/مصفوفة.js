@@ -10,6 +10,9 @@ export const arrayHandler: Handler = {
     for (let e of node.elements) {
       // we are not indenting at the begining
       // because we sill do it at the following line
+      if (!e) { // e === null
+        code += ','; continue;
+      }
       let elmCode = handler(e, '');
       code += (inline ? '' : handler.indent) + elmCode;
       code += inline ? ', ' : ',\n';

@@ -11,12 +11,12 @@ export const literalHandler: Handler = {
     'NumericLiteral',
     'DecimalLiteral',
   ],
-  handle(node) {
+  handle(node, indent=handler.indent) {
     switch (node.type) {
       case 'StringLiteral':
-        return node.extra.raw;
+        return indent + node.extra.raw;
       default:
-        return node.value;
+        return indent + node.value;
     }
   },
 };

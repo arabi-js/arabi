@@ -10,6 +10,17 @@ export const assignmentHandler: Handler = {
     addToScope(node.left, 'var');
     let left = handler(node.left, '');
     let right = handler(node.right, '');
-    return indent + `${left} = ${right}` + handler.semi;
+    
+    if (node.type === 'AssignmentPattern') return indent + `${left} = ${right}` + handler.semi
+
+    // enum AssignmentOperator {
+    //   "=" | "+=" | "-=" | "*=" | "/=" | "%=" | "**="
+    //     | "<<=" | ">>=" | ">>>="
+    //     | "|=" | "^=" | "&="
+    //     | "||=" | "&&=" | "??="
+    // }
+    let op = node.operator;
+
+    return indent + `${left} ${op} ${right}` + handler.semi;
   },
 };

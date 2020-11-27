@@ -46,10 +46,39 @@ export function test(t, v) {
   throw 'unexpected test, it has to be either string, regex, function, or even arry of the previous mentioned!';
 }
 
+function testFile(fpath) {
+  return (
+    (!options.patterns || test(options.patterns, fpath)) &&
+    (!options.ignores || !test(options.ignores, fpath))
+  );
+}
+
+function testGlobal(fpath) {
+  return (
+    !handler.options.globalIgnores || !test(handler.options.globalIgnores, fpath)
+  );
+}
+
 export function resolve(r, v) {
   if (r instanceof Function) return r(v);
   if (typeof r === 'string') return r;
   throw 'unexpected resolver, it has to be either string, function!';
+}
+
+export function walk(dir) {
+  let tree = { path: dir, dirs: [], files: [] };
+  let list = fs.readdirSync(dir);
+  for (let i = 0; i < list.length; i++) {
+    let p = list[i];
+    p = path.resolve(dir, p);
+    if (fs.statSync(p).isDirectory()) {
+      tree.dirs.push(walk(p));
+    } else if (testGlobal(p)) {
+      // it is the file that passed the test
+      tree.files.push(p);
+    }
+  }
+  return tree;
 }
 
 export function debug() {
@@ -94,9 +123,9 @@ export function getGlobalTranslatorCode(map) {
   return code.join('\n');
 }
 
-export function translateModule(_m, outputDir) {
+export function translateModule(_m) {
   m = handler.maps.modules[_m];
-  let filename = path.resolve(outputDir, _m + '.arjs.js');
+  let filename = path.resolve(handler.tmodulesDir, _m + '.arjs.js');
   let mtcode = handler.options.moduleType === 'es6' ? 
     arjsTranslate.es6ModuleTranslationCode : arjsTranslate.commonjsModuleTranslationCode;
 
@@ -107,4 +136,3 @@ export function translateModule(_m, outputDir) {
 
   fs.writeFileSync(filename, code);
 }
-
