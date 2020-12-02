@@ -46,14 +46,14 @@ export function test(t, v) {
   throw 'unexpected test, it has to be either string, regex, function, or even arry of the previous mentioned!';
 }
 
-function testFile(fpath) {
+export function testFile(fpath) {
   return (
-    (!options.patterns || test(options.patterns, fpath)) &&
-    (!options.ignores || !test(options.ignores, fpath))
+    (!handler.options.patterns || test(handler.options.patterns, fpath)) &&
+    (!handler.options.ignores || !test(handler.options.ignores, fpath))
   );
 }
 
-function testGlobal(fpath) {
+export function testGlobal(fpath) {
   return (
     !handler.options.globalIgnores || !test(handler.options.globalIgnores, fpath)
   );
@@ -135,4 +135,5 @@ export function translateModule(_m) {
     .replace('MODULE_MAP', JSON.stringify(m[1]));
 
   fs.writeFileSync(filename, code);
+  return filename;
 }

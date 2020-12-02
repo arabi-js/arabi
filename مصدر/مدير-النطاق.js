@@ -32,8 +32,8 @@ export default class ScopeHandler {
   }
 
   startBlockScope() {
-    const theNewScope: closure = {
-      lexicals: []
+    const theNewScope: BlockScope = {
+      lexicals: new Set()
     };
 
     this.blockScopes.push(theNewScope);
@@ -48,9 +48,9 @@ export default class ScopeHandler {
   }
 
   startClosure() {
-    const theNewClosure: closure = {
-      vars: [],
-      functions: [],
+    const theNewClosure: Colsure = {
+      vars: new Set(),
+      functions: new Set(),
     };
 
     this.closures.push(theNewClosure);
@@ -68,40 +68,38 @@ export default class ScopeHandler {
 
   has(name: string) {
     for(let b of this.blockScopes) {
-      if (b.lexicals.indexOf(name) > -1) return true;
+      if (b.lexicals.has(name)) return true;
     }
     for(let c of this.closures) {
-      if (c.vars.indexOf(name) > -1) return true;
-      if (c.functions.indexOf(name) > -1) return true;
+      if (c.vars.has(name)) return true;
+      if (c.functions.has(name)) return true;
     }
   }
 
   //#region vars
 
   addVar(name: string) {
-    this.curClosure.vars.push(name);
+    this.curClosure.vars.add(name);
   }
 
-  addVars(...names: string | Array) {
-    for (let n of names) {
-      (n instanceof Array && n.forEach(_=>this.addVar(_)));
-      (typeof n === 'string' && this.addVar(n));
-    }
+  addVars(names: string[]) {
+    for (let n of names)
+      this.addVar(name);
   }
 
   deleteVar(name: string) {
     // use splice prototype (built-in) array function
-    this.curClosure.vars.splice(this.curClosure.vars.indexOf(name), 1);
+    this.curClosure.vars.delete(name);
   }
 
   hasVar(name: string) {
     for(let c of this.closures) {
-      if (c.vars.indexOf(name) > -1) return true;
+      if (c.vars.has(name)) return true;
     }
   }
 
   clearVars() {
-    this.curClosure.vars = [];
+    this.curClosure.vars = new Set();
   }
 
   //#endregion
@@ -109,29 +107,27 @@ export default class ScopeHandler {
   //#region functions
 
   addFunction(name: string) {
-    for(let c of this.closures) {
-      if (c.functions.indexOf(name) > -1) return true;
-    }
+    this.curClosure.functions.add(name);
   }
 
-  addFunctions(...names: string | Array) {
-    for (let n of names) {
-      (n instanceof Array && n.forEach(_=>this.addFunction(_)));
-      (typeof n === 'string' && this.addFunction(n));
-    }
+  addFunctions(names: string[]) {
+    for (let n of names)
+      this.addFunction(n);
   }
 
   deleteFunction(name: string) {
     // use splice prototype (built-in) array function
-    this.curClosure.functions.splice(this.curClosure.functions.indexOf(name), 1);
+    this.curClosure.functions.delete(name);
   }
 
   hasFunction(name: string) {
-    return this.curClosure.functions.indexOf(name) > -1;
+    for(let c of this.closures) {
+      if (c.functions.has(name)) return true;
+    }
   }
 
   clearFunctions() { 
-    this.curClosure.functions = [];
+    this.curClosure.functions = new Set();
   }
 
   //#endregion
@@ -139,24 +135,22 @@ export default class ScopeHandler {
   //#region lets
 
   addLexical(name: string) {
-    this.curBlockScope.lexicals.push(name);
+    this.curBlockScope.lexicals.add(name);
   }
 
-  addLexicals(...names: string | Array) {
-    for (let n of names) {
-      (n instanceof Array && n.forEach(_=>this.addLexical(_)));
-      (typeof n === 'string' && this.addLexical(n));
-    }
+  addLexicals(names: string[]) {
+    for (let n of names)
+      this.addLexical(n);
   }
 
   deleteLexical(name: string) {
     // use splice prototype (built-in) array function
-    this.curBlockScope.lexicals.splice(this.curBlockScope.lexical.indexOf(name), 1);
+    this.curBlockScope.lexicals.delete(name);
   }
 
   hasLexical(name: string) {
     for(let b of this.blockScopes) {
-      if (b.lexicals.indexOf(name) > -1) return true;
+      if (b.lexicals.has(name)) return true;
     }
   }
 

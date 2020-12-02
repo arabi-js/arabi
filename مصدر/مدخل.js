@@ -2,7 +2,6 @@
 
 import path from 'path';
 import fs from 'fs';
-import * as parser from './محلل';
 import handler from './مترجم/مدخل';
 import {
   getTranslatorCode,
@@ -10,14 +9,18 @@ import {
   getVarsTranslatorCode,
   translateModule,
   translatingRequireCode,
-  test, testFile, testGlobal,
+  testFile, testGlobal,
   walk,
   debug
 } from './مساعدات';
 import ScopeManager from './مدير-النطاق';
-import { type Options as ParserOptions } from '../babel-parser/src/options';
-import { type Options } from './خيارات';
+import type { Options as ParserOptions } from '../babel-parser/src/options';
+import type {Options } from './خيارات';
 import { commonjs as maps } from '../خرائط-الترجمة/'; // DEV , delete this line in production
+
+import * as parser from './babel-parser/src';
+// lazy import, to plit the package into small modules.
+// let parser = await import('./babel-parser/src/');
 
 function validateOptions(options: Options) {
   if (!/(?:\t| )+/.test(options.indent))
@@ -137,7 +140,7 @@ export function translate(
       _f = path.resolve(options.output, _f);
       // translate if test passed
       if (testFile(f)) {
-        debug('handling file:', _f);
+        debug('handling file:', f);
         handler.reset();
         handler.isModules = !!options.entry; // redefine this always as handler.reset change it;
         handler.filepath = f;
@@ -210,8 +213,13 @@ export function translate(
       // we need to translate module stored in modulesToTranslate
       let tmodulesDir = path.resolve(outputDir, '__arjs__modules__');
       if (modulesToTranslate.length) {
+        let treeDir = { path: tmodulesDir, dirs:[], files: [] };
         fs.mkdirSync(tmodulesDir); // no need to recursive mkdir
-        for (let m of modulesToTranslate) translateModule(m, tmodulesDir);
+        outputTree.dirs.push(treeDir);
+        for (let m of modulesToTranslate) {
+          let f = translateModule(m, tmodulesDir);
+          treeDir.files.push(f);
+        }
       }
 
       return outputTree;

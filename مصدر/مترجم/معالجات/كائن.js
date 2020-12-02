@@ -13,6 +13,8 @@ export const objectHandler: Handler = {
         : key + ': ' + handler(p.value, '')
     } else if (node.type === 'ObjectMethod') {
       let prefix, key, method;
+      let _async = node.async ? 'async ' : '';
+      let _generator = node.generator ? '*' : '';
       prefix = node.kind === 'method' ? '' : node.kind + ' ';
       key = handler(p.key, '');
       key = (node.computed ? `[${key}]`: key);
@@ -22,7 +24,7 @@ export const objectHandler: Handler = {
       // AssignmentPattern adds to scope internally
       node.params.map((p) => p.type !== 'AssignmentPattern' && addToScope(p));
 
-      method = `${key} (${node.params.map((p) => handler(p, '')).join(', ')}) `;
+      method = `${_async}${_generator}${key} (${node.params.map((p) => handler(p, '')).join(', ')}) `;
       method += handler(node.body, '');
 
       handler.scope.endClosure();

@@ -1,21 +1,21 @@
 import handler from '../مدخل';
-import * as KeyMap from '../../../babel-parser/src/keywords-map';
+import * as KeyMap from '../../babel-parser/src/keywords-map';
 import { type Handler } from '../../أنواع.js';
 
 // المعالجات
-export { ifHandler } from './جملة-لو';
+export { importHandler, exportHandler } from './استيراد-تصدير';
 export { blockHandler } from './قطاع';
-export { literalHandler } from './جملة-حرفية';
-export { functionHandler } from './دالة';
-export { declarationHandler } from './تعريف-متغير';
-export { objectHandler } from './كائن';
-export { arrayHandler } from './مصفوفة';
-export { assignmentHandler } from './تعيين';
+export { ifHandler } from './جملة-لو';
 export { forHandler } from './حلقة-لكل';
 export { whileHandler } from './حلقة-بينما';
 export { switchHandler } from './جملة-البدائل';
-export { identifierHandler } from './معرف';
-export { importHandler, exportHandler } from './استيراد-تصدير';
+export { literalHandler } from './جملة-حرفية';
+export { objectHandler } from './كائن';
+export { arrayHandler } from './مصفوفة';
+export { classHandler } from './فئة';
+export { functionHandler } from './دالة';
+export { declarationHandler } from './تعريف-متغير';
+export { assignmentHandler } from './تعيين';
 
 export const expressionHandler: Handler = {
   types: ['ExpressionStatement'],
@@ -24,7 +24,7 @@ export const expressionHandler: Handler = {
   },
 };
 
-export const expressionHandler: Handler = {
+export const seqExprHandler: Handler = {
   types: ['SequenceExpression'],
   handle(node, indent = handler.indent) {
     return indent + node.expressions.map(e=>handler(e, '')).join(', ');
@@ -42,6 +42,13 @@ export const callHandler: Handler = {
         .map((n) => handler(n, ''))
         .join(', ')})`
     );
+  },
+};
+
+export const identifierHandler: Handler = {
+  types: ['Identifier'],
+  handle(node, indent = '') {
+    return indent + node.name;
   },
 };
 
@@ -135,15 +142,6 @@ export const blockStatment: Handler = {
   },
 };
 
-export const debuggerStatment: Handler = {
-  types: ['DebuggerStatement'],
-  handle(node, indent = handler.indent) {
-    return (
-      indent + 'debugger' + handler.semi
-    );
-  },
-};
-
 export const labeledHandler: Handler = {
   types: ['LabeledStatement'],
   handler(node, indent = handler.indent) {
@@ -161,10 +159,10 @@ export const dotsHandler: Handler = {
   },
 };
 
-export const dotsHandler: Handler = {
+export const specialLiteralsHandler: Handler = {
   types: ['Import', 'Super', 'ThisExpression'],
-  handler(node, indent = handler.indent) {
-    return node.type === 'ThisExpression' ? 'this' : node.type.toLowerCase();
+  handle(node, indent = handler.indent) {
+    return indent + (node.type === 'ThisExpression' ? 'this' : node.type.toLowerCase());
   },
 };
 
@@ -179,17 +177,13 @@ export const memExpressionHandler: Handler = {
   },
 };
 
-export const privateNameHandler: Handler = {
-  types: ['PrivateName'],
+export const othersHandler: Handler = {
+  types: ['EmptyStatement', 'DebuggerStatement', 'PrivateName'],
   handle(node, indent=handler.indent) {
-    return '#' + handler(node.id, '');
-  }
-};
-
-export const emptyHandler: Handler = {
-  types: ['EmptyStatement'],
-  handle(node, indent=handler.indent) {
-    return ';';
+    if (node.type === 'DebuggerStatement') return indent + 'debugger' + handler.semi;
+    if (node.type === 'PrivateName') return '#' + handler(node.id, '');
+    if (node.type === 'EmptyStatement') return indent + ';';
+    // if (node.type === '') 
   }
 }
 

@@ -1,7 +1,7 @@
 import handler from '../مدخل';
 import { type Handler } from '../../أنواع.js';
 
-export const literalHandler: Handler = {
+export const classHandler: Handler = {
   types: [
     'ClassDeclaration', 'ClassExpression'
   ],
@@ -21,7 +21,7 @@ export const literalHandler: Handler = {
         let _private = n.type === 'ClassPrivateProperty' ? '#' : '';
         let _static = n.static ? 'static ' : '';
         key = n.computed ? `[${key}]` : key;
-        code += handler.indent + `${_static}${_private}${key} = ${value}`;
+        code += handler.indent + `${_static}${_private}${key} = ${value}` + handler.semi;
       } else if (n.type === 'ClassMethod' || n.type === 'ClassPrivateMethod') {
         // key, id, static, generator, async, kind, computed
         let method;

@@ -1,6 +1,6 @@
 import handler from '../مدخل';
 import { type Handler } from '../../أنواع.js';
-import { _let, _const, _var } from '../../../babel-parser/src/keywords-map';
+import { _let, _const, _var } from '../../babel-parser/src/keywords-map';
 import { getIds } from '../../مساعدات';
 
 function addToScope(id, type) {

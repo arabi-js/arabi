@@ -2,3 +2,5 @@ node_modules
 حزمة
 .vscode/
 .vim/
+stats.json
+package-lock.json
