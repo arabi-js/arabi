@@ -1,12 +1,9 @@
 {
   "name": "arjs-translate",
   "version": "1.0.0",
-  "description": "",
+  "description": "a helper module for the arjs package.",
   "main": "./lib/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
+  "keywords": ["arjs", "arjs-translate", "translate", "arabic", "js", "javascript"],
   "author": "",
   "license": "MIT"
 }
