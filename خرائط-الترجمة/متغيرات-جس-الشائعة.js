@@ -1,6 +1,6 @@
-module.exports = {
+export default {
   صادرات: 'exports',
-  وحدة: ["module", {
+  وحدة: ['module', {
     صادرات: 'exports',
   }],
 };
