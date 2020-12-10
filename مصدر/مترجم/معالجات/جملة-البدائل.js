@@ -14,17 +14,17 @@ export const switchHandler: Handler = {
       if (c.type !== 'SwitchCase')
         throw 'unexpected node "' + c.type + '" as switch case.';
       if (c.test) {
-        caseCode += '\n' + handler.indent + 'case ' + handler(c.test, '') + ':';
+        caseCode += handler.nl + handler.indent + 'case ' + handler(c.test, '') + ':';
       } else {
-        caseCode += '\n' + handler.indent + 'default:';
+        caseCode += handler.nl + handler.indent + 'default:';
       }
-      !inline && handler.increaseIndent() && (caseCode += '\n');
+      !inline && handler.increaseIndent() && (caseCode += handler.nl);
       caseCode += handler(c.consequent, '');
       !inline && handler.decreaseIndent();
       code += caseCode;
     }
 
     handler.decreaseIndent();
-    return code + '\n' + handler.indent + '}';
+    return code + handler.nl + handler.indent + '}' + handler.nl + handler.voidline;
   },
 };

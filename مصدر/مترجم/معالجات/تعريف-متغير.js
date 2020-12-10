@@ -39,11 +39,11 @@ export const declarationHandler: Handler = {
         dec = node.declarations.pop();
         code += handler.indent + alignIndent;
         addDeclaration(dec);
-        code += node.declarations.length > 0 ? ',\n' : '';
+        code += node.declarations.length > 0 ? ',' + handler.nl : '';
       }
     }
 
-    addSemi && (code += handler.semi); // this may be void string depending on the options
+    addSemi && (code += handler.eol); // this may be void string depending on the options
     return code;
   },
 };

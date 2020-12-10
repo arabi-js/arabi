@@ -2,13 +2,13 @@
  * vars has to be collected first then
  */
 
-type BlockScope = {
-  lexical: Array<string>, // for example define inside a for loop
+interface BlockScope {
+  lexical: Set<string>; // for example define inside a for loop
 };
 
-type Closure = {
-  vars: Array<string>,
-  functions: Array<string>,
+interface Closure {
+  vars: Set<string>;
+  functions: Set<string>;
 };
 
 export default class ScopeHandler {
@@ -84,7 +84,7 @@ export default class ScopeHandler {
 
   addVars(names: string[]) {
     for (let n of names)
-      this.addVar(name);
+      this.addVar(n);
   }
 
   deleteVar(name: string) {

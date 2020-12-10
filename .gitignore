@@ -1,6 +1,8 @@
+*/**/node_modules
+*/**/package-lock.json
 node_modules
+package-lock.json
 حزمة
 .vscode/
 .vim/
 stats.json
-package-lock.json

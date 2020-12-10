@@ -4,7 +4,7 @@ import { type Handler } from '../../أنواع.js';
 function handleDoWhile(node, indent) {
   let code = indent + 'do ';
   code += handler(node.body, '');
-  return code + ' while (' + handler(node.test, '') + ')' + handler.semi;
+  return code + ' while (' + handler(node.test, '') + ')' + handler.eol;
 }
 
 export const whileHandler: Handler = {

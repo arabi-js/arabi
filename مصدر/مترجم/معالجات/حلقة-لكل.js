@@ -8,12 +8,12 @@ function handleForIn(node, indent) {
   handler.scope.startBlockScope();
 
   // we want the following statements without a semi
-  let semi = handler.semi;
-  handler.semi = '';
+  let semi = handler.eol;
+  handler.eol = '';
   let left = handler(node.left, '');
   let right = handler(node.right, '');
   // return it back as it was
-  handler.semi = semi;
+  handler.eol = semi;
 
   // let add some checkes for the loosy mode
   node.left.type === 'Identifier' && handler.scope.addVar(node.name);
@@ -30,12 +30,12 @@ function handleForOf(node, indent) {
   handler.scope.startBlockScope();
 
   // we want the following statements without a semi
-  let semi = handler.semi;
-  handler.semi = '';
+  let semi = handler.eol;
+  handler.eol = '';
   let left = handler(node.left, '');
   let right = handler(node.right, '');
   // return it back as it was
-  handler.semi = semi;
+  handler.eol = semi;
   
   // let add some checkes for the loosy mode
   node.left.type === 'Identifier' && handler.scope.addVar(node.name);
@@ -57,13 +57,13 @@ export const forHandler: Handler = {
     handler.scope.startBlockScope();
 
     // we want the following statements without a semi
-    let semi = handler.semi;
-    handler.semi = '';
+    let semi = handler.eol;
+    handler.eol = '';
     let init = node.init ? handler(node.init, '') : '';
     let test = node.test ? handler(node.test, '') : '';
     let update = node.update ? handler(node.update, '') : '';
     // return it back as it was
-    handler.semi = semi;
+    handler.eol = semi;
 
     let code = indent + `for (${init}; ${test}; ${update}) `;
     code += handler(node.body, '');

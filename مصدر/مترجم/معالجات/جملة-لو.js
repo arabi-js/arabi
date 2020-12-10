@@ -7,7 +7,7 @@ export const ifHandler: Handler = {
     let code =
       indent + `if (${handler(node.test)}) ` + handler(node.consequent, '');
     if (node.alternate)
-      code += `\n${handler.indent}else ` + handler(node.alternate, '');
+      code += `${handler.nl}${handler.indent}else ` + handler(node.alternate, '');
     return code;
   },
 };

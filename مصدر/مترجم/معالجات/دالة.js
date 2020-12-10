@@ -44,6 +44,7 @@ export const functionHandler: Handler = {
     // a new blockScope is created automatically
     // as fn.body.type === "BlockStatement"
     handler.scope.startClosure();
+    handler.functionDepth++;
 
     // the declaration syntax
     let code =
@@ -63,8 +64,14 @@ export const functionHandler: Handler = {
 
     code += handler(node.body, '');
 
+    handler.functionDepth--;
     // close the closure of this function
     handler.scope.endClosure();
+
+    node.type === 'FunctionDeclaration' &&
+    node.body.type === 'BlockStatement' &&
+    (code = handler.voidline + code + handler.voidline);
+
     return code;
   },
 };

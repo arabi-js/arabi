@@ -5,7 +5,7 @@ export const arrayHandler: Handler = {
   types: ['ArrayExpression'],
   handle(node, indent = '') {
     let inline = node.loc.start.line === node.loc.end.line;
-    let code = indent + '[' + (inline ? '' : '\n');
+    let code = indent + '[' + (inline ? '' : handler.nl);
     if (!inline) handler.increaseIndent();
     for (let e of node.elements) {
       // we are not indenting at the begining
@@ -15,7 +15,7 @@ export const arrayHandler: Handler = {
       }
       let elmCode = handler(e, '');
       code += (inline ? '' : handler.indent) + elmCode;
-      code += inline ? ', ' : ',\n';
+      code += inline ? ', ' : ',' + handler.nl;
     }
     if (!inline) handler.decreaseIndent();
     return code + (inline ? ']' : handler.indent + ']');

@@ -10,10 +10,9 @@ const OUTPUT = path.resolve(__dirname, './خارج');
 
 rimraf.sync(OUTPUT);
 
-debugger;
-console.log(arjs.translate({
+arjs.translate({
   input: path.resolve(__dirname, './داخل'),
   output: OUTPUT,
   entry: path.resolve(__dirname, './داخل/مدخل.جس'),
-  moduleType: 'commonjs',
-}));
+  moduleType: 'commonjs'
+});

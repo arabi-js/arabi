@@ -11,7 +11,8 @@ export const blockHandler: Handler = {
     let inline = node.loc.start.line === node.loc.end.line;
 
     // open block statement
-    let code = indent + (inline ? '{ ' : '{\n');
+    let vl = indent === '' ? '' : handler.voidline;
+    let code = (vl + indent) + (inline ? '{ ' : '{' + handler.nl);
     addScope && handler.scope.startBlockScope();
     !inline && handler.increaseIndent();
 
@@ -21,7 +22,8 @@ export const blockHandler: Handler = {
     // close block statement
     !inline && handler.decreaseIndent();
     addScope && handler.scope.endBlockScope();
-    code += inline ? ' }' : '\n' + handler.indent + '}';
+    code += inline ? ' }' : handler.indent + '}'
+      + handler.nl + vl;
     return code;
   },
 };

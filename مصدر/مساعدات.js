@@ -6,6 +6,8 @@ import fs from 'fs';
 import path from 'path';
 import handler from './مترجم/مدخل';
 import arjsTranslate from 'arjs-translate';
+import { stringify } from 'circular-json-es6';
+import type { Codes } from './أنواع';
 
 export function addToScope(id, type: "lex" | "var") {
   const _ids = getIds(id);
@@ -82,57 +84,167 @@ export function walk(dir) {
 }
 
 export function debug() {
-  if (handler.options.debug) console.log(...arguments);
+  if (handler.options.debug) console.log(debug.indent, ...arguments);
 }
+
+debug.increaseIndent = () => debug.indentCount++;
+debug.decreaseIndent = () => debug.indentCount++;
+Object.defineProperty(debug, 'indentCount', {
+  get() { return this.__ic },
+  set(v) {
+    this.__ic = v;
+    this.indent = new Array(v*2).fill(' ').join(''); 
+  }
+});
+debug.indentCount = 0;
 
 export function getRandomName() {
   return new Date().getTime().toString(32);
 }
 
-//// #########  generating code **********************************
-//// #########  generating code **********************************
-//// #########  generating code **********************************
-//// #########  generating code **********************************
+// #########  generating code **********************************
+// #########  generating code **********************************
+// #########  generating code **********************************
+// #########  generating code **********************************
 
-export const translatorCode = arjsTranslate.code;
-export const translatingRequireCode = arjsTranslate.translatingRequireCode;
+export const codes: Proxy<Codes> = new Proxy({
+  translatorCode: arjsTranslate.code,
+  translateRequireCode: arjsTranslate.translateRequireCode,
+  es6ModuleTranslationCode: ES6_MODULE_TRANSLATION_CODE,
+  commonjsModuleTranslationCode: COMMONJS_MODULE_TRANSLATION_CODE,
+}, {
+  get(t, p) {
+    return t[p].replace(/_@_@indent@_@_/g, handler.options.indent)
+      .split('\n').map(l=>handler.__lineHead+l).join('\n');
+  }
+})
 
 export function getTranslatorCode() {
-  return (handler.options.runtime ? (
-    handler.options.moduleType === 'es6'
-    ? "import { translate as __arjs__translate__ } from 'arjs-translate'"
-    : "const { translate: __arjs__translate__ } = require('arjs-translate')"
-  ) + handler.semi : translatorCode);
+  if (handler.options.runtime) {
+    handler.arjsTranslateImports.push(['translate', handler.tfnName]);
+    return;
+  }
+  return codes.translatorCode;
+}
+
+export function getTranslateRequireCode() {
+  if (handler.options.runtime) {
+    handler.arjsTranslateImports.push(['translateRequire', handler.trfnName]);
+    return;
+  }
+  return codes.translateRequireCode;
 }
 
 export function getVarsTranslatorCode(map) {
-  let code = [];
+  let code = [], prototypes = [];
+  debugger;
   for (let p in map) {
-    let v = 'string' === typeof map[p] ? map[p] : `__arjs__translate__(${map[p][0]}, ${JSON.stringify(map[p][1])})`; 
-    code.push(`var ${p} = ${v}` + handler.semi);
+    let v;
+    if (typeof map[p] === 'string') v = map[p]; 
+    else {
+      let __enName = map[p][0];
+      let __map = map[p][1];
+      let __options = Object.assign({},map[p][2]);
+      if (__options?.constructMap) prototypes.push(addPrototypeTranslator(__enName, __map, __options));
+      if (__options && Object.keys(__options).length === 1) __options = null;
+      if (__map || __options)
+        v = 'string' === typeof map[p] ? map[p] : `${handler.tfnName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`; 
+    }
+    code.push(handler.indent + `var ${p} = ${v}` + handler.eol);
   }
-  return code.join('\n');
+  return code.join('') + prototypes.join('');
+}
+
+function addPrototypeTranslator(__enName, __map, __options) {
+  let constructMap = __options.constructMap;
+  __options.constructMap = null;
+  let prototypeCode = handler.voidline + handler.indent + '(()=>{' + handler.nl;
+  handler.increaseIndent();
+  for (let pp in constructMap) {
+    let pmap = constructMap[pp];
+    let descriptor;
+    if (typeof pmap === 'string') {
+      descriptor = [
+        "{",
+        `get: function(){ return this["${pmap}"] },`,
+        `set: function(v){ return this["${pmap}"] = v },`,
+        "}",
+      ].join('');
+    } else {
+      let _name = pmap[0];
+      let _map = pmap[1];
+      let _options = pmap[2]; 
+      descriptor = [
+        "{",
+        `get: function(){ return ${handler.tfnName}(this["${_name}"], ${stringify(_map)}, ${stringify(_options)}) },`,
+        `set: function(v){ return this["${_name}"] = v },`,
+        "}",
+      ].join('');
+    }
+    prototypeCode += handler.indent +
+      `Object.defineProperty(${__enName}.prototype, "${pp}", ${descriptor})` + handler.eol;
+  }
+  handler.decreaseIndent();
+  // end of line and new line, so we may have a semicolon + \n + \n
+  prototypeCode += handler.indent + '})()' + handler.eol;
+  return prototypeCode;
 }
 
 export function getGlobalTranslatorCode(map) {
-  let code = [];
+  let code = [], prototypes = [];
   for (let p in map) {
-    let v = 'string' === typeof map[p] ? map[p] : `__arjs__translate__(${map[p][0]}, ${JSON.stringify(map[p][1])})`; 
-    code.push(`${handler.options.globalObject}[${JSON.stringify(p)}] = ${v}` + handler.semi);
+    let c, m = map[p];
+    if (typeof m === 'string') c = m;
+    else {
+      let __enName = m[0];
+      let __map = m[1];
+      let __options = m[2];
+      // here we have to define new properties with arabic names to the built-in prototypes such as Object.prototype 
+      if (__options?.constructMap) prototypes.push(addPrototypeTranslator(__enName, __map, __options));
+      if (__options && Object.keys(__options).length === 1) __options = null;
+      if (__map || __options) {
+        c = `${handler.tfnName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`;
+      } else c = enName;
+    }
+    code.push(handler.indent + `${handler.options.globalObject}["${p}"] = ${c}` + handler.eol);
   }
-  return code.join('\n');
+  return code.join('') + prototypes.join('');
+}
+
+export function getDeclareModuleTMapsCode() {
+  let code = '';
+  code += handler.indent + `${handler.options.globalObject}.__arjs__modules__tmap__ = ${stringify(handler.maps.modules)}` + handler.eol;
+  return code;
+}
+
+export function getArjsTranslateImportCode() {
+  if (handler.arjsTranslateImports.length) {
+    let trans;
+    let isModule = handler.options.moduleType === 'es6';
+    if (isModule) trans = (i)=>i[0] === i[1] ? i[0] : `${i[0]} as ${i[1]}`;
+    else trans = (i)=>i[0] === i[1] ? i[0] : `${i[0]}: ${i[1]}`;
+    let imports = handler.arjsTranslateImports.map(trans).join(', ');
+    
+    let code = (
+      !isModule ?
+      `const { ${imports} } = require('arjs-translate')` : 
+      `import { ${imports} } from 'arjs-translate'`
+      );
+    return handler.indent + code + handler.eol;
+  }
 }
 
 export function translateModule(_m) {
-  m = handler.maps.modules[_m];
-  let filename = path.resolve(handler.tmodulesDir, _m + '.arjs.js');
+  let m = handler.maps.modules[_m];
+  let enModuleName = typeof m === 'string' ? m : m[0]; 
+  let filename = path.resolve(handler.tmodulesDir, enModuleName + '.arjs.js');
   let mtcode = handler.options.moduleType === 'es6' ? 
-    arjsTranslate.es6ModuleTranslationCode : arjsTranslate.commonjsModuleTranslationCode;
+    codes.es6ModuleTranslationCode : codes.commonjsModuleTranslationCode;
 
-  let code =
-    mtcode
+  let code = mtcode
     .replace('MODULE_NAME', m[0])
-    .replace('MODULE_MAP', JSON.stringify(m[1]));
+    .replace('MODULE_MAP', stringify(m[1]))
+    .replace('MAP_OPTIONS', stringify(m[2]));
 
   fs.writeFileSync(filename, code);
   return filename;

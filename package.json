@@ -5,8 +5,7 @@
   "main": "حزمة/arjs.js",
   "scripts": {
     "start": "webpack --watch --mode development",
-    "build": "webpack",
-    "build:parser": "NODE_ENV=parser webpack"
+    "build": "webpack --mode development"
   },
   "keywords": [
     "جافاسكريبت",
@@ -38,7 +37,9 @@
   },
   "dependencies": {
     "@babel/runtime-corejs3": "^7.12.1",
-    "arjs-translate": "^1.0.0",
-    "charcodes": "^0.2.0"
+    "arjs-translate": "file:../arjs-translate",
+    "charcodes": "^0.2.0",
+    "circular-json-es6": "^2.0.2",
+    "colors": "^1.4.0"
   }
 }

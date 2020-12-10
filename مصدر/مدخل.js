@@ -1,26 +1,40 @@
 // @flow
 
+import 'source-map-support/register'
+
+import colors from 'colors'; // for console.log
 import path from 'path';
 import fs from 'fs';
 import handler from './مترجم/مدخل';
 import {
-  getTranslatorCode,
-  getGlobalTranslatorCode,
-  getVarsTranslatorCode,
-  translateModule,
-  translatingRequireCode,
-  testFile, testGlobal,
   walk,
-  debug
+  debug,
+  testFile,
+  testGlobal,
+  translateModule,
+  getTranslatorCode,
+  getVarsTranslatorCode,
+  getArjsTranslateImportCode,
+  getTranslateRequireCode,
+  getDeclareModuleTMapsCode,
+  getGlobalTranslatorCode,
 } from './مساعدات';
 import ScopeManager from './مدير-النطاق';
+import * as maps from '../خرائط-الترجمة/مدخل'; // DEV , delete this line in production
+import { stringify } from 'circular-json-es6';
 import type { Options as ParserOptions } from '../babel-parser/src/options';
-import type {Options } from './خيارات';
-import { commonjs as maps } from '../خرائط-الترجمة/'; // DEV , delete this line in production
+import type { Options } from './خيارات';
 
 import * as parser from './babel-parser/src';
 // lazy import, to plit the package into small modules.
 // let parser = await import('./babel-parser/src/');
+
+colors.setTheme({
+  error: 'red',
+  wran: 'yellow',
+  success: 'green',
+  info: 'blue',
+});
 
 function validateOptions(options: Options) {
   if (!/(?:\t| )+/.test(options.indent))
@@ -51,8 +65,7 @@ export function translate(
     // and maybe other code and will export
     // the same things exported in your moduleEntry
     moduleType: 'es6', // possible values: es6, commonjs
-    maps, // DEV
-    runtime: true, // this is true by default when we translating a dirsctory, so that we will reduce the overall size.
+    runtime: true, // this is true by default when we translating a directory, so that we will reduce the overall size.
     debug: true, // to console.log during the translation process or not
 
     entry: false,
@@ -65,15 +78,18 @@ export function translate(
     ...options,
   };
 
-  let modulesToTranslate = [];
+  let modulesToTranslate = new Set();
+  // we need to translate module stored in modulesToTranslate
+  let tmodulesDir;
 
   // validation
   validateOptions(options);
 
   // helper props and methods
   handler.options = options;
-  handler.maps = options.maps;
-  handler.semi = options.semicolon ? ';' : '';
+  handler.maps = options.maps = options.maps || (options.moduleType === 'commonjs' ? maps.commonjs : {});
+  handler.eol = options.semicolon ? ';\n' : '\n';
+  handler.nl = '\n';
   handler.scope = new ScopeManager();
   handler.reset(); // set the defaults;
 
@@ -83,50 +99,83 @@ export function translate(
     ...parserOptions,
   };
 
-  /*
-   * @return the js code from the arjs file
-   */
-  function translateFile(file) {
-    let header = '';
+  function translateCode(arCode) {
+    let header = [];
     let code;
 
-    try {
-      let parserTree = parser.parse(fs.readFileSync(file, { encoding: 'utf8' }), parserOptions);
-      code = handler(parserTree.program.body);
-    } catch (e) {
-      throw (
-        e + '\n' +
-        'in the file: ' + file
-      );
-    }
+    let parserTree = parser.parse(arCode, parserOptions);
+    code = handler(parserTree.program.body);
+    handler.finishingValidation();
+
+    handler.setLineHead('/*****/ ');
 
     let globalMap = handler.isModules
-      ? options.maps?.globalVars || {}
+      ? options.maps.globalVars || {}
       : Object.assign(
-          {},
-          options.maps?.global || {},
-          options.maps?.globalVars || {}
+          {}, options.maps.global || {},
+          options.maps.globalVars || {}
         );
 
     if (
       handler.isModules && typeof options.entry === 'string' &&
-      file === path.resolve(options.entry)
+      handler.filepath === path.resolve(options.entry)
     ) {
       if(options.moduleType === 'commonjs' && options.maps?.modules) {
-        header += translatingRequireCode.replace('MODULES_TRANSLATION_MAP', JSON.stringify(options.maps.modules)) + '\n\n';
+        // DONE: this code sould be added when `require` is used; 
+        // handler.addTranslatingRequire = !!handler.maps.modules;
       }
-      if (options.maps?.global) {
-        header += getGlobalTranslatorCode(options.maps.global) + '\n\n';
-        handler.addTranslator = true;
+      if (options.maps.global) {
+        header.push(getGlobalTranslatorCode(options.maps.global));
       }
+    } else if (!handler.isModules) {
+      // incase of translating independent file
+      // DONE: this code sould be added when `require` is used; 
+      // handler.addTranslateRequire = !!handler.maps.modules;
     }
-    if (Object.keys(globalMap)) {
-      header += getVarsTranslatorCode(globalMap) + '\n\n';
-      handler.addTranslator = true;
-    }
-    if (handler.addTranslator) header = getTranslatorCode() + '\n\n' + header;
 
-    return header + code;
+    // globalMap is both `maps.global` and `maps.globalVars` compined
+    // but in case of `isModules` it is `globalVars` only
+    if (Object.keys(globalMap).length) {
+      header.push(getVarsTranslatorCode(globalMap));
+    }
+
+    let a;
+    // this is true when `handler.tfnName[[get]]` is invoked
+    if (handler.addTranslator) a = getTranslatorCode();
+    a && (header.unshift(a));
+    if (handler.addTranslateRequire) a = getTranslateRequireCode();
+    a && (header.unshift(a));
+    if (handler.declareModulesTMap) a = getDeclareModuleTMapsCode();
+    a && (header.unshift(a));
+    
+      header.unshift(), // declare it only when we need the translating require
+    // this is usefull if we want to import multiple things, e.g. `require` and `translate`
+    a = getArjsTranslateImportCode();
+    a && header.unshift(a);
+
+    // you can skip the following lines
+    // a separator commented lines, indicates that the
+    // following code is the raw code but translated
+    let _s = '// ############ ', __s = "// THE ORIGINAL TRANSLATED CODE ";
+    let ss = __s + (new Array(25).fill('').join('-'));
+    let s = _s + (new Array(25 + (__s.length - _s.length)).fill('').join('-'));
+    let separator = handler.nl + handler.nl + s + handler.nl + s;
+    separator += handler.nl + ss;
+    separator += handler.nl + handler.nl;
+
+    // header, separator, code
+    if (header.length) (header.push(handler.voidline), header.unshift(handler.voidline));
+    return header.join(handler.voidline) + separator + code;
+  }
+
+  function translateFile(file) {
+    let code;
+    try {
+      code = translateCode(fs.readFileSync(file, { encoding: 'utf8' }));
+    } catch (e) {
+      throw 'in the file: '.info + file + '\n' + e.stack;
+    }
+    return code;
   }
 
   function translateDir(tree) {
@@ -135,37 +184,41 @@ export function translate(
     fs.mkdirSync(p, { recursive: true });
     let _tree = { path: p, dirs: [], files: [] };
 
-    for (let f of tree.files) {
+    debug("handling dir:".info, _tree.path);
+    debug.increaseIndent();
+    
+    for (let i=0; i<tree.files.length; i++) {
+      let f = tree.files[i];
       let _f = path.relative(options.input, f);
       _f = path.resolve(options.output, _f);
       // translate if test passed
       if (testFile(f)) {
-        debug('handling file:', f);
         handler.reset();
         handler.isModules = !!options.entry; // redefine this always as handler.reset change it;
         handler.filepath = f;
-
-        // now we have handler.modulesToTranslate and handler.es6{imports,exports}
-        // add them to the array to create translation modules after finishing the loop
-
-        modulesToTranslate.concat(
-          handler.modulesToTranslate.filter(
-            a => modulesToTranslate.find(m => a === m) !== undefined
-          )
-        );
+        handler._filepath = _f;
+        handler.tmodulesDir = tmodulesDir;
 
         let jsCode = translateFile(f);
+        
+        // now we have handler.modulesToTranslate and handler.es6{imports,exports}
+        // add them to the array to create translation modules after finishing the loop
+        handler.modulesToTranslate.forEach(a => modulesToTranslate.add(a));
+
         // this doesn't affect the ES6 imports in other modules 
         !options.keepExtension && (_f = _f + '.js');
         fs.writeFileSync(_f, jsCode);
         _tree.files.push(_f);
+        debug('file handled:'.success, _f);
       } else if (testGlobal(f)) {
-        debug('coping file:', _f);
         fs.copyFileSync(f, _f);
         _tree.files.push(_f);
+        debug('file copied:'.success, _f);
       } else 
-        debug('file ignored:', _f);
+        debug('file ignored:'.info.underline, _f);
     }
+
+    debug.decreaseIndent();
 
     for (let d of tree.dirs) _tree.dirs.push(translateDir(d));
 
@@ -207,17 +260,18 @@ export function translate(
         // something exists in the path of options.output, and is not a void dir
         throw "can't overwrite an existing file or un-empty dir:\n" + outputDir;
 
-      debug('translating directory recursively...');
-      let outputTree = translateDir(inputTree);
+      debug('-------------------------------');
+      debug('Translating directory recursively...'.info.bold);
+      debug('-------------------------------');
 
-      // we need to translate module stored in modulesToTranslate
-      let tmodulesDir = path.resolve(outputDir, '__arjs__modules__');
-      if (modulesToTranslate.length) {
+      tmodulesDir = path.resolve(outputDir, '__arjs__modules__')
+      let outputTree = translateDir(inputTree);
+      if (modulesToTranslate.size) {
         let treeDir = { path: tmodulesDir, dirs:[], files: [] };
         fs.mkdirSync(tmodulesDir); // no need to recursive mkdir
         outputTree.dirs.push(treeDir);
         for (let m of modulesToTranslate) {
-          let f = translateModule(m, tmodulesDir);
+          let f = translateModule(m);
           treeDir.files.push(f);
         }
       }
@@ -225,24 +279,6 @@ export function translate(
       return outputTree;
     }
   } else if (options.code) {
-
-    function translateCode()  {
-      translatedCode = handler(
-        parser.parse(options.code, parserOptions).program.body
-      );
-      let globalMap = Object.assign(
-        {},
-        options.maps?.global || {},
-        options.maps?.globalVars || {}
-      );
-      if (Object.keys(globalMap)) {
-        header += getVarsTranslatorCode(globalMap) + '\n\n';
-        handler.addTranslator = true;
-      }
-      if (handler.addTranslator) header = getTranslatorCode() + '\n\n' + header;
-      return header + translatedCode;
-    }
-
     if (options.output) {
       let filename = path.resolve(options.output);
       let dirname = path.dirname(filename);
@@ -253,11 +289,11 @@ export function translate(
         // something exists in the path of options.output, and is not a void dir
         throw "can't overwrite an existing file or un-empty dir:\n" + filename;
       fs.mkdirSync(dirname, { recursive: true });
-      translatedCode = translateCode();
+      translatedCode = translateCode(options.code);
       fs.writeFileSync(filename, translatedCode);
       return translatedCode;
     } else {
-      return translateCode();
+      return translateCode(options.code);
     }
   }
 
@@ -271,4 +307,4 @@ Object.defineProperty(parser, '__info_', {
   value: 'I am a modified version of @babel/parser!',
 });
 
-export { parser };
+export { parser, maps };

@@ -3,18 +3,21 @@ import handler from '../مدخل';
 import path from 'path';
 import { test, resolve, getRandomName } from '../../مساعدات';
 import { type Handler } from '../../أنواع.js';
+import { stringify } from 'circular-json-es6';
 
-function importSpecifiersHandler(s, map) {
-  let isTranslated = typeof map !== 'undefined';
-  let imports = [] ; // { default:, namespace:, others: };
+function importSpecifiersHandler(s, map, mapOptions) {
+  let isTranslated = typeof map !== 'undefined' && !handler.isModules;
+  // { arName: string, alterName: string, map: TranslationMap, mapOptions: TranslationMapOptions }[];
+  let imports = [];
   let _default, namespace;
   let defaultSpecifier, namespaceSpecifier;
+  
   if (s[0].type === 'ImportDefaultSpecifier') {
     defaultSpecifier = s.shift();
     _default = handler(defaultSpecifier.local, '');
     if (isTranslated) {
       let __default = `__arjs__${getRandomName()}__`;
-      imports.push([ _default, __default, map ]); // set [ theActualValue, theRandomGeneratedName ];
+      imports.push({ name: _default, alterName: __default, map: mapOptions?.defaultMap || map, mapOptions });
       // now, we changes the name, the actual name will be a proxy of translation.
       // so the code hanceforth deals with a translated object.
       [ _default, __default ] = [ __default, _default ];
@@ -27,7 +30,7 @@ function importSpecifiersHandler(s, map) {
     let namespaceLocal = handler(namespaceSpecifier.local, ''); // it is "Identifier"
     if (isTranslated) {
       let _namespaceLocal = `__arjs__${getRandomName()}__`;
-      imports.push([ namespaceLocal, _namespaceLocal, map ]); // set [ theActualValue, theRandomGeneratedName ];
+      imports.push({ name: namespaceLocal, alterName: _namespaceLocal, map, mapOptions }); // set [ theActualValue, theRandomGeneratedName ];
       // now, we changes the name, the actual name will be a proxy of translation.
       // so the code hanceforth deals with a translated object
       [ namespaceLocal, _namespaceLocal ] = [ _namespaceLocal, namespaceLocal ];
@@ -45,17 +48,19 @@ function importSpecifiersHandler(s, map) {
       let local = s.local.name;
       
       if (isTranslated && imported in map) {
-        let _map;
-        imported = map[imported];
+        let _map, _options;
+        let arName = imported;
+        imported = map[imported]; // we don't need the arabic one any more
         
         if (imported instanceof Array) {
           _map = imported[1];
+          _options = imported[2];
           imported = imported[0];
         }
 
         if (_map) {
           let _local = `__arjs__${getRandomName()}__`;
-          imports.push([ local, _local, _map ]);
+          imports.push({ arName, importedName: imported, name: local, alterName: _local, map: _map, mapOptions: _options });
           [ _local, local ] = [ local, _local ];
         }
  
@@ -86,30 +91,31 @@ export const importHandler: Handler = {
     let source = node.source.value; // node.source is a "StringLiteral"
     let mdl = handler.maps.modules?.[source];
     let map = mdl?.[1];
+    let mapOptions = mdl?.[2];
     if (map && handler.isModules) {
       handler.modulesToTranslate.push(source);
       source = path.relative(
-        path.dirname(handler.filepath),
-        path.resolve(handler.tmodulesDir, source + '.arjs')
+        path.dirname(handler._filepath),
+        path.resolve(handler.tmodulesDir, mdl[0] + '.arjs.js')
       );
+      let s = source.slice(0, 2);
+      source = s === '..' ? source : s === './' ? source : './' + source;
     } else if (map) source = mdl[0];
 
     source = `"${source}"`;
 
     if (node.specifiers) {
-      let imports = importSpecifiersHandler(node.specifiers, map);
+      let imports = importSpecifiersHandler(node.specifiers, map, mapOptions);
       let trailingCode = '';
       let importCode = `import ${imports[0]} from ${source}`;
-      if (map) {
-        // we will use imports[1]
-        handler.addTranslator = true;
-        trailingCode = imports[1].map(tt=>`const ${tt[0]} = __arjs__translate__(${tt[1]}, ${JSON.stringify(tt[2])})`).join('; ');
+      if (map && !handler.isModules && imports[1].length > 0) {
+        // direct inline translation of the imported APIs
+        trailingCode = imports[1].map(tt=>`const ${tt.name} = ${handler.tfnName}(${tt.alterName}, ${stringify(tt.map)}, ${stringify(tt.mapOptions)})`).join('; ');
       }
-      return importCode + (trailingCode ? '; ' + trailingCode : '') + handler.semi;
+      return importCode + (trailingCode ? '; ' + trailingCode : '') + handler.eol;
     } else {
-      let importCode = `import ${source}` + handler.semi;
-      let trailingCode = ``;
-      return indent + importCode + " " + trailingCode + handler.semi;
+      let importCode = `import ${source}`;
+      return indent + importCode + handler.eol;
     }
 
   },
@@ -117,12 +123,12 @@ export const importHandler: Handler = {
 
 function exportSpecifiersHandler(s) {
   // we have ExportSpecifier only
-  return `{ ${
-    s.map(s=> 
-      s.exported.name !== s.local.name ? 
-      `${s.local.name} as ${s.exported.name}` : 
-      s.local.name).join(', ')
-  } }`;
+  let specifiers = s.map(
+    s => s.exported.name !== s.local.name
+    ? `${s.local.name} as ${s.exported.name}`
+    :  s.local.name
+  ).join(', ');
+  return `{ ${specifiers} }`;
 }
 
 export const exportHandler: Handler = {
@@ -130,23 +136,22 @@ export const exportHandler: Handler = {
   handle(node, indent = handler.indent) {
     let code;
     if (node.type === 'ExportDefaultDeclaration') {
-      let semi = handler.semi;
-      handler.semi = '';
+      let semi = handler.eol;
+      handler.eol = '';
       code = `export default ${handler(node.declaration, '')}` + semi;
-      handler.semi = semi;
+      handler.eol = semi;
       return code;
     } else if (node.type === 'ExportAllDeclaration') {
       return `export * from ${handler(node.source, '')}`;
     } else if (node.declaration) {
-      let semi = handler.semi;
-      handler.semi = '';
+      let semi = handler.eol;
+      handler.eol = '';
       code = `export ${handler(node.declaration, '')}` + semi;
-      handler.semi = semi;
+      handler.eol = semi;
       return code;
     }
 
     let source = node.source ? ' from ' + handler(node.source) : '';
-    return indent + `export ${exportSpecifiersHandler(node.specifiers, '')}` + source + handler.semi;
+    return indent + `export ${exportSpecifiersHandler(node.specifiers, '')}` + source + handler.eol;
   },
 };
-

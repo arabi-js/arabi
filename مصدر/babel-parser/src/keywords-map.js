@@ -56,4 +56,7 @@ export const _implements = 'تنفيذ';
 // this should be a reversed defined variable in strict mode
 // make sure that these are the same in the APIs translation maps
 export const _arguments = 'وسائط';
-export const _eval = 'قدر';
+export const _eval = 'قدر'; // this depends on `this`
+export const _constructor = 'منشئ';
+export const _require = 'استدعي';
+

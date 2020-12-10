@@ -1,5 +1,5 @@
 import handler from '../مدخل';
-import * as KeyMap from '../../babel-parser/src/keywords-map';
+import * as keywordsMap from '../../babel-parser/src/keywords-map';
 import { type Handler } from '../../أنواع.js';
 
 // المعالجات
@@ -14,13 +14,14 @@ export { objectHandler } from './كائن';
 export { arrayHandler } from './مصفوفة';
 export { classHandler } from './فئة';
 export { functionHandler } from './دالة';
+export { callHandler } from './تعبير-الاستدعاء';
 export { declarationHandler } from './تعريف-متغير';
 export { assignmentHandler } from './تعيين';
 
 export const expressionHandler: Handler = {
   types: ['ExpressionStatement'],
   handle(node, indent = handler.indent) {
-    return indent + handler(node.expression, '') + handler.semi;
+    return indent + handler(node.expression, '') + handler.eol;
   },
 };
 
@@ -31,23 +32,15 @@ export const seqExprHandler: Handler = {
   },
 };
 
-export const callHandler: Handler = {
-  types: ['CallExpression', 'OptionalCallExpression', 'NewExpression'],
-  handle(node, indent=handler.indent) {
-    let prefix = node.type === 'NewExpression' ? 'new ' : '';
-    let optional = node.optional ? '?.' : '';
-    return (
-      indent + prefix +
-      `${handler(node.callee, '')}${optional}(${node.arguments
-        .map((n) => handler(n, ''))
-        .join(', ')})`
-    );
-  },
-};
-
 export const identifierHandler: Handler = {
   types: ['Identifier'],
   handle(node, indent = '') {
+    if(!handler.scope.has(node.name)) {
+      if (node.name === keywordsMap._arguments && handler.functionDepth)
+        return indent + 'arguments';
+      if (node.name === keywordsMap._eval)
+        return 'eval';
+    }
     return indent + node.name;
   },
 };
@@ -90,16 +83,16 @@ export const unaryExprHandler: Handler = {
     let o = node.operator;
     // "-" | "+" | "!" | "~" | "typeof" | "void" | "delete" | "throw"
     switch (o) {
-      case KeyMap._typeof:
+      case keywordsMap._typeof:
         o = "typeof "
         break;
-      case KeyMap._void:
+      case keywordsMap._void:
         o = "void "
         break;
-      case KeyMap._delete:
+      case keywordsMap._delete:
         o = "delete "
         break;
-      case KeyMap._throw:
+      case keywordsMap._throw:
         o = "throw "
         break;
     }
@@ -124,7 +117,7 @@ export const returnStatment: Handler = {
       'await' : 'yeild'
     ;
     let arg = (node.argument ? ' ' + handler(node.argument, '') : '');
-    let semi = node.type.slice(-"Statement".length) === "Statement" ? handler.semi : '';
+    let semi = node.type.slice(-"Statement".length) === "Statement" ? handler.eol : '';
     return (
       indent + keyword + ' ' + arg + semi
     );
@@ -137,7 +130,7 @@ export const blockStatment: Handler = {
     let keyword = node.type === 'BreakStatement' ? 'break' : 'continue';
     let label = (node.label ? ' ' + handler(node.label, '') : '');
     return (
-      indent + keyword + label + handler.semi
+      indent + keyword + label + handler.eol
     );
   },
 };
@@ -147,7 +140,7 @@ export const labeledHandler: Handler = {
   handler(node, indent = handler.indent) {
     let label = handler(node.label, '') + ': ';
     let body = handler(node.body, '');
-    return indent + label + body + handler.semi;
+    return indent + label + body + handler.eol;
   },
 };
 
@@ -180,7 +173,7 @@ export const memExpressionHandler: Handler = {
 export const othersHandler: Handler = {
   types: ['EmptyStatement', 'DebuggerStatement', 'PrivateName'],
   handle(node, indent=handler.indent) {
-    if (node.type === 'DebuggerStatement') return indent + 'debugger' + handler.semi;
+    if (node.type === 'DebuggerStatement') return indent + 'debugger' + handler.eol;
     if (node.type === 'PrivateName') return '#' + handler(node.id, '');
     if (node.type === 'EmptyStatement') return indent + ';';
     // if (node.type === '') 
