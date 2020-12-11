@@ -87,6 +87,9 @@ handler.warn = function(node, ...msgs) {
   node && node.loc && console.log("      ", node.loc.source);
 }
 
+// TODO: collect the scope variables as all functions and "var"s
+// are defined at the begining, then "vars" are assigned when its turn come
+
 handler.reset = function resetHandler() {
   handler.addTranslator = false;
   handler.addTranslateRequire = false;

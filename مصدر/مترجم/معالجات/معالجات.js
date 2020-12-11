@@ -35,6 +35,7 @@ export const seqExprHandler: Handler = {
 export const identifierHandler: Handler = {
   types: ['Identifier'],
   handle(node, indent = '') {
+    // TODO: make sure that the ids maping is happening only when it is needed.
     if(!handler.scope.has(node.name)) {
       if (node.name === keywordsMap._arguments && handler.functionDepth)
         return indent + 'arguments';
@@ -82,20 +83,9 @@ export const unaryExprHandler: Handler = {
   handle(node, indent=handler.indent) {
     let o = node.operator;
     // "-" | "+" | "!" | "~" | "typeof" | "void" | "delete" | "throw"
-    switch (o) {
-      case keywordsMap._typeof:
-        o = "typeof "
-        break;
-      case keywordsMap._void:
-        o = "void "
-        break;
-      case keywordsMap._delete:
-        o = "delete "
-        break;
-      case keywordsMap._throw:
-        o = "throw "
-        break;
-    }
+    let a, k = ['typeof', 'void', 'delete', 'throw'];
+    // e.g., a = _throw when o === keywordsMap._throw
+    o = ((a = k.find(_=>o===keywordsMap[`_${_}`])) && (a + ' ')) || o;
     return indent + o + handler(node.argument, '');
   },
 };
