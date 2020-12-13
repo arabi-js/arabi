@@ -15,6 +15,9 @@ export const literalHandler: Handler = {
     switch (node.type) {
       case 'StringLiteral':
         return indent + node.extra.raw;
+      case 'RegExpLiteral':
+        // TODO: translate it to arabic letters, e.g., 
+        // /\ك+/  ->  /\w+/
       default:
         return indent + node.value;
     }

@@ -35,7 +35,8 @@ export const seqExprHandler: Handler = {
 export const identifierHandler: Handler = {
   types: ['Identifier'],
   handle(node, indent = '') {
-    // TODO: make sure that the ids maping is happening only when it is needed.
+    // TODO: make sure that the ids maping is happening only with referenced ids
+    // `Foo.arguments`, arguments has to still the same.
     if(!handler.scope.has(node.name)) {
       if (node.name === keywordsMap._arguments && handler.functionDepth)
         return indent + 'arguments';

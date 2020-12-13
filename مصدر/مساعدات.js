@@ -9,8 +9,10 @@ import arjsTranslate from 'arjs-translate';
 import { stringify } from 'circular-json-es6';
 import type { Codes } from './أنواع';
 
-export function addToScope(id, type: "lex" | "var") {
-  const _ids = getIds(id);
+export function addToScope(ids, type: "lex" | "var") {
+  const _ids = Array.isArray(ids)
+    ? ids.map(i=>getIds(i)).flat(1) // return array of ids, rather than array of arrays
+    : getIds(ids);
   if (type === 'lex') handler.scope.addLexicals(_ids);
   else handler.scope.addVars(_ids);
 }
@@ -61,6 +63,19 @@ export function testGlobal(fpath) {
   );
 }
 
+export function checkInput(p) {
+  if (!fs.existsSync(p)) handler.error("Invalid Option", "input doesn't exists:", input);
+}
+
+export function checkOutput(p) {
+  if (
+    fs.existsSync(p) &&
+    !(fs.statSync(p).isDirectory() && !fs.readdirSync(p))
+  )
+    // something exists in the path of options.output, and is not a void dir
+    handler.error("Invalid Option", "can't overwrite an existing file or un-empty dir:", p);
+}
+
 export function resolve(r, v) {
   if (r instanceof Function) return r(v);
   if (typeof r === 'string') return r;
@@ -83,20 +98,20 @@ export function walk(dir) {
   return tree;
 }
 
-export function debug() {
-  if (handler.options.debug) console.log(debug.indent, ...arguments);
+export function log() {
+  if (handler.options.debug) console.log(log.indent, ...arguments);
 }
 
-debug.increaseIndent = () => debug.indentCount++;
-debug.decreaseIndent = () => debug.indentCount++;
-Object.defineProperty(debug, 'indentCount', {
+log.increaseIndent = () => log.indentCount++;
+log.decreaseIndent = () => log.indentCount++;
+Object.defineProperty(log, 'indentCount', {
   get() { return this.__ic },
   set(v) {
     this.__ic = v;
     this.indent = new Array(v*2).fill(' ').join(''); 
   }
 });
-debug.indentCount = 0;
+log.indentCount = 0;
 
 export function getRandomName() {
   return new Date().getTime().toString(32);
@@ -145,7 +160,7 @@ export function getVarsTranslatorCode(map) {
       let __enName = map[p][0];
       let __map = map[p][1];
       let __options = Object.assign({},map[p][2]);
-      if (__options?.constructMap) prototypes.push(addPrototypeTranslator(__enName, __map, __options));
+      if (__options?.constructMap) prototypes.push(getPrototypeTranslator(__enName, __map, __options));
       if (__options && Object.keys(__options).length === 1) __options = null;
       if (__map || __options)
         v = 'string' === typeof map[p] ? map[p] : `${handler.tfnName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`; 
@@ -155,7 +170,9 @@ export function getVarsTranslatorCode(map) {
   return code.join('') + prototypes.join('');
 }
 
-function addPrototypeTranslator(__enName, __map, __options) {
+function getPrototypeTranslator(__enName, __map, __options) {
+  // TODO: evaluate from arjs-translate when `options.runtime`, it has to be has to be nearly isolated and independent;
+  // TODO: take care of the properties' descriptor
   let constructMap = __options.constructMap;
   __options.constructMap = null;
   let prototypeCode = handler.voidline + handler.indent + '(()=>{' + handler.nl;
@@ -200,7 +217,7 @@ export function getGlobalTranslatorCode(map) {
       let __map = m[1];
       let __options = m[2];
       // here we have to define new properties with arabic names to the built-in prototypes such as Object.prototype 
-      if (__options?.constructMap) prototypes.push(addPrototypeTranslator(__enName, __map, __options));
+      if (__options?.constructMap) prototypes.push(getPrototypeTranslator(__enName, __map, __options));
       if (__options && Object.keys(__options).length === 1) __options = null;
       if (__map || __options) {
         c = `${handler.tfnName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`;

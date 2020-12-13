@@ -4,7 +4,6 @@ import { type Handler } from '../../أنواع';
 
 function handleArrowFunction(node, indent = handler.indent) {
   let _async = node.async ? 'async ' : '';
-
   // a new blockScope is created automatically
   // as fn.body.type === "BlockStatement"
   handler.scope.startClosure();
@@ -15,14 +14,12 @@ function handleArrowFunction(node, indent = handler.indent) {
     `(${node.params.map((p) => handler(p, '')).join(', ')}) => `;
 
   // add params to scope
-  // AssignmentPattern adds to scope internally
-  node.params.map((p) => p.type !== 'AssignmentPattern' && addToScope(p));
+  // the assignment expression is adding to scope while handling it
+  addToScope(node.params.filter((p) => p.type !== 'AssignmentPattern'));
 
   code += handler(node.body, '');
-
   // close the closure of this function
   handler.scope.endClosure();
-
   return code;
 }
 
@@ -48,19 +45,12 @@ export const functionHandler: Handler = {
 
     // the declaration syntax
     let code =
-      _async +
-      'function' +
-      _generator +
-      ' ' +
-      _name +
+      _async + 'function' + _generator + ' ' + _name +
       `(${node.params.map((p) => handler(p, '')).join(', ')}) `;
 
     // add params to scope
-    node.params.map(
-      (p) =>
-        // the assignment expression is adding to scope while handling it
-        p.type !== 'AssignmentPattern' && addToScope(p)
-    );
+    // the assignment expression is adding to scope while handling it
+    addToScope(node.params.filter((p) => p.type !== 'AssignmentPattern'));
 
     code += handler(node.body, '');
 

@@ -56,3 +56,10 @@ export interface Options {
   semicolon?: Boolean = true;  
 }
 
+export function validateOptions(options: Options) {
+  if (!/(?:\t| )+/.test(options.indent))
+    throw 'invalid indent unit! please set it to <space> or <tap>!';
+  if (!/^(?:commonjs|es6|mixed)$/.test(options.moduleType))
+    throw 'invalid moduleType, must be either "commonjs", "es6", or "mixed"!';
+}
+

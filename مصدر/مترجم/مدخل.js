@@ -70,7 +70,8 @@ handler.setLineHead = function (lh) {
 }
 
 handler.error = function(node, ...msgs) {
-  let _msg = "Translation error:";
+  let a;
+  let _msg = typeof node === "string" ? (a=node, node=null, a) : "Translation error:";
   let msg = _msg.bgRed.white;
   msgs.forEach(m => msg += '\n' + "      " + m.error);
   node?.loc && (msg += '\n' + "      " + `${handler.filepath}:${node.loc.start.line}:${node.loc.start.column}`);
@@ -88,7 +89,8 @@ handler.warn = function(node, ...msgs) {
 }
 
 // TODO: collect the scope variables as all functions and "var"s
-// are defined at the begining, then "vars" are assigned when its turn come
+// are defined at the begining, then "vars" are assigned 
+// when its declaration statement come;
 
 handler.reset = function resetHandler() {
   handler.addTranslator = false;
