@@ -6,9 +6,11 @@
   "scripts": {
     "start": "webpack --watch --mode development",
     "build": "webpack --mode development",
-    "prod": "npm run style && npm run lint && npm run test && npm run build",
+    "preprod": "npm run style && npm run lint && npm run test",
+    "prod": "npm run build",
     "style": "npx prettier ./مصدر --write",
-    "lint": "npx eslint ./مصدر"
+    "lint": "npx eslint ./مصدر",
+    "test": "echo testing!!!"
   },
   "keywords": [
     "جافاسكريبت",
