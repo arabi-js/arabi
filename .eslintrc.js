@@ -14,6 +14,7 @@ module.exports = {
   ignorePatterns: [
     "مصدر/أكواد",
     "مصدر/babel-parser",
+    "أمثلة"
   ],
   rules: {},
   settings: {
