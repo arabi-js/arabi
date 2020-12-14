@@ -1,3 +1,5 @@
+// @flow
+
 import handler from '../مدخل';
 import { type Handler } from '../../أنواع.js';
 
@@ -18,6 +20,7 @@ export const literalHandler: Handler = {
       case 'RegExpLiteral':
         // TODO: translate it to arabic letters, e.g., 
         // /\ك+/  ->  /\w+/
+      // eslint-disable-next-line no-fallthrough
       default:
         return indent + node.value;
     }

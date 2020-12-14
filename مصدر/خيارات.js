@@ -11,10 +11,10 @@ export interface GlobalMap {
 }
 
 export interface BasicTranslationMap {
-  [ArabicName: string]: /* EnglishName */ string | [
-    EnglishName: string,
+  [ArabicName: string]: string /* EnglishName */ | [
+    string, // English Name
     TranslationMap,
-    TranslationMapOptions?
+    ?TranslationMapOptions
   ];
 }
 
@@ -31,15 +31,15 @@ export interface Options {
   // to import the repeatedly used function,
   // this is helpful when translating some connected modules,
   // input='/path/to/dir/', output='/path/to/output/dir'
-  runtime: Boolean = true;
+  runtime: Boolean; // = true
   // path to the entry file if you are translating a directory containing connected modules
   // if not defined, the dir is translated aw you are translating each file speparately
   entry: string;
   // the global object to define new properties with arabic names dependant on "maps.global" and "maps.globalThis"
-  globalObject: string = "globalThis";
+  globalObject: string; // = "globalThis";
   // test for files to be translated!
-  patterns: Test = /\.(:?arjs|جس|ج.س)$/;
-  ignores: Test, // ignore specific files when translating 
+  patterns: Test; // = /\.(:?arjs|جس|ج.س)$/;
+  ignores: Test; // ignore specific files when translating 
   // when the test "patterns" fails, the file is copied to the output directory  
   // ignore files from being copied to the output when when translating dir && isModules
   globalIgnores: Test;
@@ -49,11 +49,11 @@ export interface Options {
   
   // if you want to keep the extensions of the input files, which
   // passed the patterns and ignores tests, unchanged.
-  keepExtension: Boolean = false;
-  debug?: Boolean = true;
-  indent?: string = '  ';
+  keepExtension: Boolean; // = false;
+  debug?: Boolean; // = true;
+  indent?: string; // = '  ';
   // enable or disable verbose loging during the translation process
-  semicolon?: Boolean = true;  
+  semicolon?: Boolean; // = true;  
 }
 
 export function validateOptions(options: Options) {

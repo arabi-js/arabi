@@ -1,4 +1,7 @@
+// @flow
+
 import handler from '../مدخل';
+import { addToScope } from '../../مساعدات';
 import { type Handler } from '../../أنواع.js';
 
 export const objectHandler: Handler = {
@@ -16,7 +19,7 @@ export const objectHandler: Handler = {
       let _async = node.async ? 'async ' : '';
       let _generator = node.generator ? '*' : '';
       prefix = node.kind === 'method' ? '' : node.kind + ' ';
-      key = handler(p.key, '');
+      key = handler(node.key, '');
       key = (node.computed ? `[${key}]`: key);
 
       handler.functionDepth++;

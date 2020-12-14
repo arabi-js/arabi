@@ -1,3 +1,5 @@
+// @flow
+
 import handler from '../مدخل';
 import * as keywordsMap from '../../babel-parser/src/keywords-map';
 import { type Handler } from '../../أنواع.js';

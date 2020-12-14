@@ -98,3 +98,7 @@ function getParserClass(pluginsFromOptions: PluginList): Class<Parser> {
   }
   return cls;
 }
+
+export default {
+  parse, parseExpression, tokTypes
+}

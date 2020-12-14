@@ -1,15 +1,18 @@
+
+// @flow
+
 /**
  * vars has to be collected first then
  */
 
 interface BlockScope {
   lexical: Set<string>; // for example define inside a for loop
-};
+}
 
 interface Closure {
   vars: Set<string>;
   functions: Set<string>;
-};
+}
 
 export default class ScopeHandler {
 

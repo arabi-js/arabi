@@ -1,8 +1,8 @@
+// @flow
+
 import handler from '../مدخل';
 import { _require } from '../../babel-parser/src/keywords-map';
 import { type Handler } from '../../أنواع.js';
-import {stringify} from 'circular-json-es6';
-import {getRandomName} from '../../مساعدات';
 
 export const callHandler: Handler = {
   types: ['CallExpression', 'OptionalCallExpression', 'NewExpression'],

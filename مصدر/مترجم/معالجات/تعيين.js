@@ -1,3 +1,4 @@
+// @flow
 
 import handler from '../مدخل';
 import { type Handler } from '../../أنواع.js';

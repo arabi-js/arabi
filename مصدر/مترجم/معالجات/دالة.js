@@ -1,3 +1,5 @@
+// @flow
+
 import handler from '../مدخل';
 import { addToScope } from '../../مساعدات';
 import { type Handler } from '../../أنواع';

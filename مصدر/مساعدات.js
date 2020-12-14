@@ -1,3 +1,5 @@
+// @flow
+
 /* 
  * this file contains some helper functions imported in more than module
  */
@@ -64,7 +66,7 @@ export function testGlobal(fpath) {
 }
 
 export function checkInput(p) {
-  if (!fs.existsSync(p)) handler.error("Invalid Option", "input doesn't exists:", input);
+  if (!fs.existsSync(p)) handler.error("Invalid Option", "input doesn't exists:", p);
 }
 
 export function checkOutput(p) {
@@ -125,7 +127,9 @@ export function getRandomName() {
 export const codes: Proxy<Codes> = new Proxy({
   translatorCode: arjsTranslate.code,
   translateRequireCode: arjsTranslate.translateRequireCode,
+  // eslint-disable-next-line no-undef
   es6ModuleTranslationCode: ES6_MODULE_TRANSLATION_CODE,
+  // eslint-disable-next-line no-undef
   commonjsModuleTranslationCode: COMMONJS_MODULE_TRANSLATION_CODE,
 }, {
   get(t, p) {
@@ -152,7 +156,6 @@ export function getTranslateRequireCode() {
 
 export function getVarsTranslatorCode(map) {
   let code = [], prototypes = [];
-  debugger;
   for (let p in map) {
     let v;
     if (typeof map[p] === 'string') v = map[p]; 
@@ -217,11 +220,13 @@ export function getGlobalTranslatorCode(map) {
       let __map = m[1];
       let __options = m[2];
       // here we have to define new properties with arabic names to the built-in prototypes such as Object.prototype 
-      if (__options?.constructMap) prototypes.push(getPrototypeTranslator(__enName, __map, __options));
-      if (__options && Object.keys(__options).length === 1) __options = null;
+      if (__options?.constructMap) {
+        prototypes.push(getPrototypeTranslator(__enName, __map, __options));
+        if (Object.keys(__options).length === 1) __options = null;
+      }
       if (__map || __options) {
         c = `${handler.tfnName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`;
-      } else c = enName;
+      } else c = __enName;
     }
     code.push(handler.indent + `${handler.options.globalObject}["${p}"] = ${c}` + handler.eol);
   }

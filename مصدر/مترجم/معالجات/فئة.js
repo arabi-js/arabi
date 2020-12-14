@@ -1,4 +1,7 @@
+// @flow
+
 import handler from '../مدخل';
+import { addToScope } from '../../مساعدات';
 import { _constructor } from '../../babel-parser/src/keywords-map';
 import { type Handler } from '../../أنواع.js';
 
@@ -31,7 +34,7 @@ export const classHandler: Handler = {
         let _gen = n.generator ? '*' : '';
         let _private = n.type === 'ClassPrivateMethod' ? '#' : '';
         let prefix = n.kind === 'method' ? '' : n.kind + ' ';
-        let key = handler(p.key, '');
+        let key = handler(n.key, '');
         key = (n.computed ? `[${key}]`: key);
 
         handler.functionDepth++;
@@ -49,7 +52,7 @@ export const classHandler: Handler = {
         handler.scope.endClosure();
         return indent + method; 
 
-      } else throw 'Unexpected "' + n.type + '" inside the class body';
+      } else handler.error(n, 'Unexpected "' + n.type + '" inside the class body');
     }
 
     handler.decreaseIndent();

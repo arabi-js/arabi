@@ -1,7 +1,8 @@
+// @flow
 
 import handler from '../مدخل';
 import path from 'path';
-import { test, resolve, getRandomName } from '../../مساعدات';
+import { getRandomName } from '../../مساعدات';
 import { type Handler } from '../../أنواع.js';
 import { stringify } from 'circular-json-es6';
 
@@ -35,7 +36,7 @@ function importSpecifiersHandler(s, map, mapOptions) {
       // so the code hanceforth deals with a translated object
       [ namespaceLocal, _namespaceLocal ] = [ _namespaceLocal, namespaceLocal ];
     }
-    namespace = `* as ${namspaceLocal}`;
+    namespace = `* as ${namespaceLocal}`;
     return [
       _default ? `${_default}, ${namespace}`: namespace,
       imports
