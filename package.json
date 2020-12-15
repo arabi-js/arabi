@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "It is just a trial to prove that we can.",
   "main": "حزمة/arjs.js",
+  "bin": {
+    "arjs": "ثنائي/مدخل.js"
+  },
   "scripts": {
     "start": "webpack --watch --mode development",
     "build": "webpack --mode development",
@@ -45,6 +48,7 @@
   },
   "dependencies": {
     "@babel/runtime-corejs3": "^7.12.5",
+    "arjs-maps": "^1.0.0",
     "arjs-translate": "file:../arjs-translate",
     "charcodes": "^0.2.0",
     "circular-json-es6": "^2.0.2",
