@@ -1459,13 +1459,13 @@ export default class StatementParser extends ExpressionParser {
       }
     } else if (
       isSimple &&
-      (key.name === "get" || key.name === "set") &&
+      (key.name === keyMap._get || key.name === keyMap._set) &&
       !containsEsc &&
       !(this.match(tt.star) && this.isLineTerminator())
     ) {
       // `get\n*` is an uninitialized property named 'get' followed by a generator.
       // a getter or setter
-      method.kind = key.name;
+      method.kind = key.name === keyMap._get ? "get" : "set";
       // The so-called parsed name would have been "get/set": get the real name.
       this.parseClassElementName(publicMethod);
 

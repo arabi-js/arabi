@@ -42,6 +42,8 @@ export const _as = 'ك';
 export const _yield = 'انتج';
 export const _async = 'تزامن';
 export const _await = 'انتظر';
+export const _get = 'احضر';
+export const _set = 'عين';
 
 export const _package = 'حزمة';
 export const _private = 'خاص';

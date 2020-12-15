@@ -1764,9 +1764,9 @@ export default class ExpressionParser extends LValParser {
       }
       // get PropertyName[?Yield, ?Await] () { FunctionBody[~Yield, ~Await] }
       // set PropertyName[?Yield, ?Await] ( PropertySetParameterList ) { FunctionBody[~Yield, ~Await] }
-      if (keyName === "get" || keyName === "set") {
+      if (keyName === keyMap._get || keyName === keyMap._set) {
         isAccessor = true;
-        prop.kind = keyName;
+        prop.kind = keyName === keyMap._get ? "get" : "set";
         if (this.match(tt.star)) {
           isGenerator = true;
           this.raise(this.state.pos, Errors.AccessorIsGenerator, keyName);
