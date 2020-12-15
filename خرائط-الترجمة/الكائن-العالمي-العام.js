@@ -59,7 +59,6 @@ export const objectMap = ["Object", {
 export const functionMap = ["Function", {}, { constructMap: functionPrototypeMap }];
 
 export default {
-  استدعي: 'require',
   كائن: objectMap,
   لوحة: consoleMap,
   دالة: functionMap,

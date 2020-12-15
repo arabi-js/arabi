@@ -52,7 +52,7 @@ export const elementSelectors = {
 	احصل_بالمعرف: ["getElementById", null, { returnMap: htmlElementMap }],
 	احصل_بالفئة: ["getElementsByClassName", null, { returnMap: htmlElementMap }],
 	احصل_بالوسم: ["getElementsByTagName", null, { returnMap: htmlElementMap }],
-	احصل_بالوسم: ["getElementsByTagNameNS", null, { returnMap: htmlElementMap }],
+	// احصل_بالوسم: ["getElementsByTagNameNS", null, { returnMap: htmlElementMap }],
 }
 
 Object.assign(htmlElementMap, elementSelectors);
