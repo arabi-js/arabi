@@ -1,0 +1,22 @@
+{
+  "name": "arjs-maps",
+  "version": "1.0.0",
+  "description": "خرائط ترجمة لمعرب الجافاسكريبت",
+  "main": "./حزمة/مدخل.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/javascipt-in-arabic/arjs-maps.git"
+  },
+  "keywords": [
+    "arjs",
+    "arabic",
+    "javascript",
+    "translation-map"
+  ],
+  "author": "Mohammed Samir Al-Sawalhy - محمد سمير الصوالحي",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/javascipt-in-arabic/arjs-maps/issues"
+  },
+  "homepage": "https://github.com/javascipt-in-arabic/arjs-maps#readme"
+}
