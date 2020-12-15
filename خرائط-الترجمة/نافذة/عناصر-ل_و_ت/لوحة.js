@@ -1,7 +1,7 @@
 
 const canvasContextMap = {
   اتساع_الخط: "lineWidth",
-  اطراف_الخط: "lineCap",
+  رأس_الخط: "lineCap",
   وصلة_الخط: "lineJoint",
   حد_الشطب: "miterLimit",
   شكل_الخط: "strokeStyle",
@@ -68,7 +68,7 @@ const canvasContextMap = {
 }
 
 const canvasElementMap = {
-  احضر_السياق: ["getContext", canvasContextMap, true],
+  احضر_السياق: ["getContext", null, { returnMap: canvasContextMap }],
 }
 
 export default canvasElementMap;

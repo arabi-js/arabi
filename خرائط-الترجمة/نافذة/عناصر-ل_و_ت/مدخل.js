@@ -47,12 +47,12 @@ const htmlElementMap = {
 
 export const elementSelectors = {
 	// a function returns an object, that object will be translated as well
-	محدد_الاستعلام: ["querySelector", htmlElementMap, true],
-	محدد_الاستعلام_الشامل: ["querySelectorAll", htmlElementMap, true],
-	احصل_بالمعرف: ["getElementById", htmlElementMap, true],
-	احصل_بالفئة: ["getElementsByClassName", htmlElementMap, true],
-	احصل_بالوسم: ["getElementsByTagName", htmlElementMap, true],
-	احصل_بالوسم: ["getElementsByTagNameNS", htmlElementMap, true],
+	محدد_الاستعلام: ["querySelector", null, { returnMap: htmlElementMap }],
+	محدد_الاستعلام_الشامل: ["querySelectorAll", null, { returnMap: htmlElementMap }],
+	احصل_بالمعرف: ["getElementById", null, { returnMap: htmlElementMap }],
+	احصل_بالفئة: ["getElementsByClassName", null, { returnMap: htmlElementMap }],
+	احصل_بالوسم: ["getElementsByTagName", null, { returnMap: htmlElementMap }],
+	احصل_بالوسم: ["getElementsByTagNameNS", null, { returnMap: htmlElementMap }],
 }
 
 Object.assign(htmlElementMap, elementSelectors);
