@@ -1,16 +1,21 @@
 {
-  "name": "arjs-translate",
+  "name": "@arabi/translate",
   "version": "1.1.0",
-  "description": "a helper module for the arjs package.",
+  "description": "حزمة مساعدة للحزمة الأم - core",
   "main": "./lib/index.js",
+  "scripts": {
+    "build": "node ./بناء.js"
+  },
   "keywords": [
     "arjs",
     "arjs-translate",
     "translate",
     "arabic",
     "js",
-    "javascript"
+    "javascript",
+    "arabi",
+    "عربي"
   ],
-  "author": "",
+  "author": "محمد سمير الصوالحي",
   "license": "MIT"
 }
