@@ -1,6 +1,6 @@
 {
   "name": "@arabi/maps",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "خرائط ترجمة لمعرب الجافاسكريبت",
   "main": "./حزمة/مدخل.js",
   "module": "./وحدات/مدخل.js",
