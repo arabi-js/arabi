@@ -5,7 +5,7 @@
   "main": "./حزمة/مدخل.js",
   "module": "./وحدات/مدخل.js",
   "scripts": {
-    "build": "npx babel ./وحدات -d ./حزمة"
+    "build": "npx babel ./وحدات -d ./حزمة --delete-dir-on-start"
   },
   "repository": {
     "type": "git",
