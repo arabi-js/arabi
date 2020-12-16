@@ -1,22 +1,35 @@
-import windowMap from './نافذة/مدخل';
-import commonjsMap from './جس-الشائعة';
-import commonjsVars from './متغيرات-جس-الشائعة';
-import generalGlobalThis from './الكائن-العالمي-العام';
-import modules from './وحدات-النود/مدخل';
+"use strict";
 
-export const commonjs = {
-  global: commonjsMap,
-  globalVars: commonjsVars,
-  modules,
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.general = exports.window = exports.commonjs = void 0;
+
+var _ = _interopRequireDefault(require("./\u0646\u0627\u0641\u0630\u0629/\u0645\u062F\u062E\u0644"));
+
+var _2 = _interopRequireDefault(require("./\u062C\u0633-\u0627\u0644\u0634\u0627\u0626\u0639\u0629"));
+
+var _3 = _interopRequireDefault(require("./\u0645\u062A\u063A\u064A\u0631\u0627\u062A-\u062C\u0633-\u0627\u0644\u0634\u0627\u0626\u0639\u0629"));
+
+var _4 = _interopRequireDefault(require("./\u0627\u0644\u0643\u0627\u0626\u0646-\u0627\u0644\u0639\u0627\u0644\u0645\u064A-\u0627\u0644\u0639\u0627\u0645"));
+
+var _5 = _interopRequireDefault(require("./\u0648\u062D\u062F\u0627\u062A-\u0627\u0644\u0646\u0648\u062F/\u0645\u062F\u062E\u0644"));
+
+var commonjs = {
+  global: _2["default"],
+  globalVars: _3["default"],
+  modules: _5["default"]
 };
-
-export const window = {
-  global: windowMap,
-  modules,
+exports.commonjs = commonjs;
+var window = {
+  global: _["default"],
+  modules: _5["default"]
 };
-
-export const general = {
-  global: generalGlobalThis,
-  modules,
-}
-
+exports.window = window;
+var general = {
+  global: _4["default"],
+  modules: _5["default"]
+};
+exports.general = general;

@@ -1,10 +1,5 @@
-"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-var canvasContextMap = {
+const canvasContextMap = {
   اتساع_الخط: "lineWidth",
   رأس_الخط: "lineCap",
   وصلة_الخط: "lineJoint",
@@ -14,15 +9,19 @@ var canvasContextMap = {
   // : "lineDashOffset",
   // : "getLineDash",
   // : "setLineDash",
+
   // : "shadowBlur",
   // : "shadowColor",
   // : "shadowOffsetX",
   // : "shadowOffsetY",
+
   // : "createLinearGradient",
   // : "createRadialGradient",
   // : "createPattern",
+  
   ألفا_العالمية: "globalAlpha",
   عملية_التركيب_العالمية: "globalCompositeOperation",
+  
   خط_أساس_النص: "textBaseLine",
   محازاة_النص: "textAlign",
   // : "direction",
@@ -30,10 +29,12 @@ var canvasContextMap = {
   // : "fillText",
   خطط_نص: "strokeText",
   // : "measureText",
+  
   مستطيل_المسح: "clearRect",
   املئ_مستطيل: "fillRect",
   // :  "strokeRect",
   // :  "",
+  
   ابدأ_مسار: "beginPath",
   اقفل_مسار: "closePath",
   حظ_إلى: "lineTo",
@@ -51,8 +52,10 @@ var canvasContextMap = {
   // :  "clip",
   // :  "isPointInPath",
   // :  "isPointInStroke"
+
   // : "",
   املئ_إهليج: "fillEllipse",
+  
   التحويل_الحالي: "currentTransform",
   احضر_التحويل: "getTransform",
   عين_التحويل: "setTransform",
@@ -60,14 +63,16 @@ var canvasContextMap = {
   ادر: "rotate",
   كبر: "scale",
   حرك: "translate",
-  حول: "transform"
-};
-var canvasElementMap = {
-  احضر_السياق: ["getContext", null, {
-    returnMap: canvasContextMap
-  }]
-};
-var _default = canvasElementMap;
+  حول: "transform",
+  
+}
+
+const canvasElementMap = {
+  احضر_السياق: ["getContext", null, { returnMap: canvasContextMap }],
+}
+
+export default canvasElementMap;
+
 /*
 {
   "Drawing images": [
@@ -212,5 +217,3 @@ var _default = canvasElementMap;
   // ],
 }
 */
-
-exports["default"] = _default;

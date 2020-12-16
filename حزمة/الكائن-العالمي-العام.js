@@ -1,14 +1,27 @@
-import { _arguments } from '../مصدر/babel-parser/src/keywords-map';
+"use strict";
 
-export const consoleMap = ["console", {
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.functionMap = exports.objectMap = exports.consoleMap = void 0;
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _keywordsMap = require("../\u0645\u0635\u062F\u0631/babel-parser/src/keywords-map");
+
+var _functionPrototypeMap;
+
+var consoleMap = ["console", {
   اطبع: "log",
   خطأ: "error",
   جدول: "table",
   وقت: "time",
-  أوقف_الوقت: "timeEnd",
+  أوقف_الوقت: "timeEnd"
 }];
-
-const objectPrototypeMap = {
+exports.consoleMap = consoleMap;
+var objectPrototypeMap = {
   منشئ: "constructor",
   __نموذج__: "__proto__",
   يملك_خاصية: "hasOwnProperty",
@@ -16,23 +29,15 @@ const objectPrototypeMap = {
   هل_الخاصية_قابلة_للحصر: "propertyIsEnumerable",
   لنص_محلي: "toLocaleString",
   لنص: "toString",
-  قيمة: "valueOf",
+  قيمة: "valueOf"
 };
-
-const functionPrototypeMap = {
+var functionPrototypeMap = (_functionPrototypeMap = {
   اربط: "bind",
   استدعي: "call",
   طبق: "apply",
-  لنص: "toString",
-  [_arguments]: "arguments",
-  مستدعي: "caller",
-  اسم_ظاهر: "displayName",
-  طول: "length",
-  اسم: "name",
-  نموذج: "prototype",
-};
-
-export const objectMap = ["Object", {
+  لنص: "toString"
+}, (0, _defineProperty2["default"])(_functionPrototypeMap, _keywordsMap._arguments, "arguments"), (0, _defineProperty2["default"])(_functionPrototypeMap, "\u0645\u0633\u062A\u062F\u0639\u064A", "caller"), (0, _defineProperty2["default"])(_functionPrototypeMap, "\u0627\u0633\u0645_\u0638\u0627\u0647\u0631", "displayName"), (0, _defineProperty2["default"])(_functionPrototypeMap, "\u0637\u0648\u0644", "length"), (0, _defineProperty2["default"])(_functionPrototypeMap, "\u0627\u0633\u0645", "name"), (0, _defineProperty2["default"])(_functionPrototypeMap, "\u0646\u0645\u0648\u0630\u062C", "prototype"), _functionPrototypeMap);
+var objectMap = ["Object", {
   عين: "assign",
   انشئ: "create",
   مداخل: "entries",
@@ -53,13 +58,18 @@ export const objectMap = ["Object", {
   هل_مختوم: "isSealed",
   جمد: "freeze",
   اختم: "seal",
-  امنع_الامتدادات: "preventExtensions",
-}, { constructMap: objectPrototypeMap }];
-
-export const functionMap = ["Function", {}, { constructMap: functionPrototypeMap }];
-
-export default {
+  امنع_الامتدادات: "preventExtensions"
+}, {
+  constructMap: objectPrototypeMap
+}];
+exports.objectMap = objectMap;
+var functionMap = ["Function", {}, {
+  constructMap: functionPrototypeMap
+}];
+exports.functionMap = functionMap;
+var _default = {
   كائن: objectMap,
   لوحة: consoleMap,
-  دالة: functionMap,
+  دالة: functionMap
 };
+exports["default"] = _default;
