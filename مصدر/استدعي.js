@@ -1,4 +1,4 @@
-var __arjs__translate__ = require('./translator');
+var __arjs__translate__ = require('./مترجم');
 var __require__cache__ = {};
 exports.__default = function __arjs__translate__require__(__module, __query) {
   // they are module and query
