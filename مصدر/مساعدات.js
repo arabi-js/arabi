@@ -7,7 +7,7 @@
 import fs from 'fs';
 import path from 'path';
 import handler from './مترجم/مدخل';
-import arjsTranslate from 'arjs-translate';
+import arjsTranslate from '@arabi/translate';
 import { stringify } from 'circular-json-es6';
 import type { Codes } from './أنواع';
 
@@ -174,7 +174,7 @@ export function getVarsTranslatorCode(map) {
 }
 
 function getPrototypeTranslator(__enName, __map, __options) {
-  // TODO: evaluate from arjs-translate when `options.runtime`, it has to be has to be nearly isolated and independent;
+  // TODO: evaluate from @arabi/translate when `options.runtime`, it has to be has to be nearly isolated and independent;
   // TODO: take care of the properties' descriptor
   let constructMap = __options.constructMap;
   __options.constructMap = null;
@@ -249,8 +249,8 @@ export function getArjsTranslateImportCode() {
     
     let code = (
       !isModule ?
-      `const { ${imports} } = require('arjs-translate')` : 
-      `import { ${imports} } from 'arjs-translate'`
+      `const { ${imports} } = require('@arabi/translate')` : 
+      `import { ${imports} } from '@arabi/translate'`
       );
     return handler.indent + code + handler.eol;
   }

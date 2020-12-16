@@ -41,7 +41,7 @@ module.exports = {
     new CleanPlugin(),
     analyze && new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)()
   ].filter(Boolean),
-  externals: [ /^@babel\/runtime\-corejs/ ],
+  externals: [ /^@babel\/runtime-corejs/ ],
   // experiments: { topLevelAwait: true },
 
 };
@@ -51,9 +51,9 @@ let comModuleTranslationPath = path.resolve(__dirname, 'مصدر/أكواد/أك
 let es6ModuleTranslationCode = fs.readFileSync(es6ModuleTranslationPath, { encoding: 'utf8' });
 let comModuleTranslationCode = fs.readFileSync(comModuleTranslationPath, { encoding: 'utf8' });
 
-// it is the same replaceIndent in arjs-translate/build.js
+// it is the same replaceIndent in @arabi/translate/build.js
 function replaceIndents(s) {
-  return s.replace(/^(  )+/gm, (m)=>new Array(m.length/2+1).fill('').join('_@_@indent@_@_'));
+  return s.replace(/^( {2})+/gm, (m)=>new Array(m.length/2+1).fill('').join('_@_@indent@_@_'));
 }
 
 es6ModuleTranslationCode = JSON.stringify(replaceIndents(es6ModuleTranslationCode));

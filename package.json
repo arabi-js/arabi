@@ -1,6 +1,6 @@
 {
-  "name": "arjs",
-  "version": "1.0.0",
+  "name": "@arabi/core",
+  "version": "0.1.0-0",
   "description": "It is just a trial to prove that we can.",
   "main": "حزمة/arjs.js",
   "bin": {
@@ -40,16 +40,15 @@
     "eslint-plugin-flowtype": "^5.2.0",
     "flow-bin": "^0.140.0",
     "prettier": "^2.2.1",
-    "webpack": "^5.10.1",
+    "webpack": "^5.10.3",
     "webpack-bundle-analyzer": "^4.2.0",
     "webpack-clean-plugin": "^0.2.3",
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "@arabi/translate": "^1.2.0",
     "@babel/runtime-corejs3": "^7.12.5",
-    "arjs-maps": "^1.0.0",
-    "arjs-translate": "file:../arjs-translate",
     "charcodes": "^0.2.0",
     "circular-json-es6": "^2.0.2",
     "colors": "^1.4.0"
