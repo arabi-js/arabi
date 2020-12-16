@@ -4,10 +4,10 @@ import handlers from './معالجات/مدخل';
 import { type Node } from '../../babel-parser/src/types.js';
 
 export default function handler(node: Node, indent?: string): string {
-  if (node instanceof Array)
-    return node
-      .map((a, i) => handler(a, !i ? indent : handler.indent))
-      .join('');
+  if (Array.isArray(node))
+    return handler.handleArray(
+      node.map((a, i) => handler(a, !i ? indent : handler.indent))
+    );
   if (node && node.type in handlers) return handlers[node.type](node, indent);
   handler.error(
     node,
@@ -50,6 +50,20 @@ Object.defineProperty(handler, 'functionDepth', {
   get() { return this.__fdpth },
   set(v) { if (v<0 || v%1!==0) throw "handler.functionDepth should be int>=0"; this.__fdpth = v },
 });
+
+handler.handleArray = function handleArray(a: [ string | Array ]) {
+  // reduce then join,,, built-in Array methods
+  return a.reduce((newA, c)=>{
+    // comma operator is used here, exec the ternary operator
+    // then return the last expression which is `newA`
+    return (
+      typeof c === 'string' ? newA.push(c)
+      : newA.push(
+        handler.voidline, ...handler.handleArray(c), handler.voidline
+      ), newA
+    );
+  }, []).join('');
+}
 
 handler.setIndent = function setIndent(v) {
   if (typeof v !== 'number' || v < 0 || v % 1 !== 0)

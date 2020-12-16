@@ -57,6 +57,7 @@ export interface Options {
 }
 
 export function validateOptions(options: Options) {
+  // use schema-utils
   if (!/(?:\t| )+/.test(options.indent))
     throw 'invalid indent unit! please set it to <space> or <tap>!';
   if (!/^(?:commonjs|es6|mixed)$/.test(options.moduleType))

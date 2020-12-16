@@ -13,7 +13,7 @@ function addToScope(id, type) {
 
 export const declarationHandler: Handler = {
   types: ['VariableDeclaration'],
-  handle(node, indent = handler.indent, addSemi = true) {
+  handle(node, indent=handler.indent, addEOL=true /* passed from ExportNamedDeclaration */) {
     const kind =
       node.kind === _let
         ? 'let'
@@ -22,30 +22,22 @@ export const declarationHandler: Handler = {
         : node.kind === _var
         ? 'var'
         : null;
-    if (!kind) throw 'unknow variable decalrations kind';
+    if (!kind) handler.error(node, 'unknow variable decalrations kind');
 
-    let code = indent + kind + ' ';
-    let dec = node.declarations.pop();
-
-    function addDeclaration(dec) {
-      code += handler(dec.id) + (dec.init ? ' = ' + handler(dec.init, '') : '');
+    function handleDeclaration(dec) {
+      let decCode = handler(dec.id, '') + (dec.init ? ' = ' + handler(dec.init, '') : '');
       if (kind === 'let' || kind === 'const') addToScope(dec.id, 'lex');
       else addToScope(dec.id, 'var');
+      return decCode
     }
 
-    addDeclaration(dec);
+    let alignIndent = new Array(kind.length).fill(' ').join('') + ' ';
+    let decs =
+      node.declarations
+      .map(handleDeclaration)
+      .join(',' + handler.nl + handler.indent + alignIndent);
 
-    if (node.declarations.length > 1) {
-      let alignIndent = new Array(kind.length).fill(' ').join('') + ' ';
-      while (node.declarations.length > 0) {
-        dec = node.declarations.pop();
-        code += handler.indent + alignIndent;
-        addDeclaration(dec);
-        code += node.declarations.length > 0 ? ',' + handler.nl : '';
-      }
-    }
-
-    addSemi && (code += handler.eol); // this may be void string depending on the options
-    return code;
+    let eol = addEOL ? handler.eol : '';
+    return indent + kind + ' ' + decs + eol;
   },
 };

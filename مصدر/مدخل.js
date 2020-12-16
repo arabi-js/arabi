@@ -22,7 +22,6 @@ import {
   getDeclareModuleTMapsCode,
 } from './مساعدات';
 import ScopeManager from './مدير-النطاق';
-import * as maps from '../خرائط-الترجمة/مدخل'; // DEV , delete this line in production
 import type { Options as ParserOptions } from '../babel-parser/src/options';
 import { type Options, validateOptions } from './خيارات';
 
@@ -44,7 +43,7 @@ Object.defineProperty(parser, '__info_', {
   value: 'I am a modified version of @babel/parser!',
 });
 
-export { parser, maps };
+export { parser };
 
 let modulesToTranslate = new Set();
 // we need to translate module stored in modulesToTranslate
@@ -83,6 +82,7 @@ function translateCode(arCode) {
   // globalMap is both `maps.global` and `maps.globalVars` compined
   // but in case of `isModules` it is `globalVars` only
   if (Object.keys(globalMap).length) {
+    // TODO: add the referenced identifiers in this file only
     header.push(getVarsTranslatorCode(globalMap));
   }
 
@@ -211,7 +211,7 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
 
   // helper props and methods
   handler.options = options;
-  handler.maps = options.maps = options.maps || (options.moduleType === 'commonjs' ? maps.commonjs : {});
+  handler.maps = options.maps;
   handler.eol = options.semicolon ? ';\n' : '\n';
   handler.nl = '\n';
   handler.scope = new ScopeManager();

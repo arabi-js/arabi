@@ -19,7 +19,10 @@ export const blockHandler: Handler = {
     !inline && handler.increaseIndent();
 
     // add the inside code
+    let eol = handler.eol;
+    inline && (handler.eol = '; ');
     code += handler(node.body, inline ? '' : handler.indent);
+    handler.eol = eol;
 
     // close block statement
     !inline && handler.decreaseIndent();

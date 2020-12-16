@@ -135,22 +135,23 @@ function exportSpecifiersHandler(s) {
 export const exportHandler: Handler = {
   types: ['ExportNamedDeclaration', 'ExportDefaultDeclaration', 'ExportAllDeclaration'],
   handle(node, indent = handler.indent) {
-    let code;
     if (node.type === 'ExportDefaultDeclaration') {
-      let semi = handler.eol;
-      handler.eol = '';
-      code = `export default ${handler(node.declaration, '')}` + semi;
-      handler.eol = semi;
-      return code;
+      // node.declaration is an epression;
+      return `export default ${handler(node.declaration, '')}` + handler.eol;
     } else if (node.type === 'ExportAllDeclaration') {
-      return `export * from ${handler(node.source, '')}`;
-    } else if (node.declaration) {
-      let semi = handler.eol;
-      handler.eol = '';
-      code = `export ${handler(node.declaration, '')}` + semi;
-      handler.eol = semi;
-      return code;
-    }
+      return `export * from ${handler(node.source, '')}` + handler.eol;
+    } 
+
+    // export {foo, bar}; 
+    // export {foo} from "mod";
+    // export var foo = 1;
+    // export * as foo from "bar";
+    
+    if (node.declaration) {
+      // node.declaration is an function or calss epression, or varaible declaration;
+      // export var foo = 1;
+      return `export ${handler(node.declaration, '', false)}` + handler.eol;
+    } 
 
     let source = node.source ? ' from ' + handler(node.source) : '';
     return indent + `export ${exportSpecifiersHandler(node.specifiers, '')}` + source + handler.eol;
