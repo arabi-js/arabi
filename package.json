@@ -2,7 +2,7 @@
   "name": "@arabi/translate",
   "version": "1.2.0",
   "description": "حزمة مساعدة للحزمة الأم - core",
-  "main": "./lib/index.js",
+  "main": "./حزمة/مدخل.js",
   "scripts": {
     "build": "node ./بناء.js"
   },
