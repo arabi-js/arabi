@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "@arabi/maps": "^1.2.0",
-    "@arabi/translate": "^1.2.3",
+    "@arabi/translate": "file:../translate",
     "@babel/runtime-corejs3": "^7.12.5",
     "charcodes": "^0.2.0",
     "colors": "^1.4.0",

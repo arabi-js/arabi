@@ -9,6 +9,7 @@ import path from 'path';
 import manager from './مترجم/مدير-الترجمة'; 
 import arabiTranslate from '@arabi/translate';
 import { stringify as thatStringify } from 'flatted';
+import { isIdentifierName } from './babel-parser/src/helper-validator-identifier/identifier';
 import type { Codes } from './أنواع';
 
 export function addToScope(ids, type: "lex" | "var") {
@@ -40,8 +41,15 @@ export function getIds(id) {
 }
 
 export function stringify(obj) {
-  if (typeof obj === 'string') return JSON.stringify(obj);
-  return thatStringify.apply(this, obj);
+  if (
+    typeof obj !== 'object' &&
+    typeof obj !== 'function' ||
+    obj === null
+  ) return JSON.stringify(obj); // it is literal
+  if (manager.enableParseStringified)
+    return `${manager.parseStringifiedFunctionName}(${JSON.stringify(thatStringify.apply(thatStringify, arguments))})`;
+  else
+    return thatStringify.apply(thatStringify, arguments);
 }
 
 /**
@@ -159,73 +167,39 @@ export function getTranslateRequireCode() {
   return codes.translateRequireCode;
 }
 
-function getPrototypeTranslator(__enName, __map, __options) {
-  // TODO: evaluate from @arabi/translate when `options.runtime`, it has to be has to be nearly isolated and independent;
-  // TODO: take care of the properties' descriptor
-  let constructMap = __options.constructMap;
-  __options.constructMap = null;
-  let prototypeCode = manager.voidline + manager.indent + '(()=>{' + manager.nl;
-  manager.increaseIndent();
-  for (let pp in constructMap) {
-    let pmap = constructMap[pp];
-    let descriptor;
-    if (typeof pmap === 'string') {
-      descriptor = [
-        "{",
-        `get: function(){ return this["${pmap}"] },`,
-        `set: function(v){ return this["${pmap}"] = v },`,
-        "}",
-      ].join('');
-    } else {
-      let _name = pmap[0];
-      let _map = pmap[1];
-      let _options = pmap[2]; 
-      descriptor = [
-        "{",
-        `get: function(){ return ${manager.translatorFunctionName}(this[${stringify(_name)}], ${stringify(_map)}, ${stringify(_options)}) },`,
-        `set: function(v){ return this[${stringify(_name)}] = v },`,
-        "}",
-      ].join('');
-    }
-    prototypeCode += manager.indent +
-      `Object.defineProperty(${__enName}.prototype, "${pp}", ${descriptor})` + manager.eol;
-  }
-  manager.decreaseIndent();
-  // end of line and new line, so we may have a semicolon + \n + \n
-  prototypeCode += manager.indent + '})()' + manager.eol;
-  return prototypeCode;
-}
-
 export function getVarsTranslatorCode(map) {
   let code = [], prototypes = [];
   for (let p in map) {
-    let v;
-    if (typeof map[p] === 'string') v = map[p]; 
+    let c, m = map[p];
+    if (typeof m === 'string') c = getMemberFromGlobal(m); 
     else {
-      let __enName = map[p][0];
-      let __map = map[p][1];
-      let __options = Object.assign({},map[p][2]);
-      __enName = `${manager.options.globalObject}[${stringify(__enName)}]`;
+      let __enName = m[0];
+      let __map = m[1];
+      let __options = Object.assign({},m[2]);
+      __enName = getMemberFromGlobal(__enName);
       if (__options?.constructMap) prototypes.push(getPrototypeTranslator(__enName, __map, __options));
       if (__options && Object.keys(__options).length === 1) __options = null;
       if (__map || __options)
-        v = 'string' === typeof map[p] ? map[p] : `${manager.translatorFunctionName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`; 
+        c = `${manager.translatorFunctionName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`; 
+      else c = __enName;
     }
-    code.push(manager.indent + `var ${p} = ${v}` + manager.eol);
+    code.push(manager.indent + `var ${p} = ${c}` + manager.eol);
   }
-  return code.join('') + prototypes.join('');
+  // keep the code stacked,,, but add void line peparation
+  // between prototype specifiers function
+  return code.join('') + prototypes.join(manager.voidline);
 }
 
 export function getGlobalTranslatorCode(map) {
   let code = [], prototypes = [];
   for (let p in map) {
     let c, m = map[p];
-    if (typeof m === 'string') c = m;
+    if (typeof m === 'string') c = getMemberFromGlobal(m);
     else {
       let __enName = m[0];
       let __map = m[1];
       let __options = m[2];
-      __enName = `${manager.options.globalObject}[${stringify(__enName)}]`;
+      __enName = getMemberFromGlobal(__enName);
       // here we have to define new properties with arabic names to the built-in prototypes such as Object.prototype 
       if (__options?.constructMap) prototypes.push(getPrototypeTranslator(__enName, __map, __options));
       if (__options && Object.keys(__options).length === 1) __options = null;
@@ -235,7 +209,9 @@ export function getGlobalTranslatorCode(map) {
     }
     code.push(manager.indent + `${manager.options.globalObject}[${stringify(p)}] = ${c}` + manager.eol);
   }
-  return code.join('') + prototypes.join('');
+  // keep the code stacked,,, but add void line peparation
+  // between prototype specifiers function
+  return code.join('') + prototypes.join(manager.voidline);
 }
 
 export function getDeclareModuleTMapsCode() {
@@ -249,7 +225,7 @@ export function getTopImportsCode() {
   
   function getImportCode (source, specifiers) {
     let trans; // transformer
-    let isModule = manager.options.moduleType === 'es6';
+    let isModule = manager.options.sourceType === 'es6';
     if (isModule) trans = (i)=>i[0] === i[1] ? i[0] : `${i[0]} as ${i[1]}`;
     else trans = (i)=>i[0] === i[1] ? i[0] : `${i[0]}: ${i[1]}`;
     let imports = specifiers.map(trans).join(', ');
@@ -269,7 +245,7 @@ export function translateModule(_m) {
   let m = manager.maps.modules[_m];
   let enModuleName = typeof m === 'string' ? m : m[0]; 
   let filename = path.resolve(manager.tmodulesDir, enModuleName + '.arabi.js');
-  let mtcode = manager.options.moduleType === 'es6' ? 
+  let mtcode = manager.options.sourceType === 'es6' ? 
     codes.es6ModuleTranslationCode : codes.commonjsModuleTranslationCode;
 
   let code = mtcode
@@ -279,4 +255,63 @@ export function translateModule(_m) {
 
   fs.writeFileSync(filename, code);
   return filename;
+}
+
+function getPrototypeTranslator(__enName, __map, __options) {
+  // TODO: evaluate from @arabi/translate when `options.runtime`, it has to be has to be nearly isolated and independent;
+  // TODO: take care of the properties' descriptor
+  let constructMap = __options.constructMap;
+  __options.constructMap = null;
+  let prototypeCode = manager.indent + '(()=>{' + manager.nl;
+  let protoVarName = '__the__proto__';
+  manager.increaseIndent();
+  prototypeCode += manager.indent + `var ${protoVarName} = ${__enName}.prototype` + manager.eol;
+
+  for (let pp in constructMap) {
+    let map = constructMap[pp];
+    let descriptor;
+    if (typeof map === 'string') {
+      let _name = getMember("this", map);
+      descriptor = [
+        "{",
+        `get: function(){ return ${_name} },`,
+        `set: function(v){ return ${_name} = v },`,
+        "}",
+      ].join('');
+    } else {
+      let _name = map[0];
+      let _map = map[1];
+      let _options = map[2]; 
+      _name = getMember("this", _name);
+      // TODO: cache the translated value
+      // add option to retranslate when [[set]] is executed
+      descriptor = [
+        "{",
+        `get: function(){ return ${manager.translatorFunctionName}(${_name}, ${stringify(_map)}, ${stringify(_options)}) },`,
+        `set: function(v){ return ${_name} = v },`,
+        "}",
+      ].join('');
+    }
+    prototypeCode += manager.indent +
+      `Object.defineProperty(${protoVarName}, "${pp}", ${descriptor})` + manager.eol;
+  }
+  manager.decreaseIndent();
+  // end of line and new line, so we may have a semicolon + \n + \n
+  prototypeCode += manager.indent + '})()' + manager.eol;
+  return prototypeCode;
+}
+
+function getMemberFromGlobal(name) {
+  let isid = isIdentifierName(name);
+  return isid ? name : getMember(manager.options.globalObject, name);
+}
+
+function getMember(obj, ...mem) {
+  let memexpr = obj;
+  while(mem.length) {
+    let name = mem.shift();
+    let isid = isIdentifierName(name);
+    memexpr = memexpr + (isid ? '.' + name : `[${stringify(name)}]`);
+  }
+  return memexpr;
 }

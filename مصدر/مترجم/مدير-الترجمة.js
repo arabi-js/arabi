@@ -23,6 +23,7 @@ class LineManager {
 }
 
 class NamesAddtionalCodeManager extends LineManager {
+
   get translatorFunctionName() {
     this.addTranslator = true;
     return '__arabi__translate__';
@@ -35,9 +36,26 @@ class NamesAddtionalCodeManager extends LineManager {
   }
 
   get translateRequireFunctionName__2() { 
+    // we can do this like we did in parseStringifiedFunctionName
+    // but the point is, we call a helper function to
+    // add the code if `!this.options.runtime`
     this.addTranslateRequire = true;
-    return '__arabi__translate__require__'
+    return '__arabi__translate__require__';
   }
+
+  get parseStringifiedFunctionName() {
+    let fnName = '__flatted__parse__';
+    !this.__parseImported && this.addTopImport('flatted', ['parse', fnName]);
+    this.__parseImported = true;
+    return fnName;
+  }
+
+  reset() {
+    super.reset && super.reset();
+    this.enableParseStringified = true;
+    this.__parseImported = false;
+  }
+
 }
 
 class Manager extends NamesAddtionalCodeManager {
@@ -77,6 +95,7 @@ class Manager extends NamesAddtionalCodeManager {
   // when its declaration statement come;
 
   reset() {
+    super.reset && super.reset();
     this.addTranslator = false;
     this.addTranslateRequire = false;
     this.declareModulesTMap = false;

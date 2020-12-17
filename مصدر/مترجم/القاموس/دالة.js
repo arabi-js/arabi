@@ -5,7 +5,7 @@ import manager from '../مدير-الترجمة';
 import { addToScope } from '../../مساعدات';
 import { type Translator } from '../../أنواع';
 
-function handleArrowFunction(node, indent = manager.indent) {
+function translateArrowFunction(node, indent = manager.indent) {
   let _async = node.async ? 'async ' : '';
   // a new blockScope is created automatically
   // as fn.body.type === "BlockStatement"
@@ -34,7 +34,7 @@ export const functionTranslator: Translator = {
   ],
   translate(node, indent = manager.indent) {
     if (node.type === 'ArrowFunctionExpression')
-      return handleArrowFunction(node, indent);
+      return translateArrowFunction(node, indent);
 
     let _async = node.async ? 'async ' : '';
     let _generator = node.generator ? '*' : '';

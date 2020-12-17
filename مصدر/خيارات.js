@@ -4,6 +4,8 @@
  * this file holds the global configurations for the whole project
  */
 
+import manager from './مترجم/مدير-الترجمة';
+
 export interface GlobalMap {
   global: BasicTranslationMap;
   globalVars: BasicTranslationMap;
@@ -27,7 +29,7 @@ export interface Options {
   input?: string; // file or directory
   output?: string; // dependant on the input or code
   maps?: GlobalMap;
-  moduleType: 'es6' | 'commonjs';
+  sourceType: 'es6' | 'commonjs';
   // to import the repeatedly used function,
   // this is helpful when translating some connected modules,
   // input='/path/to/dir/', output='/path/to/output/dir'
@@ -59,8 +61,8 @@ export interface Options {
 export function validateOptions(options: Options) {
   // use schema-utils
   if (!/(?:\t| )+/.test(options.indent))
-    throw 'invalid indent unit! please set it to <space> or <tap>!';
-  if (!/^(?:commonjs|es6|mixed)$/.test(options.moduleType))
-    throw 'invalid moduleType, must be either "commonjs", "es6", or "mixed"!';
+    manager.error("Invalid Option", 'invalid indent unit! please set it to a compination of <space>s and <tap>s!');
+  if (!/^(?:commonjs|es6|mixed)$/.test(options.sourceType))
+    manager.error("Invalid Option", 'invalid sourceType, must be either "commonjs", "es6", or "mixed"!');
 }
 

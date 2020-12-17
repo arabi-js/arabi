@@ -21,6 +21,7 @@ module.exports = {
     // arabi: './مدخل.js',
     arabi: path.resolve(__dirname, './مصدر/مدخل.js'),
   },
+
   output: {
     path: path.resolve(__dirname, 'حزمة'),
     libraryTarget: "commonjs",
@@ -37,8 +38,8 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.ProgressPlugin(),
     new CleanPlugin(),
+    new webpack.ProgressPlugin(),
     analyze && new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)()
   ].filter(Boolean),
   externals: [ /^@babel\/runtime-corejs/ ],

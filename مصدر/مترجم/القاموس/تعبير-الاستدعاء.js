@@ -36,7 +36,7 @@ export const callTranslator: Translator = {
   types: ['CallExpression', 'OptionalCallExpression', 'NewExpression'],
   translate(node, indent=manager.indent) {
     if (
-      manager.options.moduleType === 'commonjs' &&
+      manager.options.sourceType === 'commonjs' &&
       node.type === 'CallExpression' &&
       node.callee.type === 'Identifier' &&
       node.callee.name === _require &&
