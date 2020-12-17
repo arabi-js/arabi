@@ -2,9 +2,9 @@
 
 import { type Node } from '../babel-parser/src/types.js';
 
-export interface Handler {
+export interface Translator {
   types: string[]; // array of strings representing the babel-parser Node types that this handler can handle
-  handle: (node: Node, indent?: string) => string
+  translate: (node: Node, indent?: string) => string
 }
 
 export interface Codes {

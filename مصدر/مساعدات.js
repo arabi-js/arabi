@@ -6,7 +6,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import handler from './مترجم/مدخل';
+import manager from './مترجم/مدير-الترجمة'; 
 import arabiTranslate from '@arabi/translate';
 import { stringify as thatStringify } from 'flatted';
 import type { Codes } from './أنواع';
@@ -15,8 +15,8 @@ export function addToScope(ids, type: "lex" | "var") {
   const _ids = Array.isArray(ids)
     ? ids.map(i=>getIds(i)).flat(1) // return array of ids, rather than array of arrays
     : getIds(ids);
-  if (type === 'lex') handler.scope.addLexicals(_ids);
-  else handler.scope.addVars(_ids);
+  if (type === 'lex') manager.scope.addLexicals(_ids);
+  else manager.scope.addVars(_ids);
 }
 
 export function getIds(id) {
@@ -59,19 +59,19 @@ export function test(t, v) {
 
 export function testFile(fpath) {
   return (
-    (!handler.options.patterns || test(handler.options.patterns, fpath)) &&
-    (!handler.options.ignores || !test(handler.options.ignores, fpath))
+    (!manager.options.patterns || test(manager.options.patterns, fpath)) &&
+    (!manager.options.ignores || !test(manager.options.ignores, fpath))
   );
 }
 
 export function testGlobal(fpath) {
   return (
-    !handler.options.globalIgnores || !test(handler.options.globalIgnores, fpath)
+    !manager.options.globalIgnores || !test(manager.options.globalIgnores, fpath)
   );
 }
 
 export function checkInput(p) {
-  if (!fs.existsSync(p)) handler.error("Invalid Option", "input doesn't exists:", p);
+  if (!fs.existsSync(p)) manager.error("Invalid Option", "input doesn't exists:", p);
 }
 
 export function checkOutput(p) {
@@ -80,7 +80,7 @@ export function checkOutput(p) {
     !(fs.statSync(p).isDirectory() && !fs.readdirSync(p))
   )
     // something exists in the path of options.output, and is not a void dir
-    handler.error("Invalid Option", "can't overwrite an existing file or un-empty dir:", p);
+    manager.error("Invalid Option", "can't overwrite an existing file or un-empty dir:", p);
 }
 
 export function resolve(r, v) {
@@ -106,7 +106,7 @@ export function walk(dir) {
 }
 
 export function log() {
-  if (handler.options.debug) console.log(log.indent, ...arguments);
+  if (manager.options.debug) console.log(log.indent, ...arguments);
 }
 
 log.increaseIndent = () => log.indentCount++;
@@ -138,22 +138,22 @@ export const codes: Proxy<Codes> = new Proxy({
   commonjsModuleTranslationCode: COMMONJS_MODULE_TRANSLATION_CODE,
 }, {
   get(t, p) {
-    return t[p].replace(/_@_@indent@_@_/g, handler.options.indent)
-      .split('\n').map(l=>handler.__lineHead+l).join('\n');
+    return t[p].replace(/_@_@indent@_@_/g, manager.options.indent)
+      .split('\n').map(l=>manager.__lineHead+l).join('\n');
   }
 })
 
 export function getTranslatorCode() {
-  if (handler.options.runtime) {
-    handler.addTopImport('@arabi/translate', ['translate', handler.translatorFunctionName]);
+  if (manager.options.runtime) {
+    manager.addTopImport('@arabi/translate', ['translate', manager.translatorFunctionName]);
     return;
   }
   return codes.translatorCode;
 }
 
 export function getTranslateRequireCode() {
-  if (handler.options.runtime) {
-    handler.addTopImport('@arabi/translate', ['translateRequire', handler.translateRequireFunctnionName]);
+  if (manager.options.runtime) {
+    manager.addTopImport('@arabi/translate', ['translateRequire', manager.translateRequireFunctnionName]);
     return;
   }
   return codes.translateRequireCode;
@@ -164,8 +164,8 @@ function getPrototypeTranslator(__enName, __map, __options) {
   // TODO: take care of the properties' descriptor
   let constructMap = __options.constructMap;
   __options.constructMap = null;
-  let prototypeCode = handler.voidline + handler.indent + '(()=>{' + handler.nl;
-  handler.increaseIndent();
+  let prototypeCode = manager.voidline + manager.indent + '(()=>{' + manager.nl;
+  manager.increaseIndent();
   for (let pp in constructMap) {
     let pmap = constructMap[pp];
     let descriptor;
@@ -182,17 +182,17 @@ function getPrototypeTranslator(__enName, __map, __options) {
       let _options = pmap[2]; 
       descriptor = [
         "{",
-        `get: function(){ return ${handler.translatorFunctionName}(this[${stringify(_name)}], ${stringify(_map)}, ${stringify(_options)}) },`,
+        `get: function(){ return ${manager.translatorFunctionName}(this[${stringify(_name)}], ${stringify(_map)}, ${stringify(_options)}) },`,
         `set: function(v){ return this[${stringify(_name)}] = v },`,
         "}",
       ].join('');
     }
-    prototypeCode += handler.indent +
-      `Object.defineProperty(${__enName}.prototype, "${pp}", ${descriptor})` + handler.eol;
+    prototypeCode += manager.indent +
+      `Object.defineProperty(${__enName}.prototype, "${pp}", ${descriptor})` + manager.eol;
   }
-  handler.decreaseIndent();
+  manager.decreaseIndent();
   // end of line and new line, so we may have a semicolon + \n + \n
-  prototypeCode += handler.indent + '})()' + handler.eol;
+  prototypeCode += manager.indent + '})()' + manager.eol;
   return prototypeCode;
 }
 
@@ -205,13 +205,13 @@ export function getVarsTranslatorCode(map) {
       let __enName = map[p][0];
       let __map = map[p][1];
       let __options = Object.assign({},map[p][2]);
-      __enName = `${handler.options.globalObject}[${stringify(__enName)}]`;
+      __enName = `${manager.options.globalObject}[${stringify(__enName)}]`;
       if (__options?.constructMap) prototypes.push(getPrototypeTranslator(__enName, __map, __options));
       if (__options && Object.keys(__options).length === 1) __options = null;
       if (__map || __options)
-        v = 'string' === typeof map[p] ? map[p] : `${handler.translatorFunctionName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`; 
+        v = 'string' === typeof map[p] ? map[p] : `${manager.translatorFunctionName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`; 
     }
-    code.push(handler.indent + `var ${p} = ${v}` + handler.eol);
+    code.push(manager.indent + `var ${p} = ${v}` + manager.eol);
   }
   return code.join('') + prototypes.join('');
 }
@@ -225,31 +225,31 @@ export function getGlobalTranslatorCode(map) {
       let __enName = m[0];
       let __map = m[1];
       let __options = m[2];
-      __enName = `${handler.options.globalObject}[${stringify(__enName)}]`;
+      __enName = `${manager.options.globalObject}[${stringify(__enName)}]`;
       // here we have to define new properties with arabic names to the built-in prototypes such as Object.prototype 
       if (__options?.constructMap) prototypes.push(getPrototypeTranslator(__enName, __map, __options));
       if (__options && Object.keys(__options).length === 1) __options = null;
       if (__map || __options)
-        c = `${handler.translatorFunctionName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`;
+        c = `${manager.translatorFunctionName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`;
       else c = __enName;
     }
-    code.push(handler.indent + `${handler.options.globalObject}[${stringify(p)}] = ${c}` + handler.eol);
+    code.push(manager.indent + `${manager.options.globalObject}[${stringify(p)}] = ${c}` + manager.eol);
   }
   return code.join('') + prototypes.join('');
 }
 
 export function getDeclareModuleTMapsCode() {
   let code = '';
-  code += handler.indent + `${handler.options.globalObject}.__arabi__modules__tmap__ = ${stringify(handler.maps.modules)}` + handler.eol;
+  code += manager.indent + `${manager.options.globalObject}.__arabi__modules__tmap__ = ${stringify(manager.maps.modules)}` + manager.eol;
   return code;
 }
 
 export function getTopImportsCode() {
-  let sources = Object.keys(handler.topImports);
+  let sources = Object.keys(manager.topImports);
   
   function getImportCode (source, specifiers) {
     let trans; // transformer
-    let isModule = handler.options.moduleType === 'es6';
+    let isModule = manager.options.moduleType === 'es6';
     if (isModule) trans = (i)=>i[0] === i[1] ? i[0] : `${i[0]} as ${i[1]}`;
     else trans = (i)=>i[0] === i[1] ? i[0] : `${i[0]}: ${i[1]}`;
     let imports = specifiers.map(trans).join(', ');
@@ -258,18 +258,18 @@ export function getTopImportsCode() {
       `import { ${imports} } from ${stringify(source)}`:
       `const { ${imports} } = require(${stringify(source)})`;
 
-    return handler.indent + code + handler.eol;
+    return manager.indent + code + manager.eol;
   }
 
   if (!sources.length) return null;
-  return sources.map(s=>getImportCode(s, handler.topImports[s])).join('');
+  return sources.map(s=>getImportCode(s, manager.topImports[s])).join('');
 }
 
 export function translateModule(_m) {
-  let m = handler.maps.modules[_m];
+  let m = manager.maps.modules[_m];
   let enModuleName = typeof m === 'string' ? m : m[0]; 
-  let filename = path.resolve(handler.tmodulesDir, enModuleName + '.arabi.js');
-  let mtcode = handler.options.moduleType === 'es6' ? 
+  let filename = path.resolve(manager.tmodulesDir, enModuleName + '.arabi.js');
+  let mtcode = manager.options.moduleType === 'es6' ? 
     codes.es6ModuleTranslationCode : codes.commonjsModuleTranslationCode;
 
   let code = mtcode

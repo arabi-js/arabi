@@ -14,7 +14,7 @@ interface Closure {
   functions: Set<string>;
 }
 
-export default class ScopeHandler {
+export default class ScopeManager {
 
   // any block { ...code } start new block scope under the LEFO priciple
   // but the function block is different;

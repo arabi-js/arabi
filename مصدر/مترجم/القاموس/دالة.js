@@ -1,37 +1,38 @@
 // @flow
 
-import handler from '../مدخل';
+import translate from '../مدخل';
+import manager from '../مدير-الترجمة';
 import { addToScope } from '../../مساعدات';
-import { type Handler } from '../../أنواع';
+import { type Translator } from '../../أنواع';
 
-function handleArrowFunction(node, indent = handler.indent) {
+function handleArrowFunction(node, indent = manager.indent) {
   let _async = node.async ? 'async ' : '';
   // a new blockScope is created automatically
   // as fn.body.type === "BlockStatement"
-  handler.scope.startClosure();
+  manager.scope.startClosure();
 
   let code =
     indent +
     _async +
-    `(${node.params.map((p) => handler(p, '')).join(', ')}) => `;
+    `(${node.params.map((p) => translate(p, '')).join(', ')}) => `;
 
   // add params to scope
   // the assignment expression is adding to scope while handling it
   addToScope(node.params.filter((p) => p.type !== 'AssignmentPattern'));
 
-  code += handler(node.body, '');
+  code += translate(node.body, '');
   // close the closure of this function
-  handler.scope.endClosure();
+  manager.scope.endClosure();
   return code;
 }
 
-export const functionHandler: Handler = {
+export const functionTranslator: Translator = {
   types: [
     'FunctionExpression',
     'FunctionDeclaration',
     'ArrowFunctionExpression',
   ],
-  handle(node, indent = handler.indent) {
+  translate(node, indent = manager.indent) {
     if (node.type === 'ArrowFunctionExpression')
       return handleArrowFunction(node, indent);
 
@@ -39,30 +40,30 @@ export const functionHandler: Handler = {
     let _generator = node.generator ? '*' : '';
     let _name = node.id?.name || '';
 
-    node.type === 'FunctionDeclaration' && handler.scope.addFunction(_name);
+    node.type === 'FunctionDeclaration' && manager.scope.addFunction(_name);
     // a new blockScope is created automatically
     // as fn.body.type === "BlockStatement"
-    handler.scope.startClosure();
-    handler.functionDepth++;
+    manager.scope.startClosure();
+    manager.functionDepth++;
 
     // the declaration syntax
     let code =
       _async + 'function' + _generator + ' ' + _name +
-      `(${node.params.map((p) => handler(p, '')).join(', ')}) `;
+      `(${node.params.map((p) => translate(p, '')).join(', ')}) `;
 
     // add params to scope
     // the assignment expression is adding to scope while handling it
     addToScope(node.params.filter((p) => p.type !== 'AssignmentPattern'));
 
-    code += handler(node.body, '');
+    code += translate(node.body, '');
 
-    handler.functionDepth--;
+    manager.functionDepth--;
     // close the closure of this function
-    handler.scope.endClosure();
+    manager.scope.endClosure();
 
     node.type === 'FunctionDeclaration' &&
     node.body.type === 'BlockStatement' &&
-    (code = handler.voidline + code + handler.voidline);
+    (code = manager.voidline + code + manager.voidline);
 
     return code;
   },

@@ -1,19 +1,20 @@
 // @flow
 
-import handler from '../مدخل';
-import { type Handler } from '../../أنواع.js';
+import translate from '../مدخل';
+import manager from '../مدير-الترجمة';
+import { type Translator } from '../../أنواع.js';
 import { _let, _const, _var } from '../../babel-parser/src/keywords-map';
 import { getIds } from '../../مساعدات';
 
 function addToScope(id, type) {
   const _ids = getIds(id);
-  if (type === 'lex') handler.scope.addLexicals(_ids);
-  else handler.scope.addVars(_ids);
+  if (type === 'lex') manager.scope.addLexicals(_ids);
+  else manager.scope.addVars(_ids);
 }
 
-export const declarationHandler: Handler = {
+export const declarationTranslator: Translator = {
   types: ['VariableDeclaration'],
-  handle(node, indent=handler.indent, addEOL=true /* passed from ExportNamedDeclaration */) {
+  translate(node, indent=manager.indent, addEOL=true /* passed from ExportNamedDeclaration */) {
     const kind =
       node.kind === _let
         ? 'let'
@@ -22,10 +23,10 @@ export const declarationHandler: Handler = {
         : node.kind === _var
         ? 'var'
         : null;
-    if (!kind) handler.error(node, 'unknow variable decalrations kind');
+    if (!kind) manager.error(node, 'unknow variable decalrations kind');
 
     function handleDeclaration(dec) {
-      let decCode = handler(dec.id, '') + (dec.init ? ' = ' + handler(dec.init, '') : '');
+      let decCode = translate(dec.id, '') + (dec.init ? ' = ' + translate(dec.init, '') : '');
       if (kind === 'let' || kind === 'const') addToScope(dec.id, 'lex');
       else addToScope(dec.id, 'var');
       return decCode
@@ -35,9 +36,9 @@ export const declarationHandler: Handler = {
     let decs =
       node.declarations
       .map(handleDeclaration)
-      .join(',' + handler.nl + handler.indent + alignIndent);
+      .join(',' + manager.nl + manager.indent + alignIndent);
 
-    let eol = addEOL ? handler.eol : '';
+    let eol = addEOL ? manager.eol : '';
     return indent + kind + ' ' + decs + eol;
   },
 };

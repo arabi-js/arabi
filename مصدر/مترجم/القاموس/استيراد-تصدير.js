@@ -1,13 +1,14 @@
 // @flow
 
-import handler from '../مدخل';
+import translate from '../مدخل';
+import manager from '../مدير-الترجمة';
 import path from 'path';
 import { getRandomName } from '../../مساعدات';
-import { type Handler } from '../../أنواع.js';
+import { type Translator } from '../../أنواع.js';
 import { stringify } from '../../مساعدات';
 
-function importSpecifiersHandler(s, map, mapOptions) {
-  let isTranslated = typeof map !== 'undefined' && !handler.isModules;
+function importSpecifierstranslate(s, map, mapOptions) {
+  let isTranslated = typeof map !== 'undefined' && !manager.isModules;
   // { arName: string, alterName: string, map: TranslationMap, mapOptions: TranslationMapOptions }[];
   let imports = [];
   let _default, namespace;
@@ -15,7 +16,7 @@ function importSpecifiersHandler(s, map, mapOptions) {
   
   if (s[0].type === 'ImportDefaultSpecifier') {
     defaultSpecifier = s.shift();
-    _default = handler(defaultSpecifier.local, '');
+    _default = translate(defaultSpecifier.local, '');
     if (isTranslated) {
       let __default = `__arabi__${getRandomName()}__`;
       imports.push({ name: _default, alterName: __default, map: mapOptions?.defaultMap || map, mapOptions });
@@ -28,7 +29,7 @@ function importSpecifiersHandler(s, map, mapOptions) {
 
   if (s[0].type === 'ImportNamespaceSpecifier') {
     namespaceSpecifier = s.shift();
-    let namespaceLocal = handler(namespaceSpecifier.local, ''); // it is "Identifier"
+    let namespaceLocal = translate(namespaceSpecifier.local, ''); // it is "Identifier"
     if (isTranslated) {
       let _namespaceLocal = `__arabi__${getRandomName()}__`;
       imports.push({ name: namespaceLocal, alterName: _namespaceLocal, map, mapOptions }); // set [ theActualValue, theRandomGeneratedName ];
@@ -78,9 +79,9 @@ function importSpecifiersHandler(s, map, mapOptions) {
   return [_default ? `${_default}, ${otherImports}` : otherImports, imports];
 }
 
-export const importHandler: Handler = {
+export const importTranslator: Translator = {
   types: ['ImportDeclaration'],
-  handle(node, indent = handler.indent) {
+  translate(node, indent = manager.indent) {
     // interface ImportDeclaration <: ModuleDeclaration {
     //   type: "ImportDeclaration";
     //   importKind: null | "type" | "typeof" | "value";
@@ -90,14 +91,14 @@ export const importHandler: Handler = {
     // }
 
     let source = node.source.value; // node.source is a "StringLiteral"
-    let mdl = handler.maps.modules?.[source];
+    let mdl = manager.maps.modules?.[source];
     let map = mdl?.[1];
     let mapOptions = mdl?.[2];
-    if (map && handler.isModules) {
-      handler.modulesToTranslate.push(source);
+    if (map && manager.isModules) {
+      manager.modulesToTranslate.push(source);
       source = path.relative(
-        path.dirname(handler._filepath),
-        path.resolve(handler.tmodulesDir, mdl[0] + '.arabi.js')
+        path.dirname(manager._filepath),
+        path.resolve(manager.tmodulesDir, mdl[0] + '.arabi.js')
       );
       let s = source.slice(0, 2);
       source = s === '..' ? source : s === './' ? source : './' + source;
@@ -106,23 +107,23 @@ export const importHandler: Handler = {
     source = `"${source}"`;
 
     if (node.specifiers) {
-      let imports = importSpecifiersHandler(node.specifiers, map, mapOptions);
+      let imports = importSpecifierstranslate(node.specifiers, map, mapOptions);
       let trailingCode = '';
       let importCode = `import ${imports[0]} from ${source}`;
-      if (map && !handler.isModules && imports[1].length > 0) {
+      if (map && !manager.isModules && imports[1].length > 0) {
         // direct inline translation of the imported APIs
-        trailingCode = imports[1].map(tt=>`const ${tt.name} = ${handler.translatorFunctionName}(${tt.alterName}, ${stringify(tt.map)}, ${stringify(tt.mapOptions)})`).join('; ');
+        trailingCode = imports[1].map(tt=>`const ${tt.name} = ${manager.translatorFunctionName}(${tt.alterName}, ${stringify(tt.map)}, ${stringify(tt.mapOptions)})`).join('; ');
       }
-      return importCode + (trailingCode ? '; ' + trailingCode : '') + handler.eol;
+      return importCode + (trailingCode ? '; ' + trailingCode : '') + manager.eol;
     } else {
       let importCode = `import ${source}`;
-      return indent + importCode + handler.eol;
+      return indent + importCode + manager.eol;
     }
 
   },
 };
 
-function exportSpecifiersHandler(s) {
+function exportSpecifierstranslate(s) {
   // we have ExportSpecifier only
   let specifiers = s.map(
     s => s.exported.name !== s.local.name
@@ -132,14 +133,14 @@ function exportSpecifiersHandler(s) {
   return `{ ${specifiers} }`;
 }
 
-export const exportHandler: Handler = {
+export const exportTranslator: Translator = {
   types: ['ExportNamedDeclaration', 'ExportDefaultDeclaration', 'ExportAllDeclaration'],
-  handle(node, indent = handler.indent) {
+  translate(node, indent = manager.indent) {
     if (node.type === 'ExportDefaultDeclaration') {
       // node.declaration is an epression;
-      return `export default ${handler(node.declaration, '')}` + handler.eol;
+      return `export default ${translate(node.declaration, '')}` + manager.eol;
     } else if (node.type === 'ExportAllDeclaration') {
-      return `export * from ${handler(node.source, '')}` + handler.eol;
+      return `export * from ${translate(node.source, '')}` + manager.eol;
     } 
 
     // export {foo, bar}; 
@@ -150,10 +151,10 @@ export const exportHandler: Handler = {
     if (node.declaration) {
       // node.declaration is an function or calss epression, or varaible declaration;
       // export var foo = 1;
-      return `export ${handler(node.declaration, '', false)}` + handler.eol;
+      return `export ${translate(node.declaration, '', false)}` + manager.eol;
     } 
 
-    let source = node.source ? ' from ' + handler(node.source) : '';
-    return indent + `export ${exportSpecifiersHandler(node.specifiers, '')}` + source + handler.eol;
+    let source = node.source ? ' from ' + translate(node.source) : '';
+    return indent + `export ${exportSpecifierstranslate(node.specifiers, '')}` + source + manager.eol;
   },
 };

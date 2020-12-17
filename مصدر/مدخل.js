@@ -6,7 +6,8 @@ import 'source-map-support/register';
 import colors from 'colors'; // for console.log
 import path from 'path';
 import fs from 'fs';
-import handler from './مترجم/مدخل';
+import __translate from './مترجم/مدخل';
+import manager from './مترجم/مدير-الترجمة';
 import {
   walk,
   log,
@@ -53,31 +54,31 @@ let parserOptions;
 
 function translateCode(arCode) {
   let header = [];
-  let options = handler.options;
+  let options = manager.options;
   let code;
 
   let parserTree = parser.parse(arCode, parserOptions);
-  code = handler(parserTree.program.body);
-  handler.finishingValidation();
+  code = __translate(parserTree.program.body);
+  manager.finishingValidation();
 
-  handler.setLineHead('/*****/ ');
+  manager.setLineHead('/*****/ ');
 
-  let globalMap = handler.isModules
+  let globalMap = manager.isModules
     ? options.maps.globalVars || {}
     : Object.assign({}, options.maps.global || {}, options.maps.globalVars || {});
 
-  if (handler.isModules && typeof options.entry === 'string' && handler.filepath === path.resolve(options.entry)) {
+  if (manager.isModules && typeof options.entry === 'string' && manager.filepath === path.resolve(options.entry)) {
     if (options.moduleType === 'commonjs' && options.maps?.modules) {
       // DONE: this code sould be added when `require` is used;
-      // handler.addTranslatingRequire = !!handler.maps.modules;
+      // manager.addTranslatingRequire = !!manager.maps.modules;
     }
     if (options.maps.global) {
       header.push(getGlobalTranslatorCode(options.maps.global));
     }
-  } else if (!handler.isModules) {
+  } else if (!manager.isModules) {
     // incase of translating independent file
     // DONE: this code sould be added when `require` is used;
-    // handler.addTranslateRequire = !!handler.maps.modules;
+    // manager.addTranslateRequire = !!manager.maps.modules;
   }
 
   // globalMap is both `maps.global` and `maps.globalVars` compined
@@ -88,12 +89,12 @@ function translateCode(arCode) {
   }
 
   let a;
-  // this is true when `handler.translatorFunctionName[[get]]` is invoked
-  if (handler.addTranslator) a = getTranslatorCode();
+  // this is true when `manager.translatorFunctionName[[get]]` is invoked
+  if (manager.addTranslator) a = getTranslatorCode();
   a && header.unshift(a);
-  if (handler.addTranslateRequire) a = getTranslateRequireCode();
+  if (manager.addTranslateRequire) a = getTranslateRequireCode();
   a && header.unshift(a);
-  if (handler.declareModulesTMap) a = getDeclareModuleTMapsCode();
+  if (manager.declareModulesTMap) a = getDeclareModuleTMapsCode();
   a && header.unshift(a);
   a = getTopImportsCode();
   a && header.unshift(a);
@@ -105,13 +106,13 @@ function translateCode(arCode) {
     __s = '// THE ORIGINAL TRANSLATED CODE ';
   let ss = __s + '-'.repeat(25);
   let s = _s + '-'.repeat(25 + (__s.length - _s.length));
-  let separator = handler.nl + handler.nl + s + handler.nl + s;
-  separator += handler.nl + ss;
-  separator += handler.nl + handler.nl;
+  let separator = manager.nl + manager.nl + s + manager.nl + s;
+  separator += manager.nl + ss;
+  separator += manager.nl + manager.nl;
 
   // header, separator, code
-  if (header.length) header.push(handler.voidline), header.unshift(handler.voidline);
-  return header.join(handler.voidline) + separator + code;
+  if (header.length) header.push(manager.voidline), header.unshift(manager.voidline);
+  return header.join(manager.voidline) + separator + code;
 }
 
 function translateFile(file) {
@@ -125,7 +126,7 @@ function translateFile(file) {
 }
 
 function translateDir(tree) {
-  let options = handler.options;
+  let options = manager.options;
   let p = path.relative(options.input, tree.path);
   p = path.resolve(options.output, p);
   fs.mkdirSync(p, { recursive: true });
@@ -140,17 +141,17 @@ function translateDir(tree) {
     _f = path.resolve(options.output, _f);
     // translate if test passed
     if (testFile(f)) {
-      handler.reset();
-      handler.isModules = !!options.entry; // redefine this always as handler.reset change it;
-      handler.filepath = f;
-      handler._filepath = _f;
-      handler.tmodulesDir = tmodulesDir;
+      manager.reset();
+      manager.isModules = !!options.entry; // redefine this always as manager.reset change it;
+      manager.filepath = f;
+      manager._filepath = _f;
+      manager.tmodulesDir = tmodulesDir;
 
       let jsCode = translateFile(f);
 
-      // now we have handler.modulesToTranslate and handler.es6{imports,exports}
+      // now we have manager.modulesToTranslate and manager.es6{imports,exports}
       // add them to the array to create translation modules after finishing the loop
-      handler.modulesToTranslate.forEach((a) => modulesToTranslate.add(a));
+      manager.modulesToTranslate.forEach((a) => modulesToTranslate.add(a));
 
       // this doesn't affect the ES6 imports in other modules
       !options.keepExtension && (_f = _f + '.js');
@@ -208,12 +209,12 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
   validateOptions(options);
 
   // helper props and methods
-  handler.reset(); // set the defaults;
-  handler.options = options;
-  handler.maps = options.maps;
-  handler.eol = options.semicolon ? ';\n' : '\n';
-  handler.nl = '\n';
-  handler.scope = new ScopeManager();
+  manager.reset(); // set the defaults;
+  manager.options = options;
+  manager.maps = options.maps;
+  manager.eol = options.semicolon ? ';\n' : '\n';
+  manager.nl = '\n';
+  manager.scope = new ScopeManager();
 
   if (!options.debug) colors.disable();
 
@@ -288,5 +289,5 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
     return translatedCode;
   }
 
-  handler.error('Invalid Option', "we don't know what to translate");
+  manager.error('Invalid Option', "we don't know what to translate");
 }

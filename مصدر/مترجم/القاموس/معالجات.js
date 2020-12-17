@@ -1,46 +1,47 @@
 // @flow
 
-import handler from '../مدخل';
+import translate from '../مدخل';
+import manager from '../مدير-الترجمة';
 import * as keywordsMap from '../../babel-parser/src/keywords-map';
-import { type Handler } from '../../أنواع.js';
+import { type Translator } from '../../أنواع.js';
 
 // المعالجات
-export { importHandler, exportHandler } from './استيراد-تصدير';
-export { blockHandler } from './قطاع';
-export { ifHandler } from './جملة-لو';
-export { forHandler } from './حلقة-لكل';
-export { whileHandler } from './حلقة-بينما';
-export { switchHandler } from './جملة-البدائل';
-export { literalHandler } from './جملة-حرفية';
-export { objectHandler } from './كائن';
-export { arrayHandler } from './مصفوفة';
-export { classHandler } from './فئة';
-export { functionHandler } from './دالة';
-export { callHandler } from './تعبير-الاستدعاء';
-export { declarationHandler } from './تعريف-متغير';
-export { assignmentHandler } from './تعيين';
+export { importTranslator, exportTranslator } from './استيراد-تصدير';
+export { blockTranslator } from './قطاع';
+export { ifTranslator } from './جملة-لو';
+export { forTranslator } from './حلقة-لكل';
+export { whileTranslator } from './حلقة-بينما';
+export { switchTranslator } from './جملة-البدائل';
+export { literalTranslator } from './جملة-حرفية';
+export { objectTranslator } from './كائن';
+export { arrayTranslator } from './مصفوفة';
+export { classTranslator } from './فئة';
+export { functionTranslator } from './دالة';
+export { callTranslator } from './تعبير-الاستدعاء';
+export { declarationTranslator } from './تعريف-متغير';
+export { assignmentTranslator } from './تعيين';
 
-export const expressionHandler: Handler = {
+export const expressionTranslator: Translator = {
   types: ['ExpressionStatement'],
-  handle(node, indent = handler.indent) {
-    return indent + handler(node.expression, '') + handler.eol;
+  translate(node, indent = manager.indent) {
+    return indent + translate(node.expression, '') + manager.eol;
   },
 };
 
-export const seqExprHandler: Handler = {
+export const seqExprTranslator: Translator = {
   types: ['SequenceExpression'],
-  handle(node, indent = handler.indent) {
-    return indent + node.expressions.map(e=>handler(e, '')).join(', ');
+  translate(node, indent = manager.indent) {
+    return indent + node.expressions.map(e=>translate(e, '')).join(', ');
   },
 };
 
-export const identifierHandler: Handler = {
+export const identifierTranslator: Translator = {
   types: ['Identifier'],
-  handle(node, indent = '') {
+  translate(node, indent = '') {
     // TODO: make sure that the ids maping is happening only with referenced ids
     // `Foo.arguments`, arguments has to still the same.
-    if(!handler.scope.has(node.name)) {
-      if (node.name === keywordsMap._arguments && handler.functionDepth)
+    if(!manager.scope.has(node.name)) {
+      if (node.name === keywordsMap._arguments && manager.functionDepth)
         return indent + 'arguments';
       if (node.name === keywordsMap._eval)
         return 'eval';
@@ -49,9 +50,9 @@ export const identifierHandler: Handler = {
   },
 };
 
-export const binaryExpressionHandler: Handler = {
+export const binaryExpressionTranslator: Translator = {
   types: ['BinaryExpression', 'LogicalExpression'],
-  handle(node, indent=handler.indent) {
+  translate(node, indent=manager.indent) {
     // enum LogicalOperator {
     //   "||" | "&&" | "??"
     // }
@@ -67,107 +68,107 @@ export const binaryExpressionHandler: Handler = {
     // }
     // 
     return (
-      indent + `${handler(node.left, '')} ${node.operator} ${handler(node.right, '')}`
+      indent + `${translate(node.left, '')} ${node.operator} ${translate(node.right, '')}`
     );
   },
 };
 
-export const updateExprHandler: Handler = {
+export const updateExprTranslator: Translator = {
   types: ['UpdateExpression'],
-  handle(node, indent=handler.indent) {
+  translate(node, indent=manager.indent) {
     return indent + node.prefix
-      ? node.operator + handler(node.argument, '')
-      : handler(node.argument, '') + node.operator;
+      ? node.operator + translate(node.argument, '')
+      : translate(node.argument, '') + node.operator;
   },
 };
 
-export const unaryExprHandler: Handler = {
+export const unaryExprTranslator: Translator = {
   types: ['UnaryExpression'],
-  handle(node, indent=handler.indent) {
+  translate(node, indent=manager.indent) {
     let o = node.operator;
     // "-" | "+" | "!" | "~" | "typeof" | "void" | "delete" | "throw"
     let a, k = ['typeof', 'void', 'delete', 'throw'];
     // e.g., a = _throw when o === keywordsMap._throw
     o = ((a = k.find(_=>o===keywordsMap[`_${_}`])) && (a + ' ')) || o;
-    return indent + o + handler(node.argument, '');
+    return indent + o + translate(node.argument, '');
   },
 };
 
-export const parenthesizedExpression: Handler = {
+export const parenthesizedExpression: Translator = {
   types: ['ParenthesizedExpression'],
-  handle(node, indent=handler.indent) {
-    return indent + `(${handler(node.expression, '')})`;
+  translate(node, indent=manager.indent) {
+    return indent + `(${translate(node.expression, '')})`;
   },
 };
 
-export const returnStatment: Handler = {
+export const returnStatment: Translator = {
   types: ['ReturnStatement', 'ThrowStatement', 'AwaitExpression', 'YieldExpression'],
-  handle(node, indent = handler.indent) {
+  translate(node, indent = manager.indent) {
     let keyword =
       node.type === 'ReturnStatement' ?
       'return' : node.type === 'ThrowStatement' ?
       'throw' :  node.type === 'AwaitExpression' ? 
       'await' : 'yeild'
     ;
-    let arg = (node.argument ? ' ' + handler(node.argument, '') : '');
-    let semi = node.type.slice(-"Statement".length) === "Statement" ? handler.eol : '';
+    let arg = (node.argument ? ' ' + translate(node.argument, '') : '');
+    let semi = node.type.slice(-"Statement".length) === "Statement" ? manager.eol : '';
     return (
       indent + keyword + ' ' + arg + semi
     );
   },
 };
 
-export const blockStatment: Handler = {
+export const blockStatment: Translator = {
   types: ['BreakStatement', 'ContinueStatement'],
-  handle(node, indent = handler.indent) {
+  translate(node, indent = manager.indent) {
     let keyword = node.type === 'BreakStatement' ? 'break' : 'continue';
-    let label = (node.label ? ' ' + handler(node.label, '') : '');
+    let label = (node.label ? ' ' + translate(node.label, '') : '');
     return (
-      indent + keyword + label + handler.eol
+      indent + keyword + label + manager.eol
     );
   },
 };
 
-export const labeledHandler: Handler = {
+export const labeledTranslator: Translator = {
   types: ['LabeledStatement'],
-  handler(node, indent = handler.indent) {
-    let label = handler(node.label, '') + ': ';
-    let body = handler(node.body, '');
-    return indent + label + body + handler.eol;
+  translate(node, indent = manager.indent) {
+    let label = translate(node.label, '') + ': ';
+    let body = translate(node.body, '');
+    return indent + label + body + manager.eol;
   },
 };
 
-export const dotsHandler: Handler = {
+export const dotsTranslator: Translator = {
   types: ['RestElement', 'SpreadElement'],
-  handler(node, indent = handler.indent) {
-    let arg = handler(node.label, '');
+  translate(node, indent = manager.indent) {
+    let arg = translate(node.label, '');
     return indent + "..." + arg;
   },
 };
 
-export const specialLiteralsHandler: Handler = {
+export const specialLiteralsTranslator: Translator = {
   types: ['Import', 'Super', 'ThisExpression'],
-  handle(node, indent = handler.indent) {
+  translate(node, indent = manager.indent) {
     return indent + (node.type === 'ThisExpression' ? 'this' : node.type.toLowerCase());
   },
 };
 
-export const memExpressionHandler: Handler = {
+export const memExpressionTranslator: Translator = {
   types: ['MemberExpression', 'OptionalMemberExpression'],
-  handle(node, indent = '') {
+  translate(node, indent = '') {
     let optional = node.optional ? node.computed ? '?.' : '?' : '';
     if (node.computed) {
-      return indent + `${handler(node.object, '')}${optional}[${handler(node.property, '')}]`;
+      return indent + `${translate(node.object, '')}${optional}[${translate(node.property, '')}]`;
     }
-    return indent + `${handler(node.object, '')}${optional}.${handler(node.property, '')}`;
+    return indent + `${translate(node.object, '')}${optional}.${translate(node.property, '')}`;
   },
 };
 
-export const othersHandler: Handler = {
+export const othersTranslator: Translator = {
   types: ['EmptyStatement', 'DebuggerStatement', 'PrivateName'],
-  handle(node, indent=handler.indent) {
-    if (node.type === 'DebuggerStatement') return indent + 'debugger' + handler.eol;
-    if (node.type === 'PrivateName') return '#' + handler(node.id, '');
+  translate(node, indent=manager.indent) {
+    if (node.type === 'DebuggerStatement') return indent + 'debugger' + manager.eol;
+    if (node.type === 'PrivateName') return '#' + translate(node.id, '');
     if (node.type === 'EmptyStatement') return indent + ';';
     // if (node.type === '') 
   }

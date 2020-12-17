@@ -1,9 +1,9 @@
 // @flow
 
-import handler from '../مدخل';
-import { type Handler } from '../../أنواع.js';
+import manager from '../مدير-الترجمة';
+import { type Translator } from '../../أنواع.js';
 
-export const literalHandler: Handler = {
+export const literalTranslator: Translator = {
   types: [
     'BooleanLiteral',
     'RegExpLiteral',
@@ -13,7 +13,7 @@ export const literalHandler: Handler = {
     'NumericLiteral',
     'DecimalLiteral',
   ],
-  handle(node, indent=handler.indent) {
+  translate(node, indent=manager.indent) {
     switch (node.type) {
       case 'StringLiteral':
         return indent + node.extra.raw;

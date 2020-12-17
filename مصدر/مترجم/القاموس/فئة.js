@@ -1,32 +1,35 @@
 // @flow
 
-import handler from '../مدخل';
+import translate from '../مدخل';
+import manager from '../مدير-الترجمة';
 import { addToScope } from '../../مساعدات';
 import { _constructor } from '../../babel-parser/src/keywords-map';
-import { type Handler } from '../../أنواع.js';
+import { type Translator } from '../../أنواع.js';
 
-export const classHandler: Handler = {
-  types: [
-    'ClassDeclaration', 'ClassExpression'
-  ],
-  handle(node, indent=handler.indent, addEOL=true /* passed from ExportNamedDeclaration */) {
+export const classTranslator: Translator = {
+  types: [ 'ClassDeclaration', 'ClassExpression' ],
+  translate(
+    node,
+    indent = manager.indent,
+    addEOL=true /* passed from ExportNamedDeclaration */
+  ) {
     // node.id, superClass, body
-    let id = node.id ? ' ' + handler(node.id, '') : '';
-    let superClass = node.superClass ? ' extends ' + handler(node.superClass, '') : '';
-    let code = indent + `class${id}${superClass} {` + handler.nl;
+    let id = node.id ? ' ' + translate(node.id, '') : '';
+    let superClass = node.superClass ? ' extends ' + translate(node.superClass, '') : '';
+    let code = indent + `class${id}${superClass} {` + manager.nl;
     let classBody = [];
-    handler.increaseIndent();
+    manager.increaseIndent();
     
     // n.body.type === 'ClassBody'
     for (let n of node.body.body) {
       if(n.type === 'ClassProperty' || n.type === 'ClassPrivateProperty') {
         // key, value, static, computed
-        let key = handler(n.key, '');
-        let value = handler(n.value, '');
+        let key = translate(n.key, '');
+        let value = translate(n.value, '');
         let _private = n.type === 'ClassPrivateProperty' ? '#' : '';
         let _static = n.static ? 'static ' : '';
         key = n.computed ? `[${key}]` : key;
-        let propCode = handler.indent + `${_static}${_private}${key} = ${value}` + handler.eol;
+        let propCode = manager.indent + `${_static}${_private}${key} = ${value}` + manager.eol;
         classBody.push(propCode);
       } else if (n.type === 'ClassMethod' || n.type === 'ClassPrivateMethod') {
         // key, id, static, generator, async, kind, computed
@@ -37,30 +40,30 @@ export const classHandler: Handler = {
         // this line is useless, as it while handling n.key
         // let _private = n.type === 'ClassPrivateMethod' ? '#' : '';
         let prefix = n.kind === 'method' ? '' : n.kind + ' ';
-        let key = handler(n.key, '');
+        let key = translate(n.key, '');
         key = (n.computed ? `[${key}]`: key);
 
-        handler.functionDepth++;
-        handler.scope.startClosure();
+        manager.functionDepth++;
+        manager.scope.startClosure();
         // add params to scope
         // AssignmentPattern adds to scope internally
         n.params.map((p) => p.type !== 'AssignmentPattern' && addToScope(p));
 
         let declarator = `${_static}${_async}${prefix}${_gen}${key}`;
         declarator = declarator === _constructor ? 'constructor' : declarator;
-        methodCode = handler.indent + `${declarator}(${n.params.map((p) => handler(p, '')).join(', ')}) `;
-        methodCode += handler(n.body, '');
+        methodCode = manager.indent + `${declarator}(${n.params.map((p) => translate(p, '')).join(', ')}) `;
+        methodCode += translate(n.body, '');
 
-        handler.functionDepth--;
-        handler.scope.endClosure();
-        classBody.push(methodCode + handler.nl);
-      } else handler.error(n, 'Unexpected "' + n.type + '" inside the class body');
+        manager.functionDepth--;
+        manager.scope.endClosure();
+        classBody.push(methodCode + manager.nl);
+      } else manager.error(n, 'Unexpected "' + n.type + '" inside the class body');
     }
 
-    handler.decreaseIndent();
-    code += classBody.join('') + handler.voidline + handler.indent + '}';
+    manager.decreaseIndent();
+    code += classBody.join('') + manager.voidline + manager.indent + '}';
     addEOL && node.type === 'ClassDeclaration' && (
-      code = handler.voidline + code + handler.nl + handler.voidline
+      code = manager.voidline + code + manager.nl + manager.voidline
     );
     return code;
   },
