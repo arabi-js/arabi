@@ -38,7 +38,7 @@ export interface Options {
   // the global object to define new properties with arabic names dependant on "maps.global" and "maps.globalThis"
   globalObject: string; // = "globalThis";
   // test for files to be translated!
-  patterns: Test; // = /\.(:?arjs|جس|ج.س)$/;
+  patterns: Test; // = /\.(:?arabi|جس|ج.س)$/;
   ignores: Test; // ignore specific files when translating 
   // when the test "patterns" fails, the file is copied to the output directory  
   // ignore files from being copied to the output when when translating dir && isModules

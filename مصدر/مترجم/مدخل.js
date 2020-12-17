@@ -24,25 +24,25 @@ Object.defineProperty(handler, 'voidline', {
   get(){ return this.__lineHead + this.nl }
 });
 
-Object.defineProperty(handler, 'tfnName', {
+Object.defineProperty(handler, 'translatorFunctionName', {
   get() {
     this.addTranslator = true;
-    return '__arjs__translate__';
+    return '__arabi__translate__';
   }
 });
 
-Object.defineProperty(handler, 'trfnName', {
+Object.defineProperty(handler, 'requireTranslatorFunctnionName', {
   get() {
     this.addTranslateRequire = true;
     this.declareModulesTMap = true;
-    return '__arjs__translate__require__';
+    return '__arabi__translate__require__';
   }
 });
 
 Object.defineProperty(handler, 'trfnName2', {
   get() { 
     this.addTranslateRequire = true;
-    return '__arjs__translate__require__'
+    return '__arabi__translate__require__'
   },
 });
 
@@ -115,9 +115,9 @@ handler.reset = function resetHandler() {
   handler.functionDepth = 0;
   handler.__indent = '';
   handler.__lineHead = '';
-  // will be in the dir /path/to/output/__arjs__modules__/
+  // will be in the dir /path/to/output/__arabi__modules__/
   handler.modulesToTranslate = []; 
-  handler.arjsTranslateImports = []; 
+  handler.arabiTranslateImports = []; 
   handler.isModules = false; // translating directory and options.entry is set
   handler.filepath = undefined;
   handler.es6imports = {};

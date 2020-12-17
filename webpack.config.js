@@ -18,8 +18,8 @@ module.exports = {
   target: "node",
   // context: path.resolve(__dirname, 'مصدر'),
   entry: {
-    // arjs: './مدخل.js',
-    arjs: path.resolve(__dirname, './مصدر/مدخل.js'),
+    // arabi: './مدخل.js',
+    arabi: path.resolve(__dirname, './مصدر/مدخل.js'),
   },
   output: {
     path: path.resolve(__dirname, 'حزمة'),

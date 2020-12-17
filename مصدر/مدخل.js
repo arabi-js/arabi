@@ -18,7 +18,7 @@ import {
   getVarsTranslatorCode,
   getTranslateRequireCode,
   getGlobalTranslatorCode,
-  getArjsTranslateImportCode,
+  getarabiTranslateImportCode,
   getDeclareModuleTMapsCode,
 } from './مساعدات';
 import ScopeManager from './مدير-النطاق';
@@ -87,7 +87,7 @@ function translateCode(arCode) {
   }
 
   let a;
-  // this is true when `handler.tfnName[[get]]` is invoked
+  // this is true when `handler.translatorFunctionName[[get]]` is invoked
   if (handler.addTranslator) a = getTranslatorCode();
   a && header.unshift(a);
   if (handler.addTranslateRequire) a = getTranslateRequireCode();
@@ -97,7 +97,7 @@ function translateCode(arCode) {
 
   header.unshift(), // declare it only when we need the translating require
     // this is usefull if we want to import multiple things, e.g. `require` and `translate`
-    (a = getArjsTranslateImportCode());
+    (a = getarabiTranslateImportCode());
   a && header.unshift(a);
 
   // you can skip the following lines
@@ -199,7 +199,7 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
     entry: false,
     globalObject: 'globalThis',
     // test for files to be translated!
-    patterns: /\.(:?arjs|جس|ج.س)$/,
+    patterns: /\.(:?arabi|جس|ج.س)$/,
     ignores: null, // ignore specific files when translating
     globalIgnores: null, // ignore files from being copied to the output when when translating dir && isModules
     keepExtension: false,
@@ -257,7 +257,7 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
     log('Translating directory recursively...'.info.bold);
     log('------------------------------------');
 
-    tmodulesDir = path.resolve(outputDir, '__arjs__modules__');
+    tmodulesDir = path.resolve(outputDir, '__arabi__modules__');
     let outputTree = translateDir(inputTree);
 
     // translate modules in case of static imports such as exists in ES6.

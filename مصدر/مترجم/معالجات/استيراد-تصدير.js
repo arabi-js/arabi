@@ -4,7 +4,7 @@ import handler from '../مدخل';
 import path from 'path';
 import { getRandomName } from '../../مساعدات';
 import { type Handler } from '../../أنواع.js';
-import { stringify } from 'circular-json-es6';
+import { stringify } from 'flatted';
 
 function importSpecifiersHandler(s, map, mapOptions) {
   let isTranslated = typeof map !== 'undefined' && !handler.isModules;
@@ -17,7 +17,7 @@ function importSpecifiersHandler(s, map, mapOptions) {
     defaultSpecifier = s.shift();
     _default = handler(defaultSpecifier.local, '');
     if (isTranslated) {
-      let __default = `__arjs__${getRandomName()}__`;
+      let __default = `__arabi__${getRandomName()}__`;
       imports.push({ name: _default, alterName: __default, map: mapOptions?.defaultMap || map, mapOptions });
       // now, we changes the name, the actual name will be a proxy of translation.
       // so the code hanceforth deals with a translated object.
@@ -30,7 +30,7 @@ function importSpecifiersHandler(s, map, mapOptions) {
     namespaceSpecifier = s.shift();
     let namespaceLocal = handler(namespaceSpecifier.local, ''); // it is "Identifier"
     if (isTranslated) {
-      let _namespaceLocal = `__arjs__${getRandomName()}__`;
+      let _namespaceLocal = `__arabi__${getRandomName()}__`;
       imports.push({ name: namespaceLocal, alterName: _namespaceLocal, map, mapOptions }); // set [ theActualValue, theRandomGeneratedName ];
       // now, we changes the name, the actual name will be a proxy of translation.
       // so the code hanceforth deals with a translated object
@@ -60,7 +60,7 @@ function importSpecifiersHandler(s, map, mapOptions) {
         }
 
         if (_map) {
-          let _local = `__arjs__${getRandomName()}__`;
+          let _local = `__arabi__${getRandomName()}__`;
           imports.push({ arName, importedName: imported, name: local, alterName: _local, map: _map, mapOptions: _options });
           [ _local, local ] = [ local, _local ];
         }
@@ -97,7 +97,7 @@ export const importHandler: Handler = {
       handler.modulesToTranslate.push(source);
       source = path.relative(
         path.dirname(handler._filepath),
-        path.resolve(handler.tmodulesDir, mdl[0] + '.arjs.js')
+        path.resolve(handler.tmodulesDir, mdl[0] + '.arabi.js')
       );
       let s = source.slice(0, 2);
       source = s === '..' ? source : s === './' ? source : './' + source;
@@ -111,7 +111,7 @@ export const importHandler: Handler = {
       let importCode = `import ${imports[0]} from ${source}`;
       if (map && !handler.isModules && imports[1].length > 0) {
         // direct inline translation of the imported APIs
-        trailingCode = imports[1].map(tt=>`const ${tt.name} = ${handler.tfnName}(${tt.alterName}, ${stringify(tt.map)}, ${stringify(tt.mapOptions)})`).join('; ');
+        trailingCode = imports[1].map(tt=>`const ${tt.name} = ${handler.translatorFunctionName}(${tt.alterName}, ${stringify(tt.map)}, ${stringify(tt.mapOptions)})`).join('; ');
       }
       return importCode + (trailingCode ? '; ' + trailingCode : '') + handler.eol;
     } else {

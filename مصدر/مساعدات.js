@@ -7,8 +7,8 @@
 import fs from 'fs';
 import path from 'path';
 import handler from './مترجم/مدخل';
-import arjsTranslate from '@arabi/translate';
-import { stringify } from 'circular-json-es6';
+import arabiTranslate from '@arabi/translate';
+import { stringify } from 'flatted';
 import type { Codes } from './أنواع';
 
 export function addToScope(ids, type: "lex" | "var") {
@@ -125,8 +125,8 @@ export function getRandomName() {
 // #########  generating code **********************************
 
 export const codes: Proxy<Codes> = new Proxy({
-  translatorCode: arjsTranslate.code,
-  translateRequireCode: arjsTranslate.translateRequireCode,
+  translatorCode: arabiTranslate.code,
+  translateRequireCode: arabiTranslate.translateRequireCode,
   // eslint-disable-next-line no-undef
   es6ModuleTranslationCode: ES6_MODULE_TRANSLATION_CODE,
   // eslint-disable-next-line no-undef
@@ -140,7 +140,7 @@ export const codes: Proxy<Codes> = new Proxy({
 
 export function getTranslatorCode() {
   if (handler.options.runtime) {
-    handler.arjsTranslateImports.push(['translate', handler.tfnName]);
+    handler.arabiTranslateImports.push(['translate', handler.translatorFunctionName]);
     return;
   }
   return codes.translatorCode;
@@ -148,7 +148,7 @@ export function getTranslatorCode() {
 
 export function getTranslateRequireCode() {
   if (handler.options.runtime) {
-    handler.arjsTranslateImports.push(['translateRequire', handler.trfnName]);
+    handler.arabiTranslateImports.push(['translateRequire', handler.requireTranslatorFunctnionName]);
     return;
   }
   return codes.translateRequireCode;
@@ -166,7 +166,7 @@ export function getVarsTranslatorCode(map) {
       if (__options?.constructMap) prototypes.push(getPrototypeTranslator(__enName, __map, __options));
       if (__options && Object.keys(__options).length === 1) __options = null;
       if (__map || __options)
-        v = 'string' === typeof map[p] ? map[p] : `${handler.tfnName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`; 
+        v = 'string' === typeof map[p] ? map[p] : `${handler.translatorFunctionName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`; 
     }
     code.push(handler.indent + `var ${p} = ${v}` + handler.eol);
   }
@@ -196,7 +196,7 @@ function getPrototypeTranslator(__enName, __map, __options) {
       let _options = pmap[2]; 
       descriptor = [
         "{",
-        `get: function(){ return ${handler.tfnName}(this["${_name}"], ${stringify(_map)}, ${stringify(_options)}) },`,
+        `get: function(){ return ${handler.translatorFunctionName}(this["${_name}"], ${stringify(_map)}, ${stringify(_options)}) },`,
         `set: function(v){ return this["${_name}"] = v },`,
         "}",
       ].join('');
@@ -225,7 +225,7 @@ export function getGlobalTranslatorCode(map) {
         if (Object.keys(__options).length === 1) __options = null;
       }
       if (__map || __options) {
-        c = `${handler.tfnName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`;
+        c = `${handler.translatorFunctionName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`;
       } else c = __enName;
     }
     code.push(handler.indent + `${handler.options.globalObject}["${p}"] = ${c}` + handler.eol);
@@ -235,17 +235,17 @@ export function getGlobalTranslatorCode(map) {
 
 export function getDeclareModuleTMapsCode() {
   let code = '';
-  code += handler.indent + `${handler.options.globalObject}.__arjs__modules__tmap__ = ${stringify(handler.maps.modules)}` + handler.eol;
+  code += handler.indent + `${handler.options.globalObject}.__arabi__modules__tmap__ = ${stringify(handler.maps.modules)}` + handler.eol;
   return code;
 }
 
-export function getArjsTranslateImportCode() {
-  if (handler.arjsTranslateImports.length) {
+export function getarabiTranslateImportCode() {
+  if (handler.arabiTranslateImports.length) {
     let trans;
     let isModule = handler.options.moduleType === 'es6';
     if (isModule) trans = (i)=>i[0] === i[1] ? i[0] : `${i[0]} as ${i[1]}`;
     else trans = (i)=>i[0] === i[1] ? i[0] : `${i[0]}: ${i[1]}`;
-    let imports = handler.arjsTranslateImports.map(trans).join(', ');
+    let imports = handler.arabiTranslateImports.map(trans).join(', ');
     
     let code = (
       !isModule ?
@@ -259,7 +259,7 @@ export function getArjsTranslateImportCode() {
 export function translateModule(_m) {
   let m = handler.maps.modules[_m];
   let enModuleName = typeof m === 'string' ? m : m[0]; 
-  let filename = path.resolve(handler.tmodulesDir, enModuleName + '.arjs.js');
+  let filename = path.resolve(handler.tmodulesDir, enModuleName + '.arabi.js');
   let mtcode = handler.options.moduleType === 'es6' ? 
     codes.es6ModuleTranslationCode : codes.commonjsModuleTranslationCode;
 
