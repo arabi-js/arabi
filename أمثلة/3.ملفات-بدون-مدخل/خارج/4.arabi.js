@@ -1,14 +1,11 @@
 /*****/ 
 /*****/ 
 /*****/ const { parse: __flatted__parse__ } = require("flatted");
-/*****/ const { translate: __arabi__translate__, translateRequire: __arabi__translate__require__ } = require("@arabi/translate");
+/*****/ const { translate: __arabi__translate__ } = require("@arabi/translate");
 /*****/ 
-/*****/ global.__arabi__modules__tmap__ = __flatted__parse__("[{\"جي-كويري\":\"1\"},[\"2\",\"3\",\"4\"],\"jquery\",{},{\"returnMap\":\"5\"},{}]");
-/*****/ 
-/*****/ global["استدعي"] = require;
-/*****/ global["كائن"] = __arabi__translate__(Object, __flatted__parse__("[{\"عين\":\"1\",\"انشئ\":\"2\",\"مداخل\":\"3\",\"مفاتيح\":\"4\",\"قيم\":\"5\",\"من_المداخل\":\"6\",\"عرف_خاصية\":\"7\",\"عرف_خصائص\":\"8\",\"احضر_موصفات_خصايتي\":\"9\",\"احضر_موصفات_خصائصي\":\"10\",\"احضر_أسماء_خصائصي\":\"11\",\"احضر_رموز_خصائصي\":\"12\",\"احضر_النموذج\":\"13\",\"عين_النموذج\":\"14\",\"هل\":\"15\",\"هل_قابل_للامتداد\":\"16\",\"هل_مجمد\":\"17\",\"هل_مختوم\":\"18\",\"جمد\":\"19\",\"اختم\":\"20\",\"امنع_الامتدادات\":\"21\"},\"assign\",\"create\",\"entries\",\"keys\",\"values\",\"fromEntries\",\"defineProperty\",\"defineProperties\",\"getOwnPropertyDescriptor\",\"getOwnPropertyDescriptors\",\"getOwnPropertyNames\",\"getOwnPropertySymbols\",\"getPrototypeOf\",\"setPrototypeOf\",\"is\",\"isExtensible\",\"isFrozen\",\"isSealed\",\"freeze\",\"seal\",\"preventExtensions\"]"), null);
-/*****/ global["لوحة"] = __arabi__translate__(console, __flatted__parse__("[{\"اطبع\":\"1\",\"خطأ\":\"2\",\"جدول\":\"3\",\"وقت\":\"4\",\"أوقف_الوقت\":\"5\"},\"log\",\"error\",\"table\",\"time\",\"timeEnd\"]"), undefined);
-/*****/ global["دالة"] = __arabi__translate__(Function, __flatted__parse__("[{}]"), null);
+/*****/ var كائن = __arabi__translate__(Object, __flatted__parse__("[{\"عين\":\"1\",\"انشئ\":\"2\",\"مداخل\":\"3\",\"مفاتيح\":\"4\",\"قيم\":\"5\",\"من_المداخل\":\"6\",\"عرف_خاصية\":\"7\",\"عرف_خصائص\":\"8\",\"احضر_موصفات_خصايتي\":\"9\",\"احضر_موصفات_خصائصي\":\"10\",\"احضر_أسماء_خصائصي\":\"11\",\"احضر_رموز_خصائصي\":\"12\",\"احضر_النموذج\":\"13\",\"عين_النموذج\":\"14\",\"هل\":\"15\",\"هل_قابل_للامتداد\":\"16\",\"هل_مجمد\":\"17\",\"هل_مختوم\":\"18\",\"جمد\":\"19\",\"اختم\":\"20\",\"امنع_الامتدادات\":\"21\"},\"assign\",\"create\",\"entries\",\"keys\",\"values\",\"fromEntries\",\"defineProperty\",\"defineProperties\",\"getOwnPropertyDescriptor\",\"getOwnPropertyDescriptors\",\"getOwnPropertyNames\",\"getOwnPropertySymbols\",\"getPrototypeOf\",\"setPrototypeOf\",\"is\",\"isExtensible\",\"isFrozen\",\"isSealed\",\"freeze\",\"seal\",\"preventExtensions\"]"), null);
+/*****/ var لوحة = __arabi__translate__(console, __flatted__parse__("[{\"اطبع\":\"1\",\"خطأ\":\"2\",\"جدول\":\"3\",\"وقت\":\"4\",\"أوقف_الوقت\":\"5\"},\"log\",\"error\",\"table\",\"time\",\"timeEnd\"]"), __flatted__parse__("[{}]"));
+/*****/ var دالة = __arabi__translate__(Function, __flatted__parse__("[{}]"), null);
 /*****/ (()=>{
 /*****/   var __the__proto__ = Object.prototype;
 /*****/   Object.defineProperty(__the__proto__, "منشئ", {get: function(){ return this.constructor },set: function(v){ return this.constructor = v },});
@@ -35,9 +32,6 @@
 /*****/   Object.defineProperty(__the__proto__, "نموذج", {get: function(){ return this.prototype },set: function(v){ return this.prototype = v },});
 /*****/ })();
 /*****/ 
-/*****/ var صادرات = exports;
-/*****/ var وحدة = __arabi__translate__(module, __flatted__parse__("[{\"صادرات\":\"1\"},\"exports\"]"), __flatted__parse__("[{}]"));
-/*****/ 
 /*****/ 
 
 
@@ -45,15 +39,8 @@
 // ############ -----------------------------------------
 // THE ORIGINAL TRANSLATED CODE -------------------------
 
-let و1 = require("./وحدة1.جس");
-let و2 = require("./وحدة2.جس");
-let جيك = __arabi__translate__require__(require("jquery"), "جي-كويري");
-
-function أبجد(استدعي = استدعي) {
-  let وحدة_مخصصة = استدعي("الوحدة");
-  لوحة.اطبع(وحدة_متخصصة);
-}
-
-لوحة.اطبع(typeof جيك);
-صادرات.و1 = و1;
-كائن.عين(صادرات, و2);
+const جيك = استدعي("جي-كويري");
+let متغير1 = "متغير1";
+const متغير2 = "متغير2";
+الكائن.عين(صادرات, {متغير1, جيك, جيك, });
+الكائن.عين(صادرات, {متغير2, });

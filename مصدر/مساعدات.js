@@ -248,10 +248,21 @@ export function translateModule(_m) {
   let mtcode = manager.options.sourceType === 'es6' ? 
     codes.es6ModuleTranslationCode : codes.commonjsModuleTranslationCode;
 
+  manager.reset();
+
   let code = mtcode
     .replace('MODULE_NAME', m[0])
     .replace('MODULE_MAP', stringify(m[1]))
     .replace('MAP_OPTIONS', stringify(m[2]));
+
+  let otherImports = getTopImportsCode();
+  if (otherImports) {
+    otherImports =
+      otherImports.split('\n')
+      .map(l=>manager.__lineHead + l)
+      .join('\n');
+    code = code.replace('// OTHER_IMPORTS', otherImports);
+  } 
 
   fs.writeFileSync(filename, code);
   return filename;

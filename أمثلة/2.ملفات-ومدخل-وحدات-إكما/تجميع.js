@@ -15,6 +15,5 @@ arabi.translate({
   input: path.resolve(__dirname, './داخل'),
   output: OUTPUT,
   entry: path.resolve(__dirname, './داخل/مدخل.جس'),
-  sourceType: 'commonjs',
-  maps: arabiMaps.commonjs,
+  maps: arabiMaps.window,
 });

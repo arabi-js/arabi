@@ -1,0 +1,16 @@
+{
+  "main": "./وجهة/حزمة.js",
+  "scripts": {
+    "trans": "node ./تجميع",
+    "build": "npx webpack",
+    "transbuild": "npm run trans && npm run build"
+  },
+  "dependencies": {
+    "@arabi/maps": "^1.2.0",
+    "@arabi/webpack-loader": "file:../../../webpack-loader",
+    "jquery": "^3.5.1"
+  },
+  "devDependencies": {
+    "webpack": "^5.10.3"
+  }
+}
