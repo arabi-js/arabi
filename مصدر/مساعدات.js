@@ -8,7 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import handler from './مترجم/مدخل';
 import arabiTranslate from '@arabi/translate';
-import { stringify } from 'flatted';
+import { stringify as thatStringify } from 'flatted';
 import type { Codes } from './أنواع';
 
 export function addToScope(ids, type: "lex" | "var") {
@@ -37,6 +37,10 @@ export function getIds(id) {
       break;
   }
   return _ids;
+}
+
+export function stringify() {
+  return thatStringify.apply(this, arguments);
 }
 
 /**
@@ -154,25 +158,6 @@ export function getTranslateRequireCode() {
   return codes.translateRequireCode;
 }
 
-export function getVarsTranslatorCode(map) {
-  let code = [], prototypes = [];
-  for (let p in map) {
-    let v;
-    if (typeof map[p] === 'string') v = map[p]; 
-    else {
-      let __enName = map[p][0];
-      let __map = map[p][1];
-      let __options = Object.assign({},map[p][2]);
-      if (__options?.constructMap) prototypes.push(getPrototypeTranslator(__enName, __map, __options));
-      if (__options && Object.keys(__options).length === 1) __options = null;
-      if (__map || __options)
-        v = 'string' === typeof map[p] ? map[p] : `${handler.translatorFunctionName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`; 
-    }
-    code.push(handler.indent + `var ${p} = ${v}` + handler.eol);
-  }
-  return code.join('') + prototypes.join('');
-}
-
 function getPrototypeTranslator(__enName, __map, __options) {
   // TODO: evaluate from @arabi/translate when `options.runtime`, it has to be has to be nearly isolated and independent;
   // TODO: take care of the properties' descriptor
@@ -196,8 +181,8 @@ function getPrototypeTranslator(__enName, __map, __options) {
       let _options = pmap[2]; 
       descriptor = [
         "{",
-        `get: function(){ return ${handler.translatorFunctionName}(this["${_name}"], ${stringify(_map)}, ${stringify(_options)}) },`,
-        `set: function(v){ return this["${_name}"] = v },`,
+        `get: function(){ return ${handler.translatorFunctionName}(this[${stringify(_name)}], ${stringify(_map)}, ${stringify(_options)}) },`,
+        `set: function(v){ return this[${stringify(_name)}] = v },`,
         "}",
       ].join('');
     }
@@ -210,6 +195,26 @@ function getPrototypeTranslator(__enName, __map, __options) {
   return prototypeCode;
 }
 
+export function getVarsTranslatorCode(map) {
+  let code = [], prototypes = [];
+  for (let p in map) {
+    let v;
+    if (typeof map[p] === 'string') v = map[p]; 
+    else {
+      let __enName = map[p][0];
+      let __map = map[p][1];
+      let __options = Object.assign({},map[p][2]);
+      __enName = `${handler.options.globalObject}[${stringify(__enName)}]`;
+      if (__options?.constructMap) prototypes.push(getPrototypeTranslator(__enName, __map, __options));
+      if (__options && Object.keys(__options).length === 1) __options = null;
+      if (__map || __options)
+        v = 'string' === typeof map[p] ? map[p] : `${handler.translatorFunctionName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`; 
+    }
+    code.push(handler.indent + `var ${p} = ${v}` + handler.eol);
+  }
+  return code.join('') + prototypes.join('');
+}
+
 export function getGlobalTranslatorCode(map) {
   let code = [], prototypes = [];
   for (let p in map) {
@@ -219,14 +224,13 @@ export function getGlobalTranslatorCode(map) {
       let __enName = m[0];
       let __map = m[1];
       let __options = m[2];
+      __enName = `${handler.options.globalObject}[${stringify(__enName)}]`;
       // here we have to define new properties with arabic names to the built-in prototypes such as Object.prototype 
-      if (__options?.constructMap) {
-        prototypes.push(getPrototypeTranslator(__enName, __map, __options));
-        if (Object.keys(__options).length === 1) __options = null;
-      }
-      if (__map || __options) {
+      if (__options?.constructMap) prototypes.push(getPrototypeTranslator(__enName, __map, __options));
+      if (__options && Object.keys(__options).length === 1) __options = null;
+      if (__map || __options)
         c = `${handler.translatorFunctionName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`;
-      } else c = __enName;
+      else c = __enName;
     }
     code.push(handler.indent + `${handler.options.globalObject}["${p}"] = ${c}` + handler.eol);
   }

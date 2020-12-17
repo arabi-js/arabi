@@ -3,6 +3,7 @@
 import handler from '../مدخل';
 import { _require } from '../../babel-parser/src/keywords-map';
 import { type Handler } from '../../أنواع.js';
+import { stringify } from '../../مساعدات';
 
 function handleRequire(node, indent=handler.indent){
   if(node.arguments.length === 0) handler.error(node, "Unexpected no arguments to \"require\" function");
@@ -20,8 +21,8 @@ function handleRequire(node, indent=handler.indent){
       // let map = a[1];
       // let options = a[2];
       // set handler.addTranslateRequire to `true`, but dosn't declare global.`__arabi__modules__tmap__`
-      // return `${handler.trfnName2}(require(${JSON.stringify(enName)}), ${arg.extra.rawValue}, ${JSON.stringify(enName)}, ${stringify(map)}, ${stringify(options)})`;
-      return indent + `${handler.trfnName2}(require(${JSON.stringify(enName)}), ${JSON.stringify(arg.value)})`;
+      // return `${handler.trfnName2}(require(${stringify(enName)}), ${arg.extra.rawValue}, ${stringify(enName)}, ${stringify(map)}, ${stringify(options)})`;
+      return indent + `${handler.trfnName2}(require(${stringify(enName)}), ${stringify(arg.value)})`;
     } else return indent + `require(${handler(arg, '')})`;
   }
 

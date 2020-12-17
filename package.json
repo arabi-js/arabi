@@ -2,9 +2,13 @@
   "name": "@arabi/core",
   "version": "0.1.0-0",
   "description": "It is just a trial to prove that we can.",
-  "main": "حزمة/arjs.js",
+  "main": "حزمة/arabi.js",
   "bin": {
-    "arjs": "ثنائي/مدخل.js"
+    "arabi": "ثنائي/مدخل.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/javascript-in-arabic/core.git"
   },
   "scripts": {
     "start": "webpack --watch --mode development",
@@ -51,7 +55,7 @@
     "@arabi/translate": "^1.2.3",
     "@babel/runtime-corejs3": "^7.12.5",
     "charcodes": "^0.2.0",
-    "circular-json-es6": "^2.0.2",
-    "colors": "^1.4.0"
+    "colors": "^1.4.0",
+    "flatted": "^3.1.0"
   }
 }

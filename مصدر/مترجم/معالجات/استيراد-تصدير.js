@@ -4,7 +4,7 @@ import handler from '../مدخل';
 import path from 'path';
 import { getRandomName } from '../../مساعدات';
 import { type Handler } from '../../أنواع.js';
-import { stringify } from 'flatted';
+import { stringify } from '../../مساعدات';
 
 function importSpecifiersHandler(s, map, mapOptions) {
   let isTranslated = typeof map !== 'undefined' && !handler.isModules;
