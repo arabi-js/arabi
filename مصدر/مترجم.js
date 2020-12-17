@@ -1,4 +1,4 @@
-exports.__default = function __arjs__translate__(obj, map, options={}) {
+exports.default = function __arabi__translate__(obj, map, options={}) {
   if (map instanceof Function) map = map(obj); // dynamic maps
   let mapMap = [[], []]; // [arabicKey[], originalKey[]]
   Object.entries(map).forEach(([k, v])=>{
@@ -25,7 +25,7 @@ exports.__default = function __arjs__translate__(obj, map, options={}) {
             // we translate another object in the targeted propperty
             let value = Reflect.get(target, v[0], receiver);
             value = typeof value == 'function' ? value.bind(target) : value;
-            let translatedObject = __arjs__translate__(value, v[1], v[2]);
+            let translatedObject = __arabi__translate__(value, v[1], v[2]);
             Object.defineProperty(target, prop, { value: translatedObject });
             return translatedObject;
           }
@@ -87,7 +87,7 @@ exports.__default = function __arjs__translate__(obj, map, options={}) {
       let map = options.returnMap[0],
         options = options.returnMap[1];
       map = map instanceof Function ? map(value) : map;
-      value = __arjs__translate__(value, map, options);
+      value = __arabi__translate__(value, map, options);
       return value;
     }
   }
@@ -98,7 +98,7 @@ exports.__default = function __arjs__translate__(obj, map, options={}) {
       let map = options.constructMap[0],
         options = options.constructMap[1];
       map = map instanceof Function ? map(value) : map;
-      value = __arjs__translate__(value, map, options);
+      value = __arabi__translate__(value, map, options);
       return value;
     }
   }
