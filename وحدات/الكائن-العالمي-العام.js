@@ -1,4 +1,4 @@
-import { _arguments } from '../مصدر/babel-parser/src/keywords-map';
+import { _arguments } from './كلمات-مفتاحية';
 
 export const consoleMap = ["console", {
   اطبع: "log",

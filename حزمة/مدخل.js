@@ -1,11 +1,13 @@
 "use strict";
 
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.general = exports.window = exports.commonjs = void 0;
+exports.keywordsMap = exports.general = exports.window = exports.commonjs = void 0;
 
 var _ = _interopRequireDefault(require("./\u0646\u0627\u0641\u0630\u0629/\u0645\u062F\u062E\u0644"));
 
@@ -17,6 +19,9 @@ var _4 = _interopRequireDefault(require("./\u0627\u0644\u0643\u0627\u0626\u0646-
 
 var _5 = _interopRequireDefault(require("./\u0648\u062D\u062F\u0627\u062A-\u0627\u0644\u0646\u0648\u062F/\u0645\u062F\u062E\u0644"));
 
+var _keywordsMap = _interopRequireWildcard(require("./\u0643\u0644\u0645\u0627\u062A-\u0645\u0641\u062A\u0627\u062D\u064A\u0629"));
+
+exports.keywordsMap = _keywordsMap;
 var commonjs = {
   global: _2["default"],
   globalVars: _3["default"],
