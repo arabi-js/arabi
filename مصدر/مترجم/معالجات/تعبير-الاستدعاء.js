@@ -28,7 +28,7 @@ function handleRequire(node, indent=handler.indent){
 
   arg = handler(arg, '');
   // TODO: use ${arg} one in the code, it may invoke some function which is needed to be called only one time.
-  return indent + `${handler.requireTranslatorFunctnionName}(require(${arg}), ${arg})`;
+  return indent + `${handler.translateRequireFunctnionName}(require(${arg}), ${arg})`;
 }
 
 export const callHandler: Handler = {

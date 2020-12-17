@@ -31,7 +31,7 @@ Object.defineProperty(handler, 'translatorFunctionName', {
   }
 });
 
-Object.defineProperty(handler, 'requireTranslatorFunctnionName', {
+Object.defineProperty(handler, 'translateRequireFunctnionName', {
   get() {
     this.addTranslateRequire = true;
     this.declareModulesTMap = true;
@@ -59,19 +59,24 @@ handler.handleArray = function handleArray(a: [ string | Array ]) {
     return (
       typeof c === 'string' ? newA.push(c)
       : newA.push(
-        handler.voidline, ...handler.handleArray(c), handler.voidline
-      ), newA
+        this.voidline, this.handleArray(c), this.voidline
+      ), /* returned value */ newA
     );
   }, []).join('');
+}
+
+handler.addTopImport = function (source, ...specifiers) {
+  if (!(source in this.topImports)) this.topImports[source] = [];
+  this.topImports[source].push(...specifiers);
 }
 
 handler.setIndent = function setIndent(v) {
   if (typeof v !== 'number' || v < 0 || v % 1 !== 0)
     throw 'invalid value for indentation, count of indents must be positive integer or zer0';
-  handler.indentCount = v;
-  handler.__indent =
-    new Array(handler.indentCount)
-    .fill(handler.options.indent)
+  this.indentCount = v;
+  this.__indent =
+    new Array(this.indentCount)
+    .fill(this.options.indent)
     .join('');
 }
 
@@ -79,8 +84,8 @@ handler.increaseIndent = () => handler.setIndent(handler.indentCount + 1);
 handler.decreaseIndent = () => handler.setIndent(handler.indentCount - 1);
 
 handler.setLineHead = function (lh) {
-  handler.__lineHead = lh;
-  handler.setIndent(handler.indentCount);
+  this.__lineHead = lh;
+  this.setIndent(this.indentCount);
 }
 
 handler.error = function(node, ...msgs) {
@@ -88,7 +93,7 @@ handler.error = function(node, ...msgs) {
   let _msg = typeof node === "string" ? (a=node, node=null, a) : "Translation error:";
   let msg = _msg.bgRed.white;
   msgs.forEach(m => msg += '\n' + "      " + m.error);
-  node?.loc && (msg += '\n' + "      " + `${handler.filepath}:${node.loc.start.line}:${node.loc.start.column}`);
+  node?.loc && (msg += '\n' + "      " + `${this.filepath}:${node.loc.start.line}:${node.loc.start.column}`);
   node?.loc?.source && (msg += '\n' + "      " + node.loc.source);
   throw new Error(msg);
 }
@@ -98,7 +103,7 @@ handler.warn = function(node, ...msgs) {
   msgs.forEach(m=>{
     console.log("      ", m.warn);
   });
-  node && node.loc && console.log("      ", `${handler.filepath}:${node.loc.start.line}:${node.loc.start.column}`);
+  node && node.loc && console.log("      ", `${this.filepath}:${node.loc.start.line}:${node.loc.start.column}`);
   node && node.loc && console.log("      ", node.loc.source);
 }
 
@@ -107,22 +112,25 @@ handler.warn = function(node, ...msgs) {
 // when its declaration statement come;
 
 handler.reset = function resetHandler() {
-  handler.addTranslator = false;
-  handler.addTranslateRequire = false;
-  handler.declareModulesTMap = false;
-  handler.indentCount = 0;
+  this.addTranslator = false;
+  this.addTranslateRequire = false;
+  this.declareModulesTMap = false;
+  this.indentCount = 0;
   // to know if we have the identifier "arguments" defined or not
-  handler.functionDepth = 0;
-  handler.__indent = '';
-  handler.__lineHead = '';
+  this.functionDepth = 0;
+  this.__indent = '';
+  this.__lineHead = '';
   // will be in the dir /path/to/output/__arabi__modules__/
-  handler.modulesToTranslate = []; 
-  handler.arabiTranslateImports = []; 
-  handler.isModules = false; // translating directory and options.entry is set
-  handler.filepath = undefined;
-  handler.es6imports = {};
-  handler.es6exports = {};
-  handler.tmodulesDir = null;
+  this.modulesToTranslate = []; 
+  // the dependencies that the cureent file imports, or requires
+  // { [source: string]: [ [ string /* name */, string /* localName */ ] ] }
+  this.topImports = {};
+  // translating directory and options.entry is set
+  this.isModules = false;
+  this.filepath = undefined;
+  this.es6imports = {};
+  this.es6exports = {};
+  this.tmodulesDir = null;
 }
 
 handler.finishingValidation = function () {

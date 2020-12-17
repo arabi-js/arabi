@@ -1,5 +1,6 @@
 // @flow
 
+// TODO(next): add this during developmrnt only
 import 'source-map-support/register';
 
 import colors from 'colors'; // for console.log
@@ -15,10 +16,10 @@ import {
   checkOutput,
   translateModule,
   getTranslatorCode,
+  getTopImportsCode,
   getVarsTranslatorCode,
   getTranslateRequireCode,
   getGlobalTranslatorCode,
-  getarabiTranslateImportCode,
   getDeclareModuleTMapsCode,
 } from './مساعدات';
 import ScopeManager from './مدير-النطاق';
@@ -94,10 +95,7 @@ function translateCode(arCode) {
   a && header.unshift(a);
   if (handler.declareModulesTMap) a = getDeclareModuleTMapsCode();
   a && header.unshift(a);
-
-  header.unshift(), // declare it only when we need the translating require
-    // this is usefull if we want to import multiple things, e.g. `require` and `translate`
-    (a = getarabiTranslateImportCode());
+  a = getTopImportsCode();
   a && header.unshift(a);
 
   // you can skip the following lines
@@ -105,8 +103,8 @@ function translateCode(arCode) {
   // following code is the raw code but translated
   let _s = '// ############ ',
     __s = '// THE ORIGINAL TRANSLATED CODE ';
-  let ss = __s + new Array(25).fill('').join('-');
-  let s = _s + new Array(25 + (__s.length - _s.length)).fill('').join('-');
+  let ss = __s + '-'.repeat(25);
+  let s = _s + '-'.repeat(25 + (__s.length - _s.length));
   let separator = handler.nl + handler.nl + s + handler.nl + s;
   separator += handler.nl + ss;
   separator += handler.nl + handler.nl;
@@ -162,7 +160,7 @@ function translateDir(tree) {
     } else if (testGlobal(f)) {
       fs.copyFileSync(f, _f);
       _tree.files.push(_f);
-      log('file copied:'.success, _f);
+      log('file copied:'.success.underline, _f);
     } else log('file ignored:'.info.underline, _f);
   }
 
@@ -210,12 +208,12 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
   validateOptions(options);
 
   // helper props and methods
+  handler.reset(); // set the defaults;
   handler.options = options;
   handler.maps = options.maps;
   handler.eol = options.semicolon ? ';\n' : '\n';
   handler.nl = '\n';
   handler.scope = new ScopeManager();
-  handler.reset(); // set the defaults;
 
   if (!options.debug) colors.disable();
 

@@ -39,8 +39,9 @@ export function getIds(id) {
   return _ids;
 }
 
-export function stringify() {
-  return thatStringify.apply(this, arguments);
+export function stringify(obj) {
+  if (typeof obj === 'string') return JSON.stringify(obj);
+  return thatStringify.apply(this, obj);
 }
 
 /**
@@ -90,15 +91,15 @@ export function resolve(r, v) {
 
 export function walk(dir) {
   let tree = { path: dir, dirs: [], files: [] };
-  let list = fs.readdirSync(dir);
+  let list = fs.readdirSync(dir, { withFileTypes: true });
   for (let i = 0; i < list.length; i++) {
     let p = list[i];
-    p = path.resolve(dir, p);
-    if (fs.statSync(p).isDirectory()) {
-      tree.dirs.push(walk(p));
-    } else if (testGlobal(p)) {
+    let _p = path.resolve(dir, p.name);
+    if (p.isDirectory()) {
+      tree.dirs.push(walk(_p));
+    } else if (testGlobal(_p)) {
       // it is the file that passed the test
-      tree.files.push(p);
+      tree.files.push(_p);
     }
   }
   return tree;
@@ -109,7 +110,7 @@ export function log() {
 }
 
 log.increaseIndent = () => log.indentCount++;
-log.decreaseIndent = () => log.indentCount++;
+log.decreaseIndent = () => log.indentCount--;
 Object.defineProperty(log, 'indentCount', {
   get() { return this.__ic },
   set(v) {
@@ -144,7 +145,7 @@ export const codes: Proxy<Codes> = new Proxy({
 
 export function getTranslatorCode() {
   if (handler.options.runtime) {
-    handler.arabiTranslateImports.push(['translate', handler.translatorFunctionName]);
+    handler.addTopImport('@arabi/translate', ['translate', handler.translatorFunctionName]);
     return;
   }
   return codes.translatorCode;
@@ -152,7 +153,7 @@ export function getTranslatorCode() {
 
 export function getTranslateRequireCode() {
   if (handler.options.runtime) {
-    handler.arabiTranslateImports.push(['translateRequire', handler.requireTranslatorFunctnionName]);
+    handler.addTopImport('@arabi/translate', ['translateRequire', handler.translateRequireFunctnionName]);
     return;
   }
   return codes.translateRequireCode;
@@ -232,7 +233,7 @@ export function getGlobalTranslatorCode(map) {
         c = `${handler.translatorFunctionName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`;
       else c = __enName;
     }
-    code.push(handler.indent + `${handler.options.globalObject}["${p}"] = ${c}` + handler.eol);
+    code.push(handler.indent + `${handler.options.globalObject}[${stringify(p)}] = ${c}` + handler.eol);
   }
   return code.join('') + prototypes.join('');
 }
@@ -243,21 +244,25 @@ export function getDeclareModuleTMapsCode() {
   return code;
 }
 
-export function getarabiTranslateImportCode() {
-  if (handler.arabiTranslateImports.length) {
-    let trans;
+export function getTopImportsCode() {
+  let sources = Object.keys(handler.topImports);
+  
+  function getImportCode (source, specifiers) {
+    let trans; // transformer
     let isModule = handler.options.moduleType === 'es6';
     if (isModule) trans = (i)=>i[0] === i[1] ? i[0] : `${i[0]} as ${i[1]}`;
     else trans = (i)=>i[0] === i[1] ? i[0] : `${i[0]}: ${i[1]}`;
-    let imports = handler.arabiTranslateImports.map(trans).join(', ');
+    let imports = specifiers.map(trans).join(', ');
     
-    let code = (
-      !isModule ?
-      `const { ${imports} } = require('@arabi/translate')` : 
-      `import { ${imports} } from '@arabi/translate'`
-      );
+    let code = isModule ?
+      `import { ${imports} } from ${stringify(source)}`:
+      `const { ${imports} } = require(${stringify(source)})`;
+
     return handler.indent + code + handler.eol;
   }
+
+  if (!sources.length) return null;
+  return sources.map(s=>getImportCode(s, handler.topImports[s])).join('');
 }
 
 export function translateModule(_m) {
