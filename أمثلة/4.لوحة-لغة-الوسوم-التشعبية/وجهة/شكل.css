@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  direction: rtl;
+  height: 100vh;
+}
+
+div {
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+p {
+  margin: 0;
+  padding: 0.5em 1em;
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+
+.لوحة {
+  height: 100%;
+}

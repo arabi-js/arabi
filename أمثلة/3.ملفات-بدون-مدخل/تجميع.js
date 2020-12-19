@@ -15,7 +15,7 @@ rimraf.sync(OUTPUT);
 arabi.translate({
   input: INPUT,
   output: OUTPUT,
-  sourceType: 'mixed',
+  inputType: 'mixed',
   maps: arabiMaps.general 
 });
 

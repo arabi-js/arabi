@@ -4,7 +4,9 @@
     "خارج"
   ],
   "dependencies": {
-    "@arabi/maps": "^1.2.0",
+    "@arabi/maps": "^1.4.0",
+    "@arabi/translate": "^1.2.5",
+    "flatted": "^3.1.0",
     "jquery": "^3.5.1"
   }
 }
