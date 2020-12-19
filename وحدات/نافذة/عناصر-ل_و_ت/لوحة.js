@@ -68,7 +68,7 @@ const canvasContextMap = {
 }
 
 const canvasElementMap = {
-  احضر_السياق: ["getContext", null, { returnMap: canvasContextMap }],
+  احضر_السياق: ["getContext", null, { returnMap: [canvasContextMap] }],
 }
 
 export default canvasElementMap;

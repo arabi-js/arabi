@@ -64,7 +64,7 @@ var canvasContextMap = {
 };
 var canvasElementMap = {
   احضر_السياق: ["getContext", null, {
-    returnMap: canvasContextMap
+    returnMap: [canvasContextMap]
   }]
 };
 var _default = canvasElementMap;

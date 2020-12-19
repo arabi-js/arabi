@@ -1,4 +1,4 @@
-import generalGlobalThis from './الكائن-العالمي-العام';
+import generalGlobalThis from './الكائن-العالمي-العام/مدخل';
 
 export default {
   استدعي: 'require',

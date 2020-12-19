@@ -35,6 +35,8 @@ const htmlElementMap = {
 	...canvasElementMap,
 	عرض: "width",
 	طول: "height",
+	عرض_العميل: "clientWidth",
+	طول_العميل: "clientHeight",
 	محتوى_نصي: "textContent",
 	نص_داخلي: "innerText",
 	// لغة الوسوم التشعبية
@@ -47,12 +49,12 @@ const htmlElementMap = {
 
 export const elementSelectors = {
 	// a function returns an object, that object will be translated as well
-	محدد_الاستعلام: ["querySelector", null, { returnMap: htmlElementMap }],
-	محدد_الاستعلام_الشامل: ["querySelectorAll", null, { returnMap: htmlElementMap }],
-	احصل_بالمعرف: ["getElementById", null, { returnMap: htmlElementMap }],
-	احصل_بالفئة: ["getElementsByClassName", null, { returnMap: htmlElementMap }],
-	احصل_بالوسم: ["getElementsByTagName", null, { returnMap: htmlElementMap }],
-	// احصل_بالوسم: ["getElementsByTagNameNS", null, { returnMap: htmlElementMap }],
+	محدد_الاستعلام: ["querySelector", null, { returnMap: [htmlElementMap] }],
+	محدد_الاستعلام_الشامل: ["querySelectorAll", null, { returnMap: [htmlElementMap] }],
+	احصل_بالمعرف: ["getElementById", null, { returnMap: [htmlElementMap] }],
+	احصل_بالفئة: ["getElementsByClassName", null, { returnMap: [htmlElementMap] }],
+	احصل_بالوسم: ["getElementsByTagName", null, { returnMap: [htmlElementMap] }],
+	// احصل_بالوسم: ["getElementsByTagNameNS", null, { returnMap: [htmlElementMap] }],
 }
 
 Object.assign(htmlElementMap, elementSelectors);

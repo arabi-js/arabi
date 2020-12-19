@@ -47,6 +47,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 var htmlElementMap = _objectSpread(_objectSpread({}, _["default"]), {}, {
   عرض: "width",
   طول: "height",
+  عرض_العميل: "clientWidth",
+  طول_العميل: "clientHeight",
   محتوى_نصي: "textContent",
   نص_داخلي: "innerText",
   // لغة الوسوم التشعبية
@@ -60,20 +62,20 @@ var htmlElementMap = _objectSpread(_objectSpread({}, _["default"]), {}, {
 var elementSelectors = {
   // a function returns an object, that object will be translated as well
   محدد_الاستعلام: ["querySelector", null, {
-    returnMap: htmlElementMap
+    returnMap: [htmlElementMap]
   }],
   محدد_الاستعلام_الشامل: ["querySelectorAll", null, {
-    returnMap: htmlElementMap
+    returnMap: [htmlElementMap]
   }],
   احصل_بالمعرف: ["getElementById", null, {
-    returnMap: htmlElementMap
+    returnMap: [htmlElementMap]
   }],
   احصل_بالفئة: ["getElementsByClassName", null, {
-    returnMap: htmlElementMap
+    returnMap: [htmlElementMap]
   }],
   احصل_بالوسم: ["getElementsByTagName", null, {
-    returnMap: htmlElementMap
-  }] // احصل_بالوسم: ["getElementsByTagNameNS", null, { returnMap: htmlElementMap }],
+    returnMap: [htmlElementMap]
+  }] // احصل_بالوسم: ["getElementsByTagNameNS", null, { returnMap: [htmlElementMap] }],
 
 };
 exports.elementSelectors = elementSelectors;

@@ -1,5 +1,5 @@
 import htmlElementMap, { elementSelectors } from './عناصر-ل_و_ت/مدخل';
-import generalGlobalThis from '../الكائن-العالمي-العام';
+import generalGlobalThis from '../الكائن-العالمي-العام/مدخل';
 
 // create sub-directory for sub-repos
 // create sub-packages: arjs-translate, arjs-maps
