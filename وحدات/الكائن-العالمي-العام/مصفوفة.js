@@ -17,7 +17,7 @@ const arrayPrototypeMap = {
   آخر_مؤشر: "lastIndexOf",
   طول: "length",
   خرط: "map",
-  "": "pop",
+  ازل: "pop",
   ادفع: "push",
   قلل: "reduce",
   قلل_يمين: "reduceRight",
@@ -26,11 +26,11 @@ const arrayPrototypeMap = {
   شرح: "slice",
   بعض: "some",
   رتب: "sort",
-  انسخ: "splice",
+  احشر: "splice",
   لنص_محلي: "toLocaleString",
   للمصدر: "toSource",
   لنص: "toString",
-  "": "unshift",
+  // "": "unshift",
   قيم: "values",
 };
 
