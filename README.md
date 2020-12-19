@@ -4,6 +4,47 @@
 
 ![شريط أيقوني - جافاسكريب بالعربي](أيقونة.png)
 
+## طريقة الاستخدام
+
+<div dir=ltr>
+
+```bash
+❯ npm i -D @arabi/core && npm i @arabi/translate @arabi/maps
+```
+
+```js
+const arabi = require("@arabi/core");
+const arabiMaps = require("@arabi/maps");
+
+const options = {
+  input: "/path/to/file/or/dir",
+  output: "/another/path", // the output is the same type as input
+  // if input is dir, and you have an entry point
+  // otherwise all files will be translated independently
+  entry: "/path/to/the/entry",
+  maps: arabiMaps.window,
+};
+
+arabi.translate(options);
+```
+
+</div>
+
+```جس
+// هذه جافاسكريبت المعربة
+عرف مصفوفة_الأرقام =
+	انشئ مصفوفة(10)
+	.املئ(0)
+	.قلل(
+		(م)=> {
+			م.ادفع(م[م.طول-1]+1)؛ ارجع م؛
+		}، [1]
+	)؛
+لكل(عرف ر من مصفوفة_الأرقام) لوحة.اطبع(ر)؛
+```
+
+----
+
 لقد تصدرت اللغة الإنجليزية في كل مجالات الحياة بعدما كانت لغة كتاب الله هي اللؤلؤة المتألقة والمبتغى لكل طالب علم، فقد انعكست القاعدة وتبدلت الأوضاع. وأظن أن ما نشر تلك اللغة هي الحروب والغزو الذي قامت به بريطانيا أو الممكلة المتحدة.
 
 فقد وجب علينا نحن المسلمين عموما (والعرب خصوصا) أن نعيد منارة العلم على بحر اللغة العربية وأهمها العلوم التقنية.
@@ -63,12 +104,10 @@
 عند تنفيذ سطري الأوامر أدناه، سيفتح لك المتصفح الافتراضي على الخادم المحلي (localhost).
 
 <div dir=ltr>
-
 ```bash
 ❯ npm i
 ❯ npm start
 ```
-
 </div>
 
 ![استعراض](أمثلة/4.لوحة-لغة-الوسوم-التشعبية/استعراض.png)
