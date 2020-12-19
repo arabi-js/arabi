@@ -1,36 +1,36 @@
 exports.default = function __arabi__translate__(obj, map, options={}) {
-  if (map instanceof Function) map = map(obj); // dynamic maps
-  let mapMap = [[], []]; // [arabicKey[], originalKey[]]
-  Object.entries(map).forEach(([k, v])=>{
-    let _k = (typeof v === 'string') ? v : v[0];
-    mapMap[0].push(k);
-    mapMap[1].push(_k);
-  });
-
   let proxyHandler = {};
-
+  
   if (map) {
+    if (map instanceof Function) map = map(obj); // dynamic maps
+    let mapMap = [[], []]; // [arabicKey[], originalKey[]]
+    Object.entries(map).forEach(([k, v])=>{
+      let _k = (typeof v === 'string') ? v : v[0];
+      mapMap[0].push(k);
+      mapMap[1].push(_k);
+    });
     Object.assign(proxyHandler, {
-
       get(target, prop, receiver) {
-        if (prop in target) return Reflect.get(target, prop, receiver);
         let v = map[prop];
-        if (v) {
+        if (v && !(prop in target)) {
           if (typeof v === 'string') {
-            let value = Reflect.get(target, v, receiver);
+            let value = target[v];
             value = typeof value == 'function' ? value.bind(target) : value;
             return value;
           }
-          if (v[1]) {
+          if (v[1] || v[2]) {
             // we translate another object in the targeted propperty
-            let value = Reflect.get(target, v[0], receiver);
+            let value = target[v[0]];
             value = typeof value == 'function' ? value.bind(target) : value;
             let translatedObject = __arabi__translate__(value, v[1], v[2]);
             Object.defineProperty(target, prop, { value: translatedObject });
             return translatedObject;
-          }
+          } 
+          throw new Error("unexpecting thing happened while translation (@arabi)");
         }
-        return undefined;
+        let value = target[prop];
+        value = typeof value == 'function' ? value.bind(target) : value;
+        return value;
       },
       
       set(target, prop, value) {
@@ -83,11 +83,11 @@ exports.default = function __arabi__translate__(obj, map, options={}) {
 
   if (options && options.returnMap) {
     proxyHandler.apply = function(target, thisArg, args) {
-      let value = target.apply(thisArg, args);
-      let map = options.returnMap[0],
-        options = options.returnMap[1];
-      map = map instanceof Function ? map(value) : map;
-      value = __arabi__translate__(value, map, options);
+      let value = Reflect.apply(target, thisArg, args);
+      let _map = options.returnMap[0],
+        _options = options.returnMap[1];
+      if (_map || _options) 
+        value = __arabi__translate__(value, _map, _options);
       return value;
     }
   }
@@ -95,10 +95,10 @@ exports.default = function __arabi__translate__(obj, map, options={}) {
   if (options && options.constructMap) {
     proxyHandler.construct = function(target, args) {
       let value = Reflect.construct(target, args);
-      let map = options.constructMap[0],
-        options = options.constructMap[1];
-      map = map instanceof Function ? map(value) : map;
-      value = __arabi__translate__(value, map, options);
+      let _map = options.constructMap[0],
+        _options = options.constructMap[1];
+      if (_map || _options) 
+        value = __arabi__translate__(value, _map, _options);
       return value;
     }
   }

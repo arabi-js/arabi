@@ -1,4 +1,4 @@
-var __arabi__translate__ = require('./مترجم');
+var __arabi__translate__ = require('./مترجم').default;
 var __require__cache__ = {};
 exports.default = function __arabi__translate__require__(__module, __query) {
   if(__query in __require__cache__) return __require__cache__[__query];
@@ -8,5 +8,5 @@ exports.default = function __arabi__translate__require__(__module, __query) {
     Object.assign(__require__cache__, __module, { value: _ });
     return _;
   }
-  return require(__query);
+  return __module;
 };
