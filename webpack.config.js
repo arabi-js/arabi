@@ -16,7 +16,7 @@ let analyze = mode === 'analyze';
 module.exports = {
   devtool: dev ? 'source-map' : false,
   target: "node",
-  // context: path.resolve(__dirname, 'مصدر'),
+
   entry: {
     // arabi: './مدخل.js',
     arabi: path.resolve(__dirname, './مصدر/مدخل.js'),

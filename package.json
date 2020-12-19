@@ -1,11 +1,11 @@
 {
   "name": "@arabi/core",
-  "version": "0.1.0-0",
+  "version": "1.0.0-0",
   "description": "It is just a trial to prove that we can.",
   "main": "حزمة/arabi.js",
-  "bin": {
-    "arabi": "ثنائي/مدخل.js"
-  },
+  "files": [
+    "حزمة"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/javascript-in-arabic/core.git"
@@ -22,6 +22,7 @@
   "keywords": [
     "جافاسكريبت",
     "لغة-عربية",
+    "عربي",
     "arabic",
     "js",
     "javascript",
@@ -51,8 +52,8 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "@arabi/maps": "^1.2.0",
-    "@arabi/translate": "^1.2.4",
+    "@arabi/maps": "^1.4.0",
+    "@arabi/translate": "^1.2.5",
     "@babel/runtime": "^7.12.5",
     "charcodes": "^0.2.0",
     "colors": "^1.4.0",

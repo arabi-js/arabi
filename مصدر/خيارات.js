@@ -24,12 +24,15 @@ export type TranslationMap =
   BasicTranslationMap |
   (obj: object) => BasicTranslationMap;
 
+type ModuleType = 'module' | 'commonjs';
+
 export interface Options {
   code: string;
   input?: string; // file or directory
   output?: string; // dependant on the input or code
   maps?: GlobalMap;
-  sourceType: 'es6' | 'commonjs';
+  inputType: ModuleType;
+  outputType: ModuleType;
   // to import the repeatedly used function,
   // this is helpful when translating some connected modules,
   // input='/path/to/dir/', output='/path/to/output/dir'
@@ -62,7 +65,7 @@ export function validateOptions(options: Options) {
   // use schema-utils
   if (!/(?:\t| )+/.test(options.indent))
     manager.error("Invalid Option", 'invalid indent unit! please set it to a compination of <space>s and <tap>s!');
-  if (!/^(?:commonjs|es6|mixed)$/.test(options.sourceType))
-    manager.error("Invalid Option", 'invalid sourceType, must be either "commonjs", "es6", or "mixed"!');
+  if (!/^(?:commonjs|module|mixed)$/.test(options.outputType))
+    manager.error("Invalid Option", 'invalid outputType, must be either "commonjs", "module", or "mixed"!');
 }
 

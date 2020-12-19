@@ -26,10 +26,10 @@ export const classTranslator: Translator = {
         // key, value, static, computed
         let key = translate(n.key, '');
         let value = translate(n.value, '');
-        let _private = n.type === 'ClassPrivateProperty' ? '#' : '';
+        // let _private = n.type === 'ClassPrivateProperty' ? '#' : '';
         let _static = n.static ? 'static ' : '';
         key = n.computed ? `[${key}]` : key;
-        let propCode = manager.indent + `${_static}${_private}${key} = ${value}` + manager.eol;
+        let propCode = manager.indent + `${_static}${key} = ${value}` + manager.eol;
         classBody.push(propCode);
       } else if (n.type === 'ClassMethod' || n.type === 'ClassPrivateMethod') {
         // key, id, static, generator, async, kind, computed

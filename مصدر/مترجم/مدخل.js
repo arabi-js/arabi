@@ -4,6 +4,10 @@ import dictionary from './القاموس/مدخل';
 import manager from './مدير-الترجمة'; 
 import { type Node } from '../../babel-parser/src/types.js';
 
+// TODO: collect the scope variables as all functions and "var"s
+// are defined at the begining, then "vars" are assigned
+// when its declaration statement come;
+
 export default function translate(node: Node, indent?: string): string {
   if (Array.isArray(node))
     return handleArray(
