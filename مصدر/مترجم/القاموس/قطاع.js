@@ -14,6 +14,8 @@ export const blockTranslator: Translator = {
     let inline = node.loc.start.line === node.loc.end.line;
 
     // open block statement
+
+    // if not indent, don't add voidline at the end
     let vl = indent === '' ? '' : manager.voidline;
     let code = (vl + indent) + (inline ? '{ ' : '{' + manager.nl);
     addScope && manager.scope.startBlockScope();

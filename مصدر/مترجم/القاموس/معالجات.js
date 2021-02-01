@@ -8,6 +8,7 @@ import { type Translator } from '../../أنواع.js';
 // المعالجات
 export { importTranslator, exportTranslator } from './استيراد-تصدير';
 export { blockTranslator } from './قطاع';
+export { tryTranslator } from './جملة-حاول';
 export { ifTranslator } from './جملة-لو';
 export { forTranslator } from './حلقة-لكل';
 export { whileTranslator } from './حلقة-بينما';

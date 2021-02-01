@@ -61,6 +61,7 @@ export interface Options {
   semicolon?: Boolean; // = true;  
 }
 
+// use `shema-utils` for validation
 export function validateOptions(options: Options) {
   // use schema-utils
   if (!/(?:\t| )+/.test(options.indent))
@@ -68,4 +69,3 @@ export function validateOptions(options: Options) {
   if (!/^(?:commonjs|module|mixed)$/.test(options.outputType))
     manager.error("Invalid Option", 'invalid outputType, must be either "commonjs", "module", or "mixed"!');
 }
-
