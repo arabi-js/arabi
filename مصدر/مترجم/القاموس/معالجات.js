@@ -189,6 +189,14 @@ export const othersTranslator: Translator = {
   }
 }
 
+export const metaPropTranslator: Translator = {
+  types: ['MetaProperty'],
+  translate(node, indent=manager.indent) {
+    // both `meta` and `property` are of type "Identifier"
+    return indent + `${node.meta.name}.${node.property.name}`;
+  }
+}
+
 // ----------------
 /*
 // ArrayExpression
