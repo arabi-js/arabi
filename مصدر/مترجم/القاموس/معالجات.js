@@ -36,6 +36,20 @@ export const seqExprTranslator: Translator = {
   },
 };
 
+export const doExprTranslator: Translator = {
+  types: ['DoExpression'],
+  translate(node, indent = manager.indent) {
+    return indent + `do ${translate(node.body, '')}`;
+  },
+};
+
+export const withStatement: Translator = {
+  types: ['WithStatement'],
+  translate(node, indent = manager.indent) {
+    return indent + `with (${translate(node.object, '')}) ${translate(node.body, '')}`;
+  },
+};
+
 export const identifierTranslator: Translator = {
   types: ['Identifier'],
   translate(node, indent = '') {
