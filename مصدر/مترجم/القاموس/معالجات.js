@@ -22,6 +22,8 @@ export { callTranslator } from './تعبير-الاستدعاء';
 export { declarationTranslator } from './تعريف-متغير';
 export { assignmentTranslator } from './تعيين';
 
+// expression in a single line, it is a stand alone statement.
+// e.g., when you use `&&` expression instead of IfStatement
 export const expressionTranslator: Translator = {
   types: ['ExpressionStatement'],
   translate(node, indent = manager.indent) {
@@ -29,6 +31,7 @@ export const expressionTranslator: Translator = {
   },
 };
 
+// tuples... e.g., `(0, doSomeThing(), callme())`
 export const seqExprTranslator: Translator = {
   types: ['SequenceExpression'],
   translate(node, indent = manager.indent) {
@@ -36,6 +39,7 @@ export const seqExprTranslator: Translator = {
   },
 };
 
+// do { ... }
 export const doExprTranslator: Translator = {
   types: ['DoExpression'],
   translate(node, indent = manager.indent) {
@@ -43,6 +47,7 @@ export const doExprTranslator: Translator = {
   },
 };
 
+// while (object) { ... }
 export const withStatement: Translator = {
   types: ['WithStatement'],
   translate(node, indent = manager.indent) {
@@ -65,6 +70,7 @@ export const identifierTranslator: Translator = {
   },
 };
 
+// e.g., `1 + 2`
 export const binaryExpressionTranslator: Translator = {
   types: ['BinaryExpression', 'LogicalExpression'],
   translate(node, indent=manager.indent) {
@@ -97,6 +103,7 @@ export const updateExprTranslator: Translator = {
   },
 };
 
+// e.g., `throw "An error"`
 export const unaryExprTranslator: Translator = {
   types: ['UnaryExpression'],
   translate(node, indent=manager.indent) {

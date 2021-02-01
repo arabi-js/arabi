@@ -6,7 +6,7 @@ import { _require } from '../../babel-parser/src/keywords-map';
 import { type Translator } from '../../أنواع.js';
 import { stringify } from '../../مساعدات';
 
-function handleRequire(node, indent=manager.indent){
+function handleRequire(node, indent = manager.indent){
   if(node.arguments.length === 0) manager.error(node, "Unexpected no arguments to \"require\" function");
   if(node.arguments.length !== 1) manager.wran(node,
     "Unexpected number of arguments to \"require\" function",
@@ -32,9 +32,42 @@ function handleRequire(node, indent=manager.indent){
   return indent + `${manager.translateRequireFunctnionName}(require(${arg}), ${arg})`;
 }
 
+// object::callee(...);
+function bindExpression(node, indent = manager.indent) {
+  // interface BindExpression <: Expression {
+  //     type: "BindExpression";
+  //     object: Expression | null;
+  //     callee: Expression;
+  // }
+  let object = translate(node.object, '');
+  let callee = translate(node.callee, '');
+  return indent + `${object}::${callee}`;
+} 
+
+// tag` ... `
+function taggedTemplateExpression(node, indent = manager.indent) {
+  // interface TaggedTemplateExpression <: Expression {
+  //   type: "TaggedTemplateExpression";
+  //   tag: Expression;
+  //   quasi: TemplateLiteral; // translated in ./جملة-حرفية.js
+  // }
+  return indent + `${translate(node.tag, '')}${translate(node.quasi, '')}`;
+}
+
 export const callTranslator: Translator = {
-  types: ['CallExpression', 'OptionalCallExpression', 'NewExpression'],
+  types: [
+    'CallExpression',
+    'OptionalCallExpression',
+    'NewExpression',
+    'BindExpression',
+    'TaggedTemplateExpression'
+  ],
   translate(node, indent=manager.indent) {
+    if (node.type === 'BindExpression')
+      return bindExpression(node, indent);
+    if (node.type === 'TaggedTemplateExpression')
+      return taggedTemplateExpression(node, indent);
+
     if (
       manager.isOutput("commonjs") &&
       node.type === 'CallExpression' &&
