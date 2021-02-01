@@ -5,10 +5,11 @@ import manager from '../مدير-الترجمة';
 import { type Translator } from '../../أنواع.js';
 
 export const arrayTranslator: Translator = {
-  types: ['ArrayExpression'],
+  types: ['ArrayExpression', 'ArrayPattern', 'TupleExpression'],
   translate(node, indent = '') {
     let inline = node.loc.start.line === node.loc.end.line;
-    let code = indent + '[' + (inline ? '' : manager.nl);
+    let hash = node.type === 'TupleExpression' ? '#' : '';
+    let code = indent + hash + '[' + (inline ? '' : manager.nl);
     if (!inline) manager.increaseIndent();
     for (let e of node.elements) {
       // we are not indenting at the begining

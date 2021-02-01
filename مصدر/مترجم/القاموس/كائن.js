@@ -6,7 +6,7 @@ import { addToScope } from '../../مساعدات';
 import { type Translator } from '../../أنواع.js';
 
 export const objectTranslator: Translator = {
-  types: ['ObjectPattern', 'ObjectExpression', 'ObjectProperty', 'ObjectMethod'],
+  types: ['ObjectPattern', 'ObjectExpression', 'RecordExpression', 'ObjectProperty', 'ObjectMethod'],
   translate(node, indent=manager.indent) {
     if (node.type === 'ObjectProperty') {
       // TODO: node.decorators
@@ -38,7 +38,8 @@ export const objectTranslator: Translator = {
     }
 
     let inline = node.loc.start.line === node.loc.end.line;
-    let code = indent + '{' + (inline ? '' : manager.nl);
+    let hash = node.type === 'TupleExpression' ? '#' : '';
+    let code = indent + hash + '{' + (inline ? '' : manager.nl);
     if (!inline) manager.increaseIndent();
     for (let p of node.properties) {
       let propCode = translate(p, '');
