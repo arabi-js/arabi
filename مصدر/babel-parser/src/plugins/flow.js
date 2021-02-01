@@ -3379,7 +3379,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     }: {
       enumName: string,
     }): EnumExplicitType {
-      if (this.eatContextual("of")) {
+      if (this.eatContextual(keyMap._of)) {
         if (!this.match(tt.name)) {
           throw this.flowEnumErrorInvalidExplicitType(this.state.start, {
             enumName,
@@ -3501,7 +3501,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     updateContext(prevType: TokenType): void {
       if (
         this.match(tt.name) &&
-        this.state.value === "of" &&
+        this.state.value === keyMap._of &&
         prevType === tt.name &&
         this.input.slice(this.state.lastTokStart, this.state.lastTokEnd) ===
           "interface"

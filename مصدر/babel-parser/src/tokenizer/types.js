@@ -112,11 +112,14 @@ export const types: { [name: string]: TokenType } = {
   colon: new TokenType(":", { beforeExpr }),
   doubleColon: new TokenType("::", { beforeExpr }),
   dot: new TokenType("."),
-  question: new TokenType("؟", { beforeExpr }),
-  questionDot: new TokenType("؟."),
+  question: new TokenType("?", { beforeExpr }),
+  question2: new TokenType("؟", { beforeExpr }),
+  questionDot: new TokenType("?."),
+  questionDot2: new TokenType("؟."),
   arrow: new TokenType("=>", { beforeExpr }),
   template: new TokenType("template"),
   ellipsis: new TokenType("...", { beforeExpr }),
+  ellipsis2: new TokenType("…", { beforeExpr }),
   backQuote: new TokenType("`", { startsExpr }),
   dollarBraceL: new TokenType("${", { beforeExpr, startsExpr }),
   at: new TokenType("@"),
@@ -124,6 +127,7 @@ export const types: { [name: string]: TokenType } = {
 
   // Special hashbang token.
   interpreterDirective: new TokenType("#!..."),
+  interpreterDirective2: new TokenType("#!…"),
 
   // Operators. These carry several kinds of properties to help the
   // parser use them properly (the presence of these properties is
@@ -146,6 +150,7 @@ export const types: { [name: string]: TokenType } = {
   tilde: new TokenType("~", { beforeExpr, prefix, startsExpr }),
   pipeline: createBinop("|>", 0),
   nullishCoalescing: createBinop("??", 1),
+  nullishCoalescing2: createBinop("؟؟", 1),
   logicalOR: createBinop("||", 1),
   logicalAND: createBinop("&&", 2),
   bitwiseOR: createBinop("|", 3),
@@ -159,7 +164,7 @@ export const types: { [name: string]: TokenType } = {
   modulo: new TokenType("%", { beforeExpr, binop: 10, startsExpr }),
   // unset `beforeExpr` as it can be `function *`
   star: new TokenType("*", { binop: 10 }),
-  slash: createBinop("/", 10),
+  slash: createBinop("\\", 10),
   exponent: new TokenType("**", {
     beforeExpr,
     binop: 11,
