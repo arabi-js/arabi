@@ -4,12 +4,12 @@
   "description": "",
   "main": "./جزمة.js",
   "scripts": {
-    "build": "npx webpack",
+    "build": "webpack",
     "trans": "node ./تجميع",
-    "serve": "npx http-server ./وجهة/ -o /مدخل",
+    "serve": "http-server ./وجهة/ -o /مدخل",
     "start": "node ./تزامن trans:watch build:watch serve",
-    "build:watch": "npx webpack --watch",
-    "trans:watch": "npx nodemon -w ./داخل -e جس -x npm run trans"
+    "build:watch": "webpack --watch",
+    "trans:watch": "nodemon -w ./داخل -e جس -x npm run trans"
   },
   "author": "محمد سمير الصوالحي",
   "license": "MIT",
@@ -19,15 +19,15 @@
     "@babel/plugin-proposal-private-methods": "^7.12.1",
     "@babel/plugin-transform-runtime": "^7.12.10",
     "@babel/plugin-transform-spread": "^7.12.1",
-    "@babel/preset-env": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "colors": "^1.4.0",
     "http-server": "^0.12.3",
-    "nodemon": "^2.0.6",
-    "webpack": "^5.10.2"
+    "nodemon": "^2.0.7",
+    "webpack": "^5.19.0"
   },
   "dependencies": {
-    "@arabi/maps": "file:../../../maps",
-    "@arabi/translate": "file:../../../translate",
+    "@arabi/maps": "^1.4.1",
+    "@arabi/translate": "^1.2.5",
     "@babel/runtime": "^7.12.5"
   }
 }

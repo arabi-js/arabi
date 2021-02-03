@@ -2,7 +2,7 @@
   "main": "./وجهة/حزمة.js",
   "scripts": {
     "trans": "node ./تجميع",
-    "build": "npx webpack",
+    "build": "webpack",
     "transbuild": "npm run trans && npm run build"
   },
   "dependencies": {

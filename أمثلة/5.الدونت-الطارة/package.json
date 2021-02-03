@@ -1,0 +1,16 @@
+{
+  "name": "arabi-donut",
+  "version": "1.0.0",
+  "description": "<div dir=rtl>",
+  "main": "تجميع.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@arabi/maps": "^1.4.1",
+    "@arabi/translate": "^1.2.5",
+    "ansi-escapes": "^4.3.1"
+  }
+}

@@ -1,16 +1,20 @@
 /*****/ 
 /*****/ 
-/*****/ const { parse: __flatted__parse__ } = require("flatted");
-/*****/ const { translate: __arabi__translate__ } = require("@arabi/translate");
+/*****/ import { parse as __flatted__parse__ } from "flatted";
+/*****/ import { translate as __arabi__translate__ } from "@arabi/translate";
 /*****/ 
+/*****/ var استدعي = require;
 /*****/ var رقم = __arabi__translate__(Number, __flatted__parse__("[{\"ليس_رقما\":\"1\"},\"isNaN\"]"), __flatted__parse__("[{}]"));
-/*****/ var كائن = __arabi__translate__(Object, __flatted__parse__("[{\"عين\":\"1\",\"انشئ\":\"2\",\"مداخل\":\"3\",\"مفاتيح\":\"4\",\"قيم\":\"5\",\"من_المداخل\":\"6\",\"عرف_خاصية\":\"7\",\"عرف_خصائص\":\"8\",\"احضر_موصفات_خصايتي\":\"9\",\"احضر_موصفات_خصائصي\":\"10\",\"احضر_أسماء_خصائصي\":\"11\",\"احضر_رموز_خصائصي\":\"12\",\"احضر_النموذج\":\"13\",\"عين_النموذج\":\"14\",\"هل\":\"15\",\"هل_قابل_للامتداد\":\"16\",\"هل_مجمد\":\"17\",\"هل_مختوم\":\"18\",\"جمد\":\"19\",\"اختم\":\"20\",\"امنع_الامتدادات\":\"21\"},\"assign\",\"create\",\"entries\",\"keys\",\"values\",\"fromEntries\",\"defineProperty\",\"defineProperties\",\"getOwnPropertyDescriptor\",\"getOwnPropertyDescriptors\",\"getOwnPropertyNames\",\"getOwnPropertySymbols\",\"getPrototypeOf\",\"setPrototypeOf\",\"is\",\"isExtensible\",\"isFrozen\",\"isSealed\",\"freeze\",\"seal\",\"preventExtensions\"]"), null);
+/*****/ var كائن = __arabi__translate__(Object, __flatted__parse__("[{\"عين\":\"1\",\"انشئ\":\"2\",\"أقياد\":\"3\",\"مفاتيح\":\"4\",\"قيم\":\"5\",\"من_الأقياد\":\"6\",\"عرف_خاصية\":\"7\",\"عرف_خصائص\":\"8\",\"احضر_موصف_خصايتي\":\"9\",\"احضر_موصفات_خصائصي\":\"10\",\"احضر_أسماء_خصائصي\":\"11\",\"احضر_رموز_خصائصي\":\"12\",\"احضر_النموذج\":\"13\",\"عين_النموذج\":\"14\",\"هل\":\"15\",\"هل_امتدادي\":\"16\",\"هل_مجمد\":\"17\",\"هل_مختوم\":\"18\",\"جمد\":\"19\",\"اختم\":\"20\",\"امنع_الامتدادات\":\"21\"},\"assign\",\"create\",\"entries\",\"keys\",\"values\",\"fromEntries\",\"defineProperty\",\"defineProperties\",\"getOwnPropertyDescriptor\",\"getOwnPropertyDescriptors\",\"getOwnPropertyNames\",\"getOwnPropertySymbols\",\"getPrototypeOf\",\"setPrototypeOf\",\"is\",\"isExtensible\",\"isFrozen\",\"isSealed\",\"freeze\",\"seal\",\"preventExtensions\"]"), null);
 /*****/ var مصفوفة = __arabi__translate__(Array, __flatted__parse__("[{\"هل_مصفوفة\":\"1\",\"من\":\"2\"},\"isArray\",\"of\"]"), null);
-/*****/ var دالة = __arabi__translate__(Function, __flatted__parse__("[{}]"), null);
+/*****/ var دالة = Function;
 /*****/ var رياضيات = __arabi__translate__(Math, __flatted__parse__("[{\"إيبسلون\":\"1\",\"صسع32\":\"2\",\"أسي_ط1\":\"3\",\"ضرب_ص\":\"4\",\"أرض\":\"5\",\"أس\":\"6\",\"أسي\":\"7\",\"إشارة\":\"8\",\"تقريب\":\"9\",\"جا\":\"10\",\"جتا\":\"11\",\"جتاع\":\"12\",\"جزر\":\"13\",\"جزر1_2\":\"14\",\"جزر2\":\"15\",\"حاع\":\"16\",\"سقف\":\"17\",\"صغرى\":\"18\",\"ط\":\"19\",\"ظا\":\"20\",\"ظاع\":\"21\",\"عشوائي\":\"22\",\"عطمى\":\"23\",\"لو\":\"24\",\"لو10\":\"25\",\"لو10هـ\":\"26\",\"لو1ب\":\"27\",\"لو2\":\"28\",\"لو2هـ\":\"29\",\"لوهـ10\":\"30\",\"لوهـ2\":\"31\",\"مطلق\":\"32\",\"هـ\":\"33\",\"وتر\":\"34\"},\"EPSILON\",\"clz32\",\"expm1\",\"imul\",\"floor\",\"pow\",\"exp\",\"sign\",\"round\",\"sin\",\"cos\",\"acos\",\"sqrt\",\"SQRT1_2\",\"SQRT2\",\"asin\",\"ceil\",\"min\",\"PI\",\"tan\",\"atan\",\"random\",\"max\",\"log\",\"log10\",\"LOG10E\",\"log1p\",\"log2\",\"LOG2E\",\"LN10\",\"LN2\",\"abs\",\"E\",\"hypot\"]"), __flatted__parse__("[{}]"));
 /*****/ var لوحة = __arabi__translate__(console, __flatted__parse__("[{\"اطبع\":\"1\",\"خطأ\":\"2\",\"جدول\":\"3\",\"وقت\":\"4\",\"أوقف_الوقت\":\"5\"},\"log\",\"error\",\"table\",\"time\",\"timeEnd\"]"), __flatted__parse__("[{}]"));
 /*****/ var رمز = __arabi__translate__(Symbol, __flatted__parse__("[{}]"), null);
 /*****/ var خطأ = Error;
+/*****/ var عملية = __arabi__translate__(process, __flatted__parse__("[{\"خارج\":\"1\"},[\"2\",\"3\"],\"stdout\",{\"اكتب\":\"4\"},\"write\"]"), __flatted__parse__("[{}]"));
+/*****/ var صادرات = exports;
+/*****/ var وحدة = __arabi__translate__(module, __flatted__parse__("[{\"صادرات\":\"1\"},\"exports\"]"), __flatted__parse__("[{}]"));
 /*****/ 
 /*****/ (()=>{
 /*****/   var __the__proto__ = Object.prototype;
@@ -26,11 +30,25 @@
 /*****/ 
 /*****/ (()=>{
 /*****/   var __the__proto__ = Array.prototype;
+/*****/   Object.defineProperty(__the__proto__, "سلسل", {get: function(){ return this.concat },set: function(v){ return this.concat = v },});
+/*****/   Object.defineProperty(__the__proto__, "نسخ_ضمني", {get: function(){ return this.copyWithin },set: function(v){ return this.copyWithin = v },});
+/*****/   Object.defineProperty(__the__proto__, "أقياد", {get: function(){ return this.entries },set: function(v){ return this.entries = v },});
+/*****/   Object.defineProperty(__the__proto__, "كل", {get: function(){ return this.every },set: function(v){ return this.every = v },});
+/*****/   Object.defineProperty(__the__proto__, "املئ", {get: function(){ return this.fill },set: function(v){ return this.fill = v },});
+/*****/   Object.defineProperty(__the__proto__, "رشح", {get: function(){ return this.filter },set: function(v){ return this.filter = v },});
+/*****/   Object.defineProperty(__the__proto__, "جد", {get: function(){ return this.find },set: function(v){ return this.find = v },});
+/*****/   Object.defineProperty(__the__proto__, "جد_مؤشر", {get: function(){ return this.findIndex },set: function(v){ return this.findIndex = v },});
 /*****/   Object.defineProperty(__the__proto__, "سطح", {get: function(){ return this.flat },set: function(v){ return this.flat = v },});
+/*****/   Object.defineProperty(__the__proto__, "تخريط_مسطح", {get: function(){ return this.flatMap },set: function(v){ return this.flatMap = v },});
 /*****/   Object.defineProperty(__the__proto__, "لكل", {get: function(){ return this.forEach },set: function(v){ return this.forEach = v },});
+/*****/   Object.defineProperty(__the__proto__, "تتضمن", {get: function(){ return this.includes },set: function(v){ return this.includes = v },});
+/*****/   Object.defineProperty(__the__proto__, "مؤشر", {get: function(){ return this.indexOf },set: function(v){ return this.indexOf = v },});
+/*****/   Object.defineProperty(__the__proto__, "ادمج", {get: function(){ return this.join },set: function(v){ return this.join = v },});
+/*****/   Object.defineProperty(__the__proto__, "مفاتيح", {get: function(){ return this.keys },set: function(v){ return this.keys = v },});
 /*****/   Object.defineProperty(__the__proto__, "آخر_مؤشر", {get: function(){ return this.lastIndexOf },set: function(v){ return this.lastIndexOf = v },});
 /*****/   Object.defineProperty(__the__proto__, "طول", {get: function(){ return this.length },set: function(v){ return this.length = v },});
 /*****/   Object.defineProperty(__the__proto__, "خرط", {get: function(){ return this.map },set: function(v){ return this.map = v },});
+/*****/   Object.defineProperty(__the__proto__, "ازل", {get: function(){ return this.pop },set: function(v){ return this.pop = v },});
 /*****/   Object.defineProperty(__the__proto__, "ادفع", {get: function(){ return this.push },set: function(v){ return this.push = v },});
 /*****/   Object.defineProperty(__the__proto__, "قلل", {get: function(){ return this.reduce },set: function(v){ return this.reduce = v },});
 /*****/   Object.defineProperty(__the__proto__, "قلل_يمين", {get: function(){ return this.reduceRight },set: function(v){ return this.reduceRight = v },});
@@ -39,7 +57,9 @@
 /*****/   Object.defineProperty(__the__proto__, "شرح", {get: function(){ return this.slice },set: function(v){ return this.slice = v },});
 /*****/   Object.defineProperty(__the__proto__, "بعض", {get: function(){ return this.some },set: function(v){ return this.some = v },});
 /*****/   Object.defineProperty(__the__proto__, "رتب", {get: function(){ return this.sort },set: function(v){ return this.sort = v },});
+/*****/   Object.defineProperty(__the__proto__, "احشر", {get: function(){ return this.splice },set: function(v){ return this.splice = v },});
 /*****/   Object.defineProperty(__the__proto__, "لنص_محلي", {get: function(){ return this.toLocaleString },set: function(v){ return this.toLocaleString = v },});
+/*****/   Object.defineProperty(__the__proto__, "للمصدر", {get: function(){ return this.toSource },set: function(v){ return this.toSource = v },});
 /*****/   Object.defineProperty(__the__proto__, "لنص", {get: function(){ return this.toString },set: function(v){ return this.toString = v },});
 /*****/   Object.defineProperty(__the__proto__, "قيم", {get: function(){ return this.values },set: function(v){ return this.values = v },});
 /*****/ })();
@@ -69,10 +89,7 @@
 // ############ -----------------------------------------
 // THE ORIGINAL TRANSLATED CODE -------------------------
 
-import __arabi__1etjoc90i__ from "jquery"; const جيك = __arabi__translate__(__arabi__1etjoc90i__, __flatted__parse__("[{}]"), __flatted__parse__("[{\"returnMap\":\"1\"},{}]"));
-let متغير1 = "متغير1";
-const متغير2 = "متغير2";
-export { متغير1, جيك as $, جيك };
-export { متغير2 };
-export var متغير3 = "متغير3";
-;
+
+function رسم_إطار() {
+}
+

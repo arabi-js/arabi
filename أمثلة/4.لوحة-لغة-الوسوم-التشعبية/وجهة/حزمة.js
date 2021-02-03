@@ -10,7 +10,7 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var flatted__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flatted */ "../../node_modules/flatted/esm/index.js");
-/* harmony import */ var _arabi_translate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @arabi/translate */ "../../../translate/حزمة/مدخل.js");
+/* harmony import */ var _arabi_translate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @arabi/translate */ "./node_modules/@arabi/translate/حزمة/مدخل.js");
 /*****/
 
 /*****/
@@ -32,13 +32,13 @@ self["انذر"] = alert;
 self["رقم"] = (0,_arabi_translate__WEBPACK_IMPORTED_MODULE_1__.translate)(Number, (0,flatted__WEBPACK_IMPORTED_MODULE_0__.parse)("[{\"ليس_رقما\":\"1\"},\"isNaN\"]"), undefined);
 /*****/
 
-self["كائن"] = (0,_arabi_translate__WEBPACK_IMPORTED_MODULE_1__.translate)(Object, (0,flatted__WEBPACK_IMPORTED_MODULE_0__.parse)("[{\"عين\":\"1\",\"انشئ\":\"2\",\"مداخل\":\"3\",\"مفاتيح\":\"4\",\"قيم\":\"5\",\"من_المداخل\":\"6\",\"عرف_خاصية\":\"7\",\"عرف_خصائص\":\"8\",\"احضر_موصفات_خصايتي\":\"9\",\"احضر_موصفات_خصائصي\":\"10\",\"احضر_أسماء_خصائصي\":\"11\",\"احضر_رموز_خصائصي\":\"12\",\"احضر_النموذج\":\"13\",\"عين_النموذج\":\"14\",\"هل\":\"15\",\"هل_قابل_للامتداد\":\"16\",\"هل_مجمد\":\"17\",\"هل_مختوم\":\"18\",\"جمد\":\"19\",\"اختم\":\"20\",\"امنع_الامتدادات\":\"21\"},\"assign\",\"create\",\"entries\",\"keys\",\"values\",\"fromEntries\",\"defineProperty\",\"defineProperties\",\"getOwnPropertyDescriptor\",\"getOwnPropertyDescriptors\",\"getOwnPropertyNames\",\"getOwnPropertySymbols\",\"getPrototypeOf\",\"setPrototypeOf\",\"is\",\"isExtensible\",\"isFrozen\",\"isSealed\",\"freeze\",\"seal\",\"preventExtensions\"]"), null);
+self["كائن"] = (0,_arabi_translate__WEBPACK_IMPORTED_MODULE_1__.translate)(Object, (0,flatted__WEBPACK_IMPORTED_MODULE_0__.parse)("[{\"عين\":\"1\",\"انشئ\":\"2\",\"أقياد\":\"3\",\"مفاتيح\":\"4\",\"قيم\":\"5\",\"من_الأقياد\":\"6\",\"عرف_خاصية\":\"7\",\"عرف_خصائص\":\"8\",\"احضر_موصف_خصايتي\":\"9\",\"احضر_موصفات_خصائصي\":\"10\",\"احضر_أسماء_خصائصي\":\"11\",\"احضر_رموز_خصائصي\":\"12\",\"احضر_النموذج\":\"13\",\"عين_النموذج\":\"14\",\"هل\":\"15\",\"هل_امتدادي\":\"16\",\"هل_مجمد\":\"17\",\"هل_مختوم\":\"18\",\"جمد\":\"19\",\"اختم\":\"20\",\"امنع_الامتدادات\":\"21\"},\"assign\",\"create\",\"entries\",\"keys\",\"values\",\"fromEntries\",\"defineProperty\",\"defineProperties\",\"getOwnPropertyDescriptor\",\"getOwnPropertyDescriptors\",\"getOwnPropertyNames\",\"getOwnPropertySymbols\",\"getPrototypeOf\",\"setPrototypeOf\",\"is\",\"isExtensible\",\"isFrozen\",\"isSealed\",\"freeze\",\"seal\",\"preventExtensions\"]"), null);
 /*****/
 
 self["مصفوفة"] = (0,_arabi_translate__WEBPACK_IMPORTED_MODULE_1__.translate)(Array, (0,flatted__WEBPACK_IMPORTED_MODULE_0__.parse)("[{\"هل_مصفوفة\":\"1\",\"من\":\"2\"},\"isArray\",\"of\"]"), null);
 /*****/
 
-self["دالة"] = (0,_arabi_translate__WEBPACK_IMPORTED_MODULE_1__.translate)(Function, (0,flatted__WEBPACK_IMPORTED_MODULE_0__.parse)("[{}]"), null);
+self["دالة"] = Function;
 /*****/
 
 self["رياضيات"] = (0,_arabi_translate__WEBPACK_IMPORTED_MODULE_1__.translate)(Math, (0,flatted__WEBPACK_IMPORTED_MODULE_0__.parse)("[{\"إيبسلون\":\"1\",\"صسع32\":\"2\",\"أسي_ط1\":\"3\",\"ضرب_ص\":\"4\",\"أرض\":\"5\",\"أس\":\"6\",\"أسي\":\"7\",\"إشارة\":\"8\",\"تقريب\":\"9\",\"جا\":\"10\",\"جتا\":\"11\",\"جتاع\":\"12\",\"جزر\":\"13\",\"جزر1_2\":\"14\",\"جزر2\":\"15\",\"حاع\":\"16\",\"سقف\":\"17\",\"صغرى\":\"18\",\"ط\":\"19\",\"ظا\":\"20\",\"ظاع\":\"21\",\"عشوائي\":\"22\",\"عطمى\":\"23\",\"لو\":\"24\",\"لو10\":\"25\",\"لو10هـ\":\"26\",\"لو1ب\":\"27\",\"لو2\":\"28\",\"لو2هـ\":\"29\",\"لوهـ10\":\"30\",\"لوهـ2\":\"31\",\"مطلق\":\"32\",\"هـ\":\"33\",\"وتر\":\"34\"},\"EPSILON\",\"clz32\",\"expm1\",\"imul\",\"floor\",\"pow\",\"exp\",\"sign\",\"round\",\"sin\",\"cos\",\"acos\",\"sqrt\",\"SQRT1_2\",\"SQRT2\",\"asin\",\"ceil\",\"min\",\"PI\",\"tan\",\"atan\",\"random\",\"max\",\"log\",\"log10\",\"LOG10E\",\"log1p\",\"log2\",\"LOG2E\",\"LN10\",\"LN2\",\"abs\",\"E\",\"hypot\"]"), undefined);
@@ -153,6 +153,86 @@ self["مستند"] = (0,_arabi_translate__WEBPACK_IMPORTED_MODULE_1__.translate)
   var __the__proto__ = Array.prototype;
   /*****/
 
+  Object.defineProperty(__the__proto__, "سلسل", {
+    get: function get() {
+      return this.concat;
+    },
+    set: function set(v) {
+      return this.concat = v;
+    }
+  });
+  /*****/
+
+  Object.defineProperty(__the__proto__, "نسخ_ضمني", {
+    get: function get() {
+      return this.copyWithin;
+    },
+    set: function set(v) {
+      return this.copyWithin = v;
+    }
+  });
+  /*****/
+
+  Object.defineProperty(__the__proto__, "أقياد", {
+    get: function get() {
+      return this.entries;
+    },
+    set: function set(v) {
+      return this.entries = v;
+    }
+  });
+  /*****/
+
+  Object.defineProperty(__the__proto__, "كل", {
+    get: function get() {
+      return this.every;
+    },
+    set: function set(v) {
+      return this.every = v;
+    }
+  });
+  /*****/
+
+  Object.defineProperty(__the__proto__, "املئ", {
+    get: function get() {
+      return this.fill;
+    },
+    set: function set(v) {
+      return this.fill = v;
+    }
+  });
+  /*****/
+
+  Object.defineProperty(__the__proto__, "رشح", {
+    get: function get() {
+      return this.filter;
+    },
+    set: function set(v) {
+      return this.filter = v;
+    }
+  });
+  /*****/
+
+  Object.defineProperty(__the__proto__, "جد", {
+    get: function get() {
+      return this.find;
+    },
+    set: function set(v) {
+      return this.find = v;
+    }
+  });
+  /*****/
+
+  Object.defineProperty(__the__proto__, "جد_مؤشر", {
+    get: function get() {
+      return this.findIndex;
+    },
+    set: function set(v) {
+      return this.findIndex = v;
+    }
+  });
+  /*****/
+
   Object.defineProperty(__the__proto__, "سطح", {
     get: function get() {
       return this.flat;
@@ -163,12 +243,62 @@ self["مستند"] = (0,_arabi_translate__WEBPACK_IMPORTED_MODULE_1__.translate)
   });
   /*****/
 
+  Object.defineProperty(__the__proto__, "تخريط_مسطح", {
+    get: function get() {
+      return this.flatMap;
+    },
+    set: function set(v) {
+      return this.flatMap = v;
+    }
+  });
+  /*****/
+
   Object.defineProperty(__the__proto__, "لكل", {
     get: function get() {
       return this.forEach;
     },
     set: function set(v) {
       return this.forEach = v;
+    }
+  });
+  /*****/
+
+  Object.defineProperty(__the__proto__, "تتضمن", {
+    get: function get() {
+      return this.includes;
+    },
+    set: function set(v) {
+      return this.includes = v;
+    }
+  });
+  /*****/
+
+  Object.defineProperty(__the__proto__, "مؤشر", {
+    get: function get() {
+      return this.indexOf;
+    },
+    set: function set(v) {
+      return this.indexOf = v;
+    }
+  });
+  /*****/
+
+  Object.defineProperty(__the__proto__, "ادمج", {
+    get: function get() {
+      return this.join;
+    },
+    set: function set(v) {
+      return this.join = v;
+    }
+  });
+  /*****/
+
+  Object.defineProperty(__the__proto__, "مفاتيح", {
+    get: function get() {
+      return this.keys;
+    },
+    set: function set(v) {
+      return this.keys = v;
     }
   });
   /*****/
@@ -199,6 +329,16 @@ self["مستند"] = (0,_arabi_translate__WEBPACK_IMPORTED_MODULE_1__.translate)
     },
     set: function set(v) {
       return this.map = v;
+    }
+  });
+  /*****/
+
+  Object.defineProperty(__the__proto__, "ازل", {
+    get: function get() {
+      return this.pop;
+    },
+    set: function set(v) {
+      return this.pop = v;
     }
   });
   /*****/
@@ -283,12 +423,32 @@ self["مستند"] = (0,_arabi_translate__WEBPACK_IMPORTED_MODULE_1__.translate)
   });
   /*****/
 
+  Object.defineProperty(__the__proto__, "احشر", {
+    get: function get() {
+      return this.splice;
+    },
+    set: function set(v) {
+      return this.splice = v;
+    }
+  });
+  /*****/
+
   Object.defineProperty(__the__proto__, "لنص_محلي", {
     get: function get() {
       return this.toLocaleString;
     },
     set: function set(v) {
       return this.toLocaleString = v;
+    }
+  });
+  /*****/
+
+  Object.defineProperty(__the__proto__, "للمصدر", {
+    get: function get() {
+      return this.toSource;
+    },
+    set: function set(v) {
+      return this.toSource = v;
     }
   });
   /*****/
@@ -789,104 +949,13 @@ const stringify = (value, replacer, space) => {
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/classCallCheck.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/classCallCheck.js ***!
-  \***************************************************************/
-/***/ ((module) => {
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-module.exports = _classCallCheck;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/classPrivateFieldGet.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/classPrivateFieldGet.js ***!
-  \*********************************************************************/
-/***/ ((module) => {
-
-function _classPrivateFieldGet(receiver, privateMap) {
-  var descriptor = privateMap.get(receiver);
-
-  if (!descriptor) {
-    throw new TypeError("attempted to get private field on non-instance");
-  }
-
-  if (descriptor.get) {
-    return descriptor.get.call(receiver);
-  }
-
-  return descriptor.value;
-}
-
-module.exports = _classPrivateFieldGet;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/createClass.js":
-/*!************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/createClass.js ***!
-  \************************************************************/
-/***/ ((module) => {
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-module.exports = _createClass;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/defineProperty.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/defineProperty.js ***!
-  \***************************************************************/
-/***/ ((module) => {
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-module.exports = _defineProperty;
-
-/***/ }),
-
-/***/ "../../../translate/حزمة/استدعي.js":
-/*!*****************************************!*\
-  !*** ../../../translate/حزمة/استدعي.js ***!
-  \*****************************************/
+/***/ "./node_modules/@arabi/translate/حزمة/استدعي.js":
+/*!******************************************************!*\
+  !*** ./node_modules/@arabi/translate/حزمة/استدعي.js ***!
+  \******************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-var __arabi__translate__ = __webpack_require__(/*! ./مترجم */ "../../../translate/حزمة/مترجم.js").default;
+var __arabi__translate__ = __webpack_require__(/*! ./مترجم */ "./node_modules/@arabi/translate/حزمة/مترجم.js").default;
 var __require__cache__ = {};
 exports.default = function __arabi__translate__require__(__module, __query) {
   if(__query in __require__cache__) return __require__cache__[__query];
@@ -901,10 +970,10 @@ exports.default = function __arabi__translate__require__(__module, __query) {
 
 /***/ }),
 
-/***/ "../../../translate/حزمة/مترجم.js":
-/*!****************************************!*\
-  !*** ../../../translate/حزمة/مترجم.js ***!
-  \****************************************/
+/***/ "./node_modules/@arabi/translate/حزمة/مترجم.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/@arabi/translate/حزمة/مترجم.js ***!
+  \*****************************************************/
 /***/ ((__unused_webpack_module, exports) => {
 
 exports.default = function __arabi__translate__(obj, map, options={}) {
@@ -1018,17 +1087,108 @@ exports.default = function __arabi__translate__(obj, map, options={}) {
 
 /***/ }),
 
-/***/ "../../../translate/حزمة/مدخل.js":
-/*!***************************************!*\
-  !*** ../../../translate/حزمة/مدخل.js ***!
-  \***************************************/
+/***/ "./node_modules/@arabi/translate/حزمة/مدخل.js":
+/*!****************************************************!*\
+  !*** ./node_modules/@arabi/translate/حزمة/مدخل.js ***!
+  \****************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 exports.code = "exports.default = function __arabi__translate__(obj, map, options={}) {\n_@_@indent@_@_let proxyHandler = {};\n_@_@indent@_@_\n_@_@indent@_@_if (map) {\n_@_@indent@_@__@_@indent@_@_if (map instanceof Function) map = map(obj); // dynamic maps\n_@_@indent@_@__@_@indent@_@_let mapMap = [[], []]; // [arabicKey[], originalKey[]]\n_@_@indent@_@__@_@indent@_@_Object.entries(map).forEach(([k, v])=>{\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_let _k = (typeof v === 'string') ? v : v[0];\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_mapMap[0].push(k);\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_mapMap[1].push(_k);\n_@_@indent@_@__@_@indent@_@_});\n_@_@indent@_@__@_@indent@_@_Object.assign(proxyHandler, {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_get(target, prop, receiver) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_let v = map[prop];\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_if (v && !(prop in target)) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_if (typeof v === 'string') {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_let value = target[v];\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_value = typeof value == 'function' ? value.bind(target) : value;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_return value;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_}\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_if (v[1] || v[2]) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_// we translate another object in the targeted propperty\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_let value = target[v[0]];\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_value = typeof value == 'function' ? value.bind(target) : value;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_let translatedObject = __arabi__translate__(value, v[1], v[2]);\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_Object.defineProperty(target, prop, { value: translatedObject });\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_return translatedObject;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_} \n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_throw new Error(\"unexpecting thing happened while translation (@arabi)\");\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_}\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_let value = target[prop];\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_value = typeof value == 'function' ? value.bind(target) : value;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_return value;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_},\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_set(target, prop, value) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_let validSetting = true;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_if(prop in map) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_prop = map[prop];\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_if (typeof prop !== 'string') prop = prop[0];\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_}\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_let i;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_if ((i = mapMap[1].indexOf[prop]) > -1) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_// delete the cached value, translate again when getting using the arabic key.\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_validSetting = delete target[mapMap[0][i]];\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_}\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_target[prop] = value;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_return validSetting;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_},\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_has(target, prop) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_if (prop in map) prop = map[prop];\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_prop === typeof prop === 'string' ? prop : prop[0];\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_return prop in target;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_},\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_// hasProperty(target, prop) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_//   return true;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_// },\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_// getPrototypeOf(target, prop) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_//   return Object.getPrototypeOf(o);\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_// },\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_// setPrototypeOf(target, prop) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_//   return true;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_// },\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_// isExtensible(target, prop) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_//   return true;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_// },\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_// preventExtensions(target, prop) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_//   return true;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_// },\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_// defineProperty(target, prop) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_//   return true;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_// },\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_// getOwnPropertyDescriptor(target, prop) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_//   return true;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_// },\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_// ownKeys(target, prop) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_//   return true;\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_// },\n_@_@indent@_@__@_@indent@_@_});\n_@_@indent@_@_}\n\n_@_@indent@_@_if (options && options.returnMap) {\n_@_@indent@_@__@_@indent@_@_proxyHandler.apply = function(target, thisArg, args) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_let value = Reflect.apply(target, thisArg, args);\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_let _map = options.returnMap[0],\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__options = options.returnMap[1];\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_if (_map || _options) \n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_value = __arabi__translate__(value, _map, _options);\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_return value;\n_@_@indent@_@__@_@indent@_@_}\n_@_@indent@_@_}\n\n_@_@indent@_@_if (options && options.constructMap) {\n_@_@indent@_@__@_@indent@_@_proxyHandler.construct = function(target, args) {\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_let value = Reflect.construct(target, args);\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_let _map = options.constructMap[0],\n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@__options = options.constructMap[1];\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_if (_map || _options) \n_@_@indent@_@__@_@indent@_@__@_@indent@_@__@_@indent@_@_value = __arabi__translate__(value, _map, _options);\n_@_@indent@_@__@_@indent@_@__@_@indent@_@_return value;\n_@_@indent@_@__@_@indent@_@_}\n_@_@indent@_@_}\n\n_@_@indent@_@_return new Proxy(obj, proxyHandler);\n}\n";
 exports.requireCode = "var __require__cache__ = {};\nexports.default = function __arabi__translate__require__(__module, __query) {\n_@_@indent@_@_if(__query in __require__cache__) return __require__cache__[__query];\n_@_@indent@_@_if (__query in __arabi__modules__tmap__) {\n_@_@indent@_@__@_@indent@_@_let m = __arabi__modules__tmap__[__query];\n_@_@indent@_@__@_@indent@_@_let _ = __arabi__translate__(__module, m[1], m[2]);\n_@_@indent@_@__@_@indent@_@_Object.assign(__require__cache__, __module, { value: _ });\n_@_@indent@_@__@_@indent@_@_return _;\n_@_@indent@_@_}\n_@_@indent@_@_return __module;\n};";
-exports.translate = __webpack_require__(/*! ./مترجم */ "../../../translate/حزمة/مترجم.js").default;
-exports.translateRequire = __webpack_require__(/*! ./استدعي */ "../../../translate/حزمة/استدعي.js").default;
+exports.translate = __webpack_require__(/*! ./مترجم */ "./node_modules/@arabi/translate/حزمة/مترجم.js").default;
+exports.translateRequire = __webpack_require__(/*! ./استدعي */ "./node_modules/@arabi/translate/حزمة/استدعي.js").default;
 
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/classCallCheck.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/classCallCheck.js ***!
+  \***************************************************************/
+/***/ ((module) => {
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+module.exports = _classCallCheck;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/classPrivateFieldGet.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/classPrivateFieldGet.js ***!
+  \*********************************************************************/
+/***/ ((module) => {
+
+function _classPrivateFieldGet(receiver, privateMap) {
+  var descriptor = privateMap.get(receiver);
+
+  if (!descriptor) {
+    throw new TypeError("attempted to get private field on non-instance");
+  }
+
+  if (descriptor.get) {
+    return descriptor.get.call(receiver);
+  }
+
+  return descriptor.value;
+}
+
+module.exports = _classPrivateFieldGet;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/createClass.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/createClass.js ***!
+  \************************************************************/
+/***/ ((module) => {
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+module.exports = _createClass;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/defineProperty.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/defineProperty.js ***!
+  \***************************************************************/
+/***/ ((module) => {
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+module.exports = _defineProperty;
 
 /***/ })
 
