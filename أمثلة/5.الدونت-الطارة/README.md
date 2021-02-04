@@ -6,14 +6,18 @@
 
 هذه هي المقالة المشار إليها كتبها صاحب الكود: https://www.a1k0n.net/2011/07/20/donut-math.html
 
-![استعراض](./استعراض.gif)
+<center><img alt="استعراض المثال" src="./استعراض.gif"/></center>
 
-  ## تشغيل المثال
+## تشغيل المثال
+
+<div dir=ltr>
 
 ```bash
 npm install
 npm start
 ```
+
+</div>
 
 ## ملاحظات
 
