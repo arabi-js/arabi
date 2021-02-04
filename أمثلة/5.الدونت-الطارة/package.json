@@ -4,7 +4,8 @@
   "description": "<div dir=rtl>",
   "main": "تجميع.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node donut.js",
+    "build": "node ./تجميع.js"
   },
   "author": "",
   "license": "MIT",
