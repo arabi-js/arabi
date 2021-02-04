@@ -29,7 +29,7 @@ render_frame(float A, float B) {
     for(float phi=0; phi < 2*pi; phi += phi_spacing) {
       // precompute sines and cosines of phi
       float cosphi = cos(phi), sinphi = sin(phi);
-    
+
       // the x,y coordinate of the circle, before revolving (factored
       // out of the above equations)
       float circlex = R2 + R1*costheta;
