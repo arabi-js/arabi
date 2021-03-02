@@ -8,7 +8,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/javascript-in-arabic/core.git"
+    "url": "https://github.com/arabi-js/arabi.git"
   },
   "scripts": {
     "start": "webpack --watch --mode development",

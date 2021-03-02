@@ -14,7 +14,8 @@
 <div dir=ltr>
 
 ```bash
-❯ npm i -D @arabi/core && npm i @arabi/translate @arabi/maps
+❯ npm i -D @arabi/core @arabi/maps
+❯ npm i @arabi/translate
 ```
 
 ```js
