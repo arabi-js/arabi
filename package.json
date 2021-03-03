@@ -1,0 +1,29 @@
+{
+  "name": "@arabi/arabi",
+  "description": "جافاسكريبت معربةً",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arabi-js/arabi.git"
+  },
+  "author": "Mohammed",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arabi-js/arabi/issues"
+  },
+  "homepage": "https://github.com/arabi-js/arabi#readme",
+  "scripts": {
+    "build": "lerna build --concurrency 4 --stream",
+    "test": "lerna test --concurrency 4 --stream",
+    "lint": "lerna lint --concurrency 4 --stream",
+    "clean": "lerna test --concurrency 4"
+  },
+  "scripty": {
+    "path": "./أوامر/مساحة_العمل"
+  },
+  "devDependencies": {
+    "lerna": "^4.0.0",
+    "rimraf": "^3.0.2",
+    "scripty": "^2.0.0"
+  }
+}
