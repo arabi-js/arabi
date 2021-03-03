@@ -1,0 +1,25 @@
+{
+  "name": "@arabi/translate",
+  "version": "1.2.5",
+  "description": "حزمة مساعدة للحزمة الأم - core",
+  "main": "./حزمة/مدخل.js",
+  "scripts": {
+    "build": "node ./بناء.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/javascript-in-arabic/translate.git"
+  },
+  "keywords": [
+    "arjs",
+    "arjs-translate",
+    "translate",
+    "arabic",
+    "js",
+    "javascript",
+    "arabi",
+    "عربي"
+  ],
+  "author": "محمد سمير الصوالحي",
+  "license": "MIT"
+}
