@@ -6,7 +6,7 @@ const mathMap = {
   // "": "atan2",
   // "": "atanh",
   // "": "cbrt",
-  "صسع32": "clz32",
+  "عصس32": "clz32",
   // "": "cosh",
   "أسي_ط1": "expm1",
   // "": "fround",

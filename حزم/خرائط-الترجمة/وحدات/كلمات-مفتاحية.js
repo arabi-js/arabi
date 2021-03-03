@@ -27,6 +27,7 @@ export const _class = 'فئة';
 export const _extends = 'امتداد';
 export const _export = 'تصدير';
 export const _import = 'استيراد';
+export const _undefined = 'غير_معرف';
 export const _null = 'جفاء';
 export const _true = 'حق';
 export const _false = 'باطل';

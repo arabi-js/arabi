@@ -14,7 +14,7 @@ const objectMap = {
   عين: "assign",
   انشئ: "create",
   أقياد: "entries",
-  مفاتيح: "keys",
+  فهرس: "keys",
   قيم: "values",
   من_الأقياد: "fromEntries",
   عرف_خاصية: "defineProperty",

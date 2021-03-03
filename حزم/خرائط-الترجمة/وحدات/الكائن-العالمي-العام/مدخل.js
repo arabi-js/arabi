@@ -3,6 +3,8 @@ import arrayMap from './مصفوفة';
 import functionMap from './دالة';
 import mathMap from './رياضيات';
 import symbolMap from './رمز';
+import stringMap from './نص';
+import numberMap from './رقم';
 
 export const consoleMap = ["console", {
   اطبع: "log",
@@ -10,10 +12,6 @@ export const consoleMap = ["console", {
   جدول: "table",
   وقت: "time",
   أوقف_الوقت: "timeEnd",
-}];
-
-export const numberMap = ["Number", {
-  ليس_رقما: "isNaN",
 }];
 
 export default {
@@ -24,5 +22,6 @@ export default {
   رياضيات: mathMap,
   لوحة: consoleMap,
   رمز: symbolMap,
-  خطأ: "Error"
+  خطأ: "Error",
+  نص: stringMap
 };
