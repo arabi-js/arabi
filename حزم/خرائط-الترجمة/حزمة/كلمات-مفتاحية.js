@@ -1,0 +1,125 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports._require = exports._constructor = exports._eval = exports._arguments = exports._implements = exports._type = exports._interface = exports._enum = exports._static = exports._public = exports._protected = exports._private = exports._package = exports._set = exports._get = exports._await = exports._async = exports._yield = exports._as = exports._in = exports._of = exports._from = exports._let = exports._delete = exports._void = exports._typeof = exports._instanceof = exports._false = exports._true = exports._null = exports._import = exports._export = exports._extends = exports._class = exports._super = exports._this = exports._new = exports._with = exports._while = exports._const = exports._var = exports._try = exports._throw = exports._switch = exports._return = exports._if = exports._function = exports._for = exports._finally = exports._else = exports._do = exports._default = exports._debugger = exports._continue = exports._catch = exports._case = exports._break = void 0;
+// translation map for keywords
+var _break = 'توقف';
+exports._break = _break;
+var _case = 'حالة';
+exports._case = _case;
+var _catch = 'اكتشف';
+exports._catch = _catch;
+var _continue = 'اسمتر';
+exports._continue = _continue;
+var _debugger = 'فاحص';
+exports._debugger = _debugger;
+var _default = 'افتراضي';
+exports._default = _default;
+var _do = 'افعل';
+exports._do = _do;
+var _else = 'وإلا';
+exports._else = _else;
+var _finally = 'في_النهاية';
+exports._finally = _finally;
+var _for = 'لكل';
+exports._for = _for;
+var _function = 'دالة';
+exports._function = _function;
+var _if = 'لو';
+exports._if = _if;
+var _return = 'ارجع';
+exports._return = _return;
+var _switch = 'بدائل';
+exports._switch = _switch;
+var _throw = 'اقذف';
+exports._throw = _throw;
+var _try = 'حاول';
+exports._try = _try;
+var _var = 'متغير';
+exports._var = _var;
+var _const = 'ثابت';
+exports._const = _const;
+var _while = 'بينما';
+exports._while = _while;
+var _with = 'مع';
+exports._with = _with;
+var _new = 'انشئ';
+exports._new = _new;
+var _this = 'هذا';
+exports._this = _this;
+var _super = 'مشرف';
+exports._super = _super;
+var _class = 'فئة';
+exports._class = _class;
+var _extends = 'امتداد';
+exports._extends = _extends;
+var _export = 'تصدير';
+exports._export = _export;
+var _import = 'استيراد';
+exports._import = _import;
+var _null = 'جفاء';
+exports._null = _null;
+var _true = 'حق';
+exports._true = _true;
+var _false = 'باطل';
+exports._false = _false;
+var _instanceof = 'عينة_من';
+exports._instanceof = _instanceof;
+var _typeof = 'نوع';
+exports._typeof = _typeof;
+var _void = 'فارغ';
+exports._void = _void;
+var _delete = 'امح';
+exports._delete = _delete;
+var _let = 'عرف';
+exports._let = _let;
+var _from = 'من';
+exports._from = _from;
+var _of = 'من'; // we have to change the way the parser work in this case, to make the following syntax work: "for (let item from array) doSomething();"
+
+exports._of = _of;
+var _in = 'في';
+exports._in = _in;
+var _as = 'ك';
+exports._as = _as;
+var _yield = 'انتج';
+exports._yield = _yield;
+var _async = 'تزامن';
+exports._async = _async;
+var _await = 'انتظر';
+exports._await = _await;
+var _get = 'احضر';
+exports._get = _get;
+var _set = 'عين';
+exports._set = _set;
+var _package = 'حزمة';
+exports._package = _package;
+var _private = 'خاص';
+exports._private = _private;
+var _protected = 'محمي';
+exports._protected = _protected;
+var _public = 'عام';
+exports._public = _public;
+var _static = 'ثابت';
+exports._static = _static;
+var _enum = 'تعداد';
+exports._enum = _enum;
+var _interface = 'واجهة';
+exports._interface = _interface;
+var _type = 'نوع';
+exports._type = _type;
+var _implements = 'تنفيذ'; // this should be a reversed defined variable in strict mode
+// make sure that these are the same in the APIs translation maps
+
+exports._implements = _implements;
+var _arguments = 'وسائط';
+exports._arguments = _arguments;
+var _eval = 'قدر'; // this depends on `this`
+
+exports._eval = _eval;
+var _constructor = 'منشئ';
+exports._constructor = _constructor;
+var _require = 'استدعي';
+exports._require = _require;
