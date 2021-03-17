@@ -1,0 +1,9 @@
+{
+  "packages": [
+    "حزم/*",
+    "أمثلة/*"
+  ],
+  "npmClient": "yarn",
+  "version": "independent",
+  "useWorkspaces": true
+}

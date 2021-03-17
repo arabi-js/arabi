@@ -1,0 +1,17 @@
+{
+  "name": "@arabi/parser",
+  "version": "1.0.0",
+  "description": "محلل (سابر) أكواد جافاسكريبت المعربة - مبني على محلل بابل",
+  "main": "dist",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arabi-js/arabi.git",
+    "directory": "حزم/محلل"
+  },
+  "contributers": ["محمد سمير الصوالحي"],
+  "license": "MIT",
+  "private": false
+}

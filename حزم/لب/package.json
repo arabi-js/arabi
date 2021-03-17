@@ -1,14 +1,18 @@
 {
   "name": "@arabi/core",
   "version": "1.0.0",
-  "description": "It is just a trial to prove that we can.",
+  "description": "جافاسكريبت معربة.",
   "main": "حزمة/arabi.js",
   "files": [
     "حزمة"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/arabi-js/arabi.git"
+    "url": "https://github.com/arabi-js/arabi.git",
+    "directory": "حزم/لب"
   },
   "scripts": {
     "start": "webpack --watch --mode development",
@@ -18,6 +22,14 @@
     "style": "npx prettier ./مصدر --write",
     "lint": "npx eslint ./مصدر",
     "test": "echo testing!!!"
+  },
+  "dependencies": {
+    "@arabi/maps": "^1.4.0",
+    "@arabi/translate": "^1.2.5",
+    "@babel/runtime": "^7.12.5",
+    "charcodes": "^0.2.0",
+    "colors": "^1.4.0",
+    "flatted": "^3.1.0"
   },
   "keywords": [
     "جافاسكريبت",
@@ -29,33 +41,6 @@
     "pegjs",
     "programming-in-arabic"
   ],
-  "author": "محمد سمير - Mohammed Samir",
-  "license": "MIT",
-  "devDependencies": {
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "^7.12.10",
-    "@babel/plugin-proposal-class-properties": "^7.12.1",
-    "@babel/plugin-transform-runtime": "^7.12.10",
-    "@babel/plugin-transform-spread": "7.12.1",
-    "@babel/preset-env": "^7.12.10",
-    "@babel/preset-flow": "^7.12.13",
-    "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.2.2",
-    "eslint": "^7.15.0",
-    "eslint-plugin-flowtype": "^5.2.0",
-    "prettier": "^2.2.1",
-    "webpack": "^5.10.3",
-    "webpack-bundle-analyzer": "^4.2.0",
-    "webpack-clean-plugin": "^0.2.3",
-    "webpack-cli": "^4.2.0",
-    "webpack-dev-server": "^3.11.0"
-  },
-  "dependencies": {
-    "@arabi/maps": "^1.4.0",
-    "@arabi/translate": "^1.2.5",
-    "@babel/runtime": "^7.12.5",
-    "charcodes": "^0.2.0",
-    "colors": "^1.4.0",
-    "flatted": "^3.1.0"
-  }
+  "contributers": ["محمد سمير الصوالحي"],
+  "license": "MIT"
 }

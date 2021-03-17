@@ -2,35 +2,25 @@
   "name": "@arabi/maps",
   "version": "1.4.1",
   "description": "خرائط ترجمة لمعرب الجافاسكريبت",
-  "main": "./حزمة/مدخل.js",
-  "module": "./وحدات/مدخل.js",
-  "scripts": {
-    "build": "npx babel ./وحدات -d ./حزمة --delete-dir-on-start"
+  "main": "./حزمة/مصدر.js",
+  "publishConfig": {
+    "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/javascipt-in-arabic/arjs-maps.git"
+    "url": "https://github.com/arabi-js/arabi.git",
+    "directory": "حزم/خرائط_الترجمة"
+  },
+  "scripts": {
+    "build": "npx babel ./وحدات -d ./حزمة --delete-dir-on-start"
   },
   "keywords": [
     "arjs",
     "arabic",
     "javascript",
-    "translation-map"
+    "translation-map",
+    "خراط-الترجمة"
   ],
-  "author": "Mohammed Samir Al-Sawalhy - محمد سمير الصوالحي",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/javascipt-in-arabic/arjs-maps/issues"
-  },
-  "homepage": "https://github.com/javascipt-in-arabic/arjs-maps#readme",
-  "devDependencies": {
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "^7.12.10",
-    "@babel/plugin-transform-runtime": "^7.12.10",
-    "@babel/plugin-transform-spread": "^7.12.1",
-    "@babel/preset-env": "^7.12.11"
-  },
-  "dependencies": {
-    "@babel/runtime": "^7.12.5"
-  }
+  "contributers": ["محمد سمير الصوالحي"],
+  "license": "MIT"
 }

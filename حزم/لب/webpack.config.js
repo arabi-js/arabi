@@ -42,9 +42,8 @@ module.exports = {
     new webpack.ProgressPlugin(),
     analyze && new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)()
   ].filter(Boolean),
-  externals: [ /^@babel\/runtime/ ],
-  // experiments: { topLevelAwait: true },
 
+  externals: [ /^@babel\/runtime/ ],
 };
 
 let es6ModuleTranslationPath = path.resolve(__dirname, 'مصدر/أكواد/أكواد-ترجمة-الوحدة.مخطوطة_إكما6.js');

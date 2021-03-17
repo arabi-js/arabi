@@ -2,28 +2,47 @@
   "name": "@arabi/arabi",
   "description": "جافاسكريبت معربةً",
   "private": true,
+  "workspaces": [
+    "حزم/*",
+    "أمثلة/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/arabi-js/arabi.git"
   },
-  "author": "Mohammed",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/arabi-js/arabi/issues"
   },
   "homepage": "https://github.com/arabi-js/arabi#readme",
+  "contributers": [
+    "محمد سمير الصوالحي"
+  ],
+  "license": "MIT",
   "scripts": {
     "build": "lerna build --concurrency 4 --stream",
     "test": "lerna test --concurrency 4 --stream",
     "lint": "lerna lint --concurrency 4 --stream",
     "clean": "lerna test --concurrency 4"
   },
-  "scripty": {
-    "path": "./أوامر/مساحة_العمل"
-  },
   "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-transform-runtime": "^7.12.10",
+    "@babel/plugin-transform-spread": "7.12.1",
+    "@babel/preset-env": "^7.12.10",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.2",
+    "eslint": "^7.15.0",
+    "eslint-plugin-flowtype": "^5.2.0",
     "lerna": "^4.0.0",
+    "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
-    "scripty": "^2.0.0"
+    "scripty": "^2.0.0",
+    "webpack": "^5.10.3",
+    "webpack-bundle-analyzer": "^4.2.0",
+    "webpack-clean-plugin": "^0.2.3",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
   }
 }
