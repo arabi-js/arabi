@@ -1,5 +1,4 @@
 // translation map for keywords
-
 export const _break = 'توقف';
 export const _case = 'حالة';
 export const _catch = 'اكتشف';
