@@ -1,1 +1,1 @@
-export * from "@arabi/maps/وحدات/كلمات-مفتاحية.js"
+export * from "@arabi/maps/مصدر/كلمات-مفتاحية.js"

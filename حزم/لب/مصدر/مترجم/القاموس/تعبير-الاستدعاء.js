@@ -2,11 +2,11 @@
 
 import translate from '../مدخل';
 import manager from '../مدير-الترجمة'; 
-import { _require } from '../../babel-parser/src/keywords-map';
+import { keywordsMap } from '@arabi/maps';
 import { type Translator } from '../../أنواع.js';
 import { stringify } from '../../مساعدات';
 
-function handleRequire(node, indent = manager.indent){
+function handleRequire(node, indent = manager.indent) {
   if(node.arguments.length === 0) manager.error(node, "Unexpected no arguments to \"require\" function");
   if(node.arguments.length !== 1) manager.wran(node,
     "Unexpected number of arguments to \"require\" function",
@@ -72,7 +72,7 @@ export const callTranslator: Translator = {
       manager.isOutput("commonjs") &&
       node.type === 'CallExpression' &&
       node.callee.type === 'Identifier' &&
-      node.callee.name === _require &&
+      node.callee.name === keywordsMap._require &&
       !manager.scope.has(node.callee.name)
     ) return handleRequire(node, indent);
 

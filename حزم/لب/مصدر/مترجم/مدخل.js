@@ -2,7 +2,7 @@
 
 import dictionary from './القاموس/مدخل';
 import manager from './مدير-الترجمة'; 
-import { type Node } from '../../babel-parser/src/types.js';
+import type { Node } from '@arabi/parser';
 
 // TODO: collect the scope variables as all functions and "var"s
 // are defined at the begining, then "vars" are assigned

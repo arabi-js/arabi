@@ -9,7 +9,7 @@ import path from 'path';
 import manager from './مترجم/مدير-الترجمة';
 import arabiTranslate from '@arabi/translate';
 import { stringify as thatStringify } from 'flatted';
-import { isIdentifierName } from './babel-parser/src/helper-validator-identifier/identifier';
+import { isIdentifierName } from 'babel-loader!!@arabi/parser/src/helper-validator-identifier/identifier';
 import type { Codes } from './أنواع';
 
 export function addToScope(ids, type: 'lex' | 'var') {
@@ -129,25 +129,24 @@ log.indentCount = 0;
 // #########  generating code **********************************
 // #########  generating code **********************************
 
-export const codes: Proxy<Codes> = new Proxy(
-  {
-    translatorCode: arabiTranslate.code,
-    translateRequireCode: arabiTranslate.translateRequireCode,
-    // eslint-disable-next-line no-undef
-    es6ModuleTranslationCode: ES6_MODULE_TRANSLATION_CODE,
-    // eslint-disable-next-line no-undef
-    commonjsModuleTranslationCode: COMMONJS_MODULE_TRANSLATION_CODE,
-  },
-  {
-    get(t, p) {
-      return t[p]
-        .replace(/_@_@indent@_@_/g, manager.options.indent)
-        .split('\n')
-        .map((l) => manager.__lineHead + l)
-        .join('\n');
-    },
-  }
-);
+function replaceIndentPH(code) {
+  return code
+    // put the current indnet to the code from @arabi/translate
+    .replace(new RegExp(arabiTranslate.indentPlaceholder, 'g'), manager.options.indent)
+    // put the lineHead at the beginning
+    .split('\n')
+    .map((l) => manager.__lineHead + l)
+    .join('\n');
+}
+
+export const codes: Codes = {
+  getTranslatorCode: () => replaceIndentPH(arabiTranslate.code),
+  getTranslateRequireCode: () => replaceIndentPH(arabiTranslate.translateRequireCode),
+  // eslint-disable-next-line no-undef
+  es6ModuleTranslationCode: ES6_MODULE_TRANSLATION_CODE,
+  // eslint-disable-next-line no-undef
+  commonjsModuleTranslationCode: COMMONJS_MODULE_TRANSLATION_CODE,
+};
 
 export function getTranslatorCode() {
   if (manager.options.runtime) {
@@ -161,7 +160,7 @@ export function getTranslatorCode() {
     });
     return;
   }
-  return codes.translatorCode;
+  return codes.getTranslatorCode();
 }
 
 export function getTranslateRequireCode() {
@@ -176,7 +175,7 @@ export function getTranslateRequireCode() {
     });
     return;
   }
-  return codes.translateRequireCode;
+  return codes.getTranslateRequireCode();
 }
 
 export function getVarsTranslatorCode(map) {
@@ -234,6 +233,7 @@ export function getGlobalTranslatorCode(map) {
   return code.join('') + manager.voidline + prototypes.join(manager.voidline);
 }
 
+// get "declare module translation map" code
 export function getDeclareModuleTMapsCode() {
   let code = '';
   code +=
@@ -384,6 +384,8 @@ function getMemberFromGlobal(name) {
   return isid ? name : getMember(manager.options.globalObject, name);
 }
 
+// get member expression form strings, the 1st one is the top object
+// the following are the properties' name
 function getMember(obj, ...mem) {
   let memexpr = obj;
   while (mem.length) {

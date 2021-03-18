@@ -4,8 +4,5 @@
     "@babel/transform-runtime",
     "@babel/plugin-proposal-class-properties",
     "@babel/transform-spread"
-  ],
-  "babelrcRoots": [
-    "./حزم/*"
   ]
 }

@@ -2,7 +2,7 @@
 
 import translate from '../مدخل';
 import manager from '../مدير-الترجمة';
-import * as keywordsMap from '../../babel-parser/src/keywords-map';
+import { keywordsMap } from '@arabi/maps';
 import { type Translator } from '../../أنواع.js';
 
 // المعالجات

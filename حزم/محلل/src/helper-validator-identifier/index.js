@@ -3,6 +3,7 @@ export {
   isIdentifierChar,
   isIdentifierStart,
 } from "./identifier";
+
 export {
   isReservedWord,
   isStrictBindOnlyReservedWord,

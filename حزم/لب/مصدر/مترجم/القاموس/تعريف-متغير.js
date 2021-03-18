@@ -3,8 +3,10 @@
 import translate from '../مدخل';
 import manager from '../مدير-الترجمة';
 import { type Translator } from '../../أنواع.js';
-import { _let, _const, _var } from '../../babel-parser/src/keywords-map';
+import { keywordsMap } from '@arabi/maps';
 import { getIds } from '../../مساعدات';
+
+const { _let, _const, _var } = keywordsMap;
 
 function addToScope(id, type) {
   const _ids = getIds(id);

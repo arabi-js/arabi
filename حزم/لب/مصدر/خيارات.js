@@ -24,7 +24,7 @@ export type TranslationMap =
   BasicTranslationMap |
   (obj: object) => BasicTranslationMap;
 
-type ModuleType = 'module' | 'commonjs';
+export type ModuleType = 'module' | 'commonjs';
 
 export interface Options {
   code: string;

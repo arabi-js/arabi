@@ -1,19 +1,16 @@
 // @flow
 
-// TODO(next): add this during developmrnt only
-import 'source-map-support/register';
-
 import colors from 'colors'; // for console.log
 import path from 'path';
 import fs from 'fs';
-import __translate from './مترجم/مدخل';
+import translateAST from './مترجم/مدخل';
 import manager from './مترجم/مدير-الترجمة';
 import * as helpers from './مساعدات';
 import ScopeManager from './مدير-النطاق';
-import type { Options as ParserOptions } from '../babel-parser/src/options';
+import { type ParserOptions } from './أنواع';
 import { type Options, validateOptions } from './خيارات';
 
-import parser from './babel-parser/src';
+import parser from '@arabi/parser';
 // lazy import, to plit the package into small modules.
 // let parser = await import('./babel-parser/src/');
 
@@ -47,7 +44,7 @@ function translateCode(arCode) {
   let code;
 
   let parserTree = parser.parse(arCode, parserOptions);
-  code = __translate(parserTree.program.body);
+  code = translateAST(parserTree.program.body);
   manager.finishingValidation();
 
   manager.setLineHead(lh);

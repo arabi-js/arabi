@@ -3,7 +3,7 @@
 import translate from '../مدخل';
 import manager from '../مدير-الترجمة';
 import { addToScope } from '../../مساعدات';
-import { _constructor } from '../../babel-parser/src/keywords-map';
+import { keywordsMap } from '@arabi/maps';
 import { type Translator } from '../../أنواع.js';
 
 export const classTranslator: Translator = {
@@ -50,7 +50,7 @@ export const classTranslator: Translator = {
         n.params.map((p) => p.type !== 'AssignmentPattern' && addToScope(p));
 
         let declarator = `${_static}${_async}${prefix}${_gen}${key}`;
-        declarator = declarator === _constructor ? 'constructor' : declarator;
+        declarator = declarator === keywordsMap._constructor ? 'constructor' : declarator;
         methodCode = manager.indent + `${declarator}(${n.params.map((p) => translate(p, '')).join(', ')}) `;
         methodCode += translate(n.body, '');
 

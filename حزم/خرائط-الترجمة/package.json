@@ -2,7 +2,7 @@
   "name": "@arabi/maps",
   "version": "1.4.1",
   "description": "خرائط ترجمة لمعرب الجافاسكريبت",
-  "main": "./مدخل/مصدر.js",
+  "main": "./مصدر/مدخل.js",
   "publishConfig": {
     "access": "public"
   },
@@ -18,6 +18,11 @@
     "translation-map",
     "خراط-الترجمة"
   ],
-  "contributors": ["محمد سمير الصوالحي"],
-  "license": "MIT"
+  "contributors": [
+    "محمد سمير الصوالحي"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@arabi/parser": "^1.0.0"
+  }
 }

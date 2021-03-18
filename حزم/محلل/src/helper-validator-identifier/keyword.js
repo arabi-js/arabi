@@ -53,6 +53,7 @@ const reservedWords = {
   ],
   strictBind: [keyMap._eval, keyMap._arguments],
 };
+
 const keywords = new Set(reservedWords.keyword);
 const reservedWordsStrictSet = new Set(reservedWords.strict);
 const reservedWordsStrictBindSet = new Set(reservedWords.strictBind);

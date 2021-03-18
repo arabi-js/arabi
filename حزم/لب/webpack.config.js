@@ -3,15 +3,10 @@ const fs = require('fs');
 const webpack = require('webpack');
 const CleanPlugin = require('webpack-clean-plugin');
 
-let i,
-  mode =
-    process.env.MODE ||
-    process.env.NODE_ENV ||
-    ((i = process.argv.indexOf('--mode')) > -1 ? process.argv[i + 1] : 'production')
-;
+let mode =
+  process.argv[process.argv.indexOf('--mode') + 1] || 'production';
 
 let dev = mode === 'development';
-let analyze = mode === 'analyze';
 
 module.exports = {
   devtool: dev ? 'source-map' : false,
@@ -31,8 +26,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: 'babel-loader',
-        exclude: /node_modules/,
+        use: 'babel-loader'
       },
     ],
   },
@@ -40,8 +34,7 @@ module.exports = {
   plugins: [
     new CleanPlugin(),
     new webpack.ProgressPlugin(),
-    analyze && new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)()
-  ].filter(Boolean),
+  ],
 
   externals: [ /^@babel\/runtime/ ],
 };
