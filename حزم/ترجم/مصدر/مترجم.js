@@ -10,7 +10,7 @@ exports.default = function __arabi__translate__(obj, map, options={}) {
       mapMap[1].push(_k);
     });
     Object.assign(proxyHandler, {
-      get(target, prop, receiver) {
+      get(target, prop) {
         let v = map[prop];
         if (v && !(prop in target)) {
           if (typeof v === 'string') {

@@ -3,6 +3,7 @@
   "version": "1.2.5",
   "description": "حزمة مساعدة للحزمة الأم - core",
   "main": "./حزمة/مدخل.js",
+  "files": ["حزمة"],
   "publishConfig": {
     "access": "public"
   },
@@ -12,11 +13,7 @@
     "directory": "حزم/ترجم"
   },
   "scripts": {
-    "build": "node ./بناء.js",
-    "lint": "scripty lint"
-  },
-  "scripty": {
-    "path": "../../أوامر/حزم"
+    "build": "node ./بناء.js"
   },
   "keywords": [
     "arjs",

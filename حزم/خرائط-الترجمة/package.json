@@ -2,7 +2,7 @@
   "name": "@arabi/maps",
   "version": "1.4.1",
   "description": "خرائط ترجمة لمعرب الجافاسكريبت",
-  "main": "./حزمة/مصدر.js",
+  "main": "./مدخل/مصدر.js",
   "publishConfig": {
     "access": "public"
   },
@@ -10,9 +10,6 @@
     "type": "git",
     "url": "https://github.com/arabi-js/arabi.git",
     "directory": "حزم/خرائط_الترجمة"
-  },
-  "scripts": {
-    "build": "npx babel ./وحدات -d ./حزمة --delete-dir-on-start"
   },
   "keywords": [
     "arjs",
