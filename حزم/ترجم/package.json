@@ -12,7 +12,11 @@
     "directory": "حزم/ترجم"
   },
   "scripts": {
-    "build": "node ./بناء.js"
+    "build": "node ./بناء.js",
+    "lint": "scripty lint"
+  },
+  "scripty": {
+    "path": "../../أوامر/حزم"
   },
   "keywords": [
     "arjs",
@@ -24,6 +28,6 @@
     "arabi",
     "عربي"
   ],
-  "contributers": ["محمد سمير الصوالحي (ms.2052001@gmail.com)"],
+  "contributors": ["محمد سمير الصوالحي"],
   "license": "MIT"
 }

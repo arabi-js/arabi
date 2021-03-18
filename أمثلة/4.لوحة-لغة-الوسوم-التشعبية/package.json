@@ -1,8 +1,7 @@
 {
-  "name": "arabi-canvas",
+  "name": "@arabi/example4",
   "version": "1.0.0",
-  "description": "",
-  "main": "./جزمة.js",
+  "private": true,
   "scripts": {
     "build": "webpack",
     "trans": "node ./تجميع",

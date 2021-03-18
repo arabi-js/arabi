@@ -1,2 +1,2 @@
 echo "┏━━━ 🔍 LINTING: $(pwd) ━━━━━━━━━━━━━━━━━━━"
-yarn eslint --fix
+yarn eslint --fix --format=codeframe

@@ -1,8 +1,7 @@
 {
-  "main": "./خارج/مدخل.جس.js",
-  "files": [
-    "خارج"
-  ],
+  "name": "@arabi/example1",
+  "version": "1.0.0",
+  "private": true,
   "dependencies": {
     "@arabi/maps": "^1.4.0",
     "@arabi/translate": "^1.2.5",

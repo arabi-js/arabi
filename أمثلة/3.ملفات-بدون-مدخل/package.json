@@ -1,0 +1,11 @@
+{
+  "name": "@arabi/example3",
+  "version": "1.0.0",
+  "private": true,
+  "main": "تجميع.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}

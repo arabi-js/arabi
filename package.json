@@ -14,15 +14,15 @@
     "url": "https://github.com/arabi-js/arabi/issues"
   },
   "homepage": "https://github.com/arabi-js/arabi#readme",
-  "contributers": [
+  "contributors": [
     "محمد سمير الصوالحي"
   ],
   "license": "MIT",
   "scripts": {
-    "build": "lerna build --concurrency 4 --stream",
-    "test": "lerna test --concurrency 4 --stream",
-    "lint": "lerna lint --concurrency 4 --stream",
-    "clean": "lerna test --concurrency 4"
+    "build": "lerna run build --concurrency 4 --stream",
+    "test": "lerna run test --concurrency 4 --stream",
+    "lint": "lerna run lint --concurrency 4 --stream",
+    "clean": "lerna run test --concurrency 4"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",
@@ -31,10 +31,11 @@
     "@babel/plugin-transform-runtime": "^7.12.10",
     "@babel/plugin-transform-spread": "7.12.1",
     "@babel/preset-env": "^7.12.10",
+    "@babel/preset-flow": "^7.12.13",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "eslint": "^7.15.0",
-    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-flowtype": "^5.4.0",
     "lerna": "^4.0.0",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",

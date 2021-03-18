@@ -1,8 +1,7 @@
 {
-  "name": "arabi-donut",
+  "name": "@arabi/example5",
   "version": "1.0.0",
-  "description": "<div dir=rtl>",
-  "main": "تجميع.js",
+  "private": true,
   "scripts": {
     "start": "node donut.js",
     "build": "node ./تجميع.js"

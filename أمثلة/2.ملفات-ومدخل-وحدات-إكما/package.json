@@ -1,5 +1,7 @@
 {
-  "main": "./وجهة/حزمة.js",
+  "name": "@arabi/example2",
+  "version": "1.0.0",
+  "private": true,
   "scripts": {
     "trans": "node ./تجميع",
     "build": "webpack",
