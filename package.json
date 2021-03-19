@@ -1,36 +1,10 @@
 {
-  "name": "@arabi/core",
-  "version": "1.0.0",
-  "description": "It is just a trial to prove that we can.",
-  "main": "حزمة/arabi.js",
-  "files": [
-    "حزمة"
+  "name": "@arabi/arabi",
+  "description": "جافاسكريبت معربةً",
+  "bugs": "https://github.com/arabi-js/arabi/issues",
+  "contributors": [
+    "محمد سمير الصوالحي"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/javascript-in-arabic/core.git"
-  },
-  "scripts": {
-    "start": "webpack --watch --mode development",
-    "build": "webpack --mode development",
-    "preprod": "npm run style && npm run lint && npm run test",
-    "prod": "npm run build",
-    "style": "npx prettier ./مصدر --write",
-    "lint": "npx eslint ./مصدر",
-    "test": "echo testing!!!"
-  },
-  "keywords": [
-    "جافاسكريبت",
-    "لغة-عربية",
-    "عربي",
-    "arabic",
-    "js",
-    "javascript",
-    "pegjs",
-    "programming-in-arabic"
-  ],
-  "author": "محمد سمير - Mohammed Samir",
-  "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
@@ -42,20 +16,31 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "eslint": "^7.15.0",
-    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-flowtype": "^5.4.0",
+    "lerna": "^4.0.0",
+    "lerna-update-wizard": "^0.17.8",
+    "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
     "webpack": "^5.10.3",
     "webpack-bundle-analyzer": "^4.2.0",
     "webpack-clean-plugin": "^0.2.3",
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0"
   },
-  "dependencies": {
-    "@arabi/maps": "^1.4.0",
-    "@arabi/translate": "^1.2.5",
-    "@babel/runtime": "^7.12.5",
-    "charcodes": "^0.2.0",
-    "colors": "^1.4.0",
-    "flatted": "^3.1.0"
-  }
+  "homepage": "https://github.com/arabi-js/arabi#readme",
+  "license": "MIT",
+  "private": true,
+  "repository": "arabi-js/arabi.git",
+  "scripts": {
+    "build": "lerna run build --concurrency 4 --stream",
+    "clean": "lerna run test --concurrency 4",
+    "format": "syncpack format && lerna run format --concurrency 4 --stream",
+    "lint": "lerna run lint --concurrency 4 --stream",
+    "test": "lerna run test --concurrency 4 --stream"
+  },
+  "workspaces": [
+    "حزم/*",
+    "أمثلة/*"
+  ]
 }

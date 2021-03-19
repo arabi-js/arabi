@@ -1,0 +1,19 @@
+{
+  "name": "@arabi/example3",
+  "version": "1.0.0",
+  "author": "",
+  "dependencies": {
+    "@arabi/translate": "^1.2.5",
+    "flatted": "^3.1.1"
+  },
+  "devDependencies": {
+    "@arabi/core": "^1.0.0",
+    "@arabi/maps": "^1.4.1"
+  },
+  "license": "MIT",
+  "main": "تجميع.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

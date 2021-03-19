@@ -1,0 +1,31 @@
+{
+  "name": "@arabi/parser",
+  "description": "محلل (سابر) أكواد جافاسكريبت المعربة - مبني على محلل بابل",
+  "version": "1.0.0",
+  "contributors": [
+    "محمد سمير الصوالحي"
+  ],
+  "dependencies": {
+    "@arabi/maps": "^1.4.1",
+    "charcodes": "^0.2.0"
+  },
+  "devDependencies": {
+    "syncpack": "^5.7.11"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "main": "dist/main.js",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "arabi-js/arabi.git",
+  "scripts": {
+    "analyze": "webpack",
+    "build": "webpack --mode development",
+    "build:watch": "webpack --mode development --watch",
+    "format": "prettier --write ./src"
+  }
+}

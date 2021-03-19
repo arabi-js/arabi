@@ -1,33 +1,28 @@
 {
-  "name": "arabi-canvas",
+  "name": "@arabi/example4",
   "version": "1.0.0",
-  "description": "",
-  "main": "./جزمة.js",
-  "scripts": {
-    "build": "webpack",
-    "trans": "node ./تجميع",
-    "serve": "http-server ./وجهة/ -o /مدخل",
-    "start": "node ./تزامن trans:watch build:watch serve",
-    "build:watch": "webpack --watch",
-    "trans:watch": "nodemon -w ./داخل -e جس -x npm run trans"
-  },
   "author": "محمد سمير الصوالحي",
-  "license": "MIT",
+  "dependencies": {
+    "@arabi/translate": "^1.2.5",
+    "flatted": "^3.1.1"
+  },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/plugin-proposal-class-properties": "^7.12.1",
-    "@babel/plugin-proposal-private-methods": "^7.12.1",
-    "@babel/plugin-transform-runtime": "^7.12.10",
-    "@babel/plugin-transform-spread": "^7.12.1",
-    "@babel/preset-env": "^7.12.11",
+    "@arabi/core": "^1.0.0",
+    "@arabi/maps": "^1.4.1",
+    "@babel/runtime": "^7.12.5",
+    "babel-loader": "^8.2.2",
     "colors": "^1.4.0",
     "http-server": "^0.12.3",
-    "nodemon": "^2.0.7",
-    "webpack": "^5.19.0"
+    "webpack": "^5.10.3"
   },
-  "dependencies": {
-    "@arabi/maps": "^1.4.1",
-    "@arabi/translate": "^1.2.5",
-    "@babel/runtime": "^7.12.5"
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "webpack",
+    "build:watch": "webpack --watch",
+    "serve": "http-server ./وجهة/ -o /مدخل",
+    "start": "node ./تزامن trans:watch build:watch serve",
+    "trans": "node ./تجميع",
+    "trans:watch": "nodemon -w ./داخل -e جس -x npm run trans"
   }
 }

@@ -1,5 +1,5 @@
 **/node_modules
-حزمة
+**/yarn-error.log
+**/webpack.stats.json
 .vscode/
 .vim/
-stats.json
