@@ -1,8 +1,12 @@
+<div dir=rtl>
+
 # @arabi/parser
 
 محلل (سابر) لأكواد جافاسكريبت المعربة.
 
 ## تثبيت
+
+<div dir=ltr>
 
 npm
 
