@@ -1,19 +1,18 @@
-# @babel/parser
+# @arabi/parser
 
-> A JavaScript parser
+محلل (سابر) لأكواد جافاسكريبت المعربة.
 
-See our website [@babel/parser](https://babeljs.io/docs/en/next/babel-parser.html) for more information or the [issues](https://github.com/babel/babel/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3A%22pkg%3A+parser+%28babylon%29%22+is%3Aopen) associated with this package.
+## تثبيت
 
-## Install
-
-Using npm:
+npm
 
 ```sh
-npm install --save-dev @babel/parser
+npm install --save-dev @arabi/parser
 ```
 
-or using yarn:
+yarn
 
 ```sh
-yarn add @babel/parser --dev
+yarn add @arabi/parser --dev
 ```
+

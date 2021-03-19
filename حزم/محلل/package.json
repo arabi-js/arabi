@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "محلل (سابر) أكواد جافاسكريبت المعربة - مبني على محلل بابل",
   "main": "dist/main.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -18,9 +20,12 @@
     "directory": "حزم/محلل"
   },
   "dependencies": {
+    "@arabi/maps": "^1.4.1",
     "charcodes": "^0.2.0"
   },
-  "contributors": ["محمد سمير الصوالحي"],
+  "contributors": [
+    "محمد سمير الصوالحي"
+  ],
   "license": "MIT",
   "private": false
 }
