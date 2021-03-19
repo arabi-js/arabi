@@ -1,16 +1,20 @@
 {
   "name": "@arabi/example5",
   "version": "1.0.0",
+  "author": "",
+  "dependencies": {
+    "@arabi/translate": "^1.2.5",
+    "ansi-escapes": "^4.3.1",
+    "flatted": "^3.1.1"
+  },
+  "devDependencies": {
+    "@arabi/core": "^1.0.0",
+    "@arabi/maps": "^1.4.1"
+  },
+  "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "node donut.js",
-    "build": "node ./تجميع.js"
-  },
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "@arabi/maps": "^1.4.1",
-    "@arabi/translate": "^1.2.5",
-    "ansi-escapes": "^4.3.1"
+    "build": "node ./تجميع.js",
+    "start": "node donut.js"
   }
 }

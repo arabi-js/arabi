@@ -2,7 +2,7 @@
 
 const path = require('path');
 const rimraf = require('rimraf');
-const arabi = require('../../حزمة/arabi');
+const arabi = require('@arabi/core');
 const arabiMaps = require("@arabi/maps");
 const webpack = require("webpack");
 const webpackConfig = require("./webpack.config");

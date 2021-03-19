@@ -2,7 +2,7 @@
 
 const path = require('path');
 const rimraf = require('rimraf');
-const arabi = require('../../حزمة/arabi');
+const arabi = require('@arabi/core');
 const arabiMaps = require('@arabi/maps');
 
 // const code = fs.readFileSync('./examples/2.arabi', { encoding: 'utf8' });

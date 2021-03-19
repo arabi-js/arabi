@@ -1,7 +1,7 @@
 #!node
 
 const rimraf = require('rimraf');
-const arabi = require('../../حزمة/arabi');
+const arabi = require('@arabi/core');
 const arabiMaps = require('@arabi/maps');
 const path = require('path');
 
