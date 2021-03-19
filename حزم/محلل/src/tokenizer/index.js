@@ -2,25 +2,19 @@
 
 /*:: declare var invariant; */
 
-import type { Options } from "../options";
-import * as N from "../types";
-import type { Position } from "../util/location";
-import * as charCodes from "charcodes";
-import { isIdentifierStart, isIdentifierChar } from "../util/identifier";
-import { types as tt, keywords as keywordTypes, type TokenType } from "./types";
-import { type TokContext, types as ct } from "./context";
-import ParserErrors, { Errors } from "../parser/error";
-import { SourceLocation } from "../util/location";
-import {
-  lineBreak,
-  lineBreakG,
-  isNewLine,
-  isWhitespace,
-  skipWhiteSpace,
-} from "../util/whitespace";
-import State from "./state";
+import type { Options } from '../options';
+import * as N from '../types';
+import type { Position } from '../util/location';
+import * as charCodes from 'charcodes';
+import { isIdentifierStart, isIdentifierChar } from '../util/identifier';
+import { types as tt, keywords as keywordTypes, type TokenType } from './types';
+import { type TokContext, types as ct } from './context';
+import ParserErrors, { Errors } from '../parser/error';
+import { SourceLocation } from '../util/location';
+import { lineBreak, lineBreakG, isNewLine, isWhitespace, skipWhiteSpace } from '../util/whitespace';
+import State from './state';
 
-const VALID_REGEX_FLAGS = new Set(["g", "m", "s", "i", "y", "u"]);
+const VALID_REGEX_FLAGS = new Set(['g', 'm', 's', 'i', 'y', 'u']);
 
 const ARABIC_SEMI_CODE = 1563;
 const ARABIC_COMMA_CODE = 1548;
@@ -217,8 +211,7 @@ export default class Tokenizer extends ParserErrors {
     if (!this.match(tt.num) && !this.match(tt.string)) return;
     this.state.pos = this.state.start;
     while (this.state.pos < this.state.lineStart) {
-      this.state.lineStart =
-        this.input.lastIndexOf("\n", this.state.lineStart - 2) + 1;
+      this.state.lineStart = this.input.lastIndexOf('\n', this.state.lineStart - 2) + 1;
       --this.state.curLine;
     }
     this.nextToken();
@@ -257,10 +250,10 @@ export default class Tokenizer extends ParserErrors {
     start: number,
     end: number,
     startLoc: Position,
-    endLoc: Position,
+    endLoc: Position
   ): void {
     const comment = {
-      type: block ? "CommentBlock" : "CommentLine",
+      type: block ? 'CommentBlock' : 'CommentLine',
       value: text,
       start: start,
       end: end,
@@ -275,16 +268,13 @@ export default class Tokenizer extends ParserErrors {
   skipBlockComment(): void {
     const startLoc = this.state.curPosition();
     const start = this.state.pos;
-    const end = this.input.indexOf("*/", this.state.pos + 2);
+    const end = this.input.indexOf('*/', this.state.pos + 2);
     if (end === -1) throw this.raise(start, Errors.UnterminatedComment);
 
     this.state.pos = end + 2;
     lineBreakG.lastIndex = start;
     let match;
-    while (
-      (match = lineBreakG.exec(this.input)) &&
-      match.index < this.state.pos
-    ) {
+    while ((match = lineBreakG.exec(this.input)) && match.index < this.state.pos) {
       ++this.state.curLine;
       this.state.lineStart = match.index + match[0].length;
     }
@@ -299,7 +289,7 @@ export default class Tokenizer extends ParserErrors {
       start,
       this.state.pos,
       startLoc,
-      this.state.curPosition(),
+      this.state.curPosition()
     );
   }
 
@@ -323,7 +313,7 @@ export default class Tokenizer extends ParserErrors {
       start,
       this.state.pos,
       startLoc,
-      this.state.curPosition(),
+      this.state.curPosition()
     );
   }
 
@@ -340,9 +330,7 @@ export default class Tokenizer extends ParserErrors {
           ++this.state.pos;
           break;
         case charCodes.carriageReturn:
-          if (
-            this.input.charCodeAt(this.state.pos + 1) === charCodes.lineFeed
-          ) {
+          if (this.input.charCodeAt(this.state.pos + 1) === charCodes.lineFeed) {
             ++this.state.pos;
           }
         // fall through
@@ -417,19 +405,19 @@ export default class Tokenizer extends ParserErrors {
 
     if (
       next === charCodes.leftCurlyBrace ||
-      (next === charCodes.leftSquareBracket && this.hasPlugin("recordAndTuple"))
+      (next === charCodes.leftSquareBracket && this.hasPlugin('recordAndTuple'))
     ) {
       // When we see `#{`, it is likely to be a hash record.
       // However we don't yell at `#[` since users may intend to use "computed private fields",
       // which is not allowed in the spec. Throwing expecting recordAndTuple is
       // misleading
-      this.expectPlugin("recordAndTuple");
-      if (this.getPluginOption("recordAndTuple", "syntaxType") !== "hash") {
+      this.expectPlugin('recordAndTuple');
+      if (this.getPluginOption('recordAndTuple', 'syntaxType') !== 'hash') {
         throw this.raise(
           this.state.pos,
           next === charCodes.leftCurlyBrace
             ? Errors.RecordExpressionHashIncorrectStartSyntaxType
-            : Errors.TupleExpressionHashIncorrectStartSyntaxType,
+            : Errors.TupleExpressionHashIncorrectStartSyntaxType
         );
       }
 
@@ -453,10 +441,7 @@ export default class Tokenizer extends ParserErrors {
       return;
     }
 
-    if (
-      next === charCodes.dot &&
-      this.input.charCodeAt(this.state.pos + 2) === charCodes.dot
-    ) {
+    if (next === charCodes.dot && this.input.charCodeAt(this.state.pos + 2) === charCodes.dot) {
       this.state.pos += 3;
       this.finishToken(tt.ellipsis);
     } else {
@@ -531,10 +516,7 @@ export default class Tokenizer extends ParserErrors {
       if (this.input.charCodeAt(this.state.pos + 2) === charCodes.equalsTo) {
         this.finishOp(tt.assign, 3);
       } else {
-        this.finishOp(
-          code === charCodes.verticalBar ? tt.logicalOR : tt.logicalAND,
-          2,
-        );
+        this.finishOp(code === charCodes.verticalBar ? tt.logicalOR : tt.logicalAND, 2);
       }
       return;
     }
@@ -546,15 +528,9 @@ export default class Tokenizer extends ParserErrors {
         return;
       }
       // '|}'
-      if (
-        this.hasPlugin("recordAndTuple") &&
-        next === charCodes.rightCurlyBrace
-      ) {
-        if (this.getPluginOption("recordAndTuple", "syntaxType") !== "bar") {
-          throw this.raise(
-            this.state.pos,
-            Errors.RecordExpressionBarIncorrectEndSyntaxType,
-          );
+      if (this.hasPlugin('recordAndTuple') && next === charCodes.rightCurlyBrace) {
+        if (this.getPluginOption('recordAndTuple', 'syntaxType') !== 'bar') {
+          throw this.raise(this.state.pos, Errors.RecordExpressionBarIncorrectEndSyntaxType);
         }
 
         this.finishOp(tt.braceBarR, 2);
@@ -562,15 +538,9 @@ export default class Tokenizer extends ParserErrors {
       }
 
       // '|]'
-      if (
-        this.hasPlugin("recordAndTuple") &&
-        next === charCodes.rightSquareBracket
-      ) {
-        if (this.getPluginOption("recordAndTuple", "syntaxType") !== "bar") {
-          throw this.raise(
-            this.state.pos,
-            Errors.TupleExpressionBarIncorrectEndSyntaxType,
-          );
+      if (this.hasPlugin('recordAndTuple') && next === charCodes.rightSquareBracket) {
+        if (this.getPluginOption('recordAndTuple', 'syntaxType') !== 'bar') {
+          throw this.raise(this.state.pos, Errors.TupleExpressionBarIncorrectEndSyntaxType);
         }
 
         this.finishOp(tt.bracketBarR, 2);
@@ -583,10 +553,7 @@ export default class Tokenizer extends ParserErrors {
       return;
     }
 
-    this.finishOp(
-      code === charCodes.verticalBar ? tt.bitwiseOR : tt.bitwiseAND,
-      1,
-    );
+    this.finishOp(code === charCodes.verticalBar ? tt.bitwiseOR : tt.bitwiseAND, 1);
   }
 
   readToken_caret(): void {
@@ -674,9 +641,7 @@ export default class Tokenizer extends ParserErrors {
     if (next === charCodes.equalsTo) {
       this.finishOp(
         tt.equality,
-        this.input.charCodeAt(this.state.pos + 2) === charCodes.equalsTo
-          ? 3
-          : 2,
+        this.input.charCodeAt(this.state.pos + 2) === charCodes.equalsTo ? 3 : 2
       );
       return;
     }
@@ -732,32 +697,29 @@ export default class Tokenizer extends ParserErrors {
         ++this.state.pos;
         this.finishToken(tt.parenR);
         return;
-      case ARABIC_SEMI_CODE :
-        // we now use the arabic semicolon
-        // so let do the same as the english one
-        // don't return or break
+      case ARABIC_SEMI_CODE:
+      // we now use the arabic semicolon
+      // so let do the same as the english one
+      // don't return or break
       case charCodes.semicolon:
         ++this.state.pos;
         this.finishToken(tt.semi);
         return;
       case ARABIC_COMMA_CODE:
-        // we now use the arabic comma
-        // so let do the same as the english one
-        // don't return or break
+      // we now use the arabic comma
+      // so let do the same as the english one
+      // don't return or break
       case charCodes.comma:
         ++this.state.pos;
         this.finishToken(tt.comma);
         return;
       case charCodes.leftSquareBracket:
         if (
-          this.hasPlugin("recordAndTuple") &&
+          this.hasPlugin('recordAndTuple') &&
           this.input.charCodeAt(this.state.pos + 1) === charCodes.verticalBar
         ) {
-          if (this.getPluginOption("recordAndTuple", "syntaxType") !== "bar") {
-            throw this.raise(
-              this.state.pos,
-              Errors.TupleExpressionBarIncorrectStartSyntaxType,
-            );
+          if (this.getPluginOption('recordAndTuple', 'syntaxType') !== 'bar') {
+            throw this.raise(this.state.pos, Errors.TupleExpressionBarIncorrectStartSyntaxType);
           }
 
           // [|
@@ -774,14 +736,11 @@ export default class Tokenizer extends ParserErrors {
         return;
       case charCodes.leftCurlyBrace:
         if (
-          this.hasPlugin("recordAndTuple") &&
+          this.hasPlugin('recordAndTuple') &&
           this.input.charCodeAt(this.state.pos + 1) === charCodes.verticalBar
         ) {
-          if (this.getPluginOption("recordAndTuple", "syntaxType") !== "bar") {
-            throw this.raise(
-              this.state.pos,
-              Errors.RecordExpressionBarIncorrectStartSyntaxType,
-            );
+          if (this.getPluginOption('recordAndTuple', 'syntaxType') !== 'bar') {
+            throw this.raise(this.state.pos, Errors.RecordExpressionBarIncorrectStartSyntaxType);
           }
 
           // {|
@@ -798,7 +757,7 @@ export default class Tokenizer extends ParserErrors {
         return;
       case charCodes.colon:
         if (
-          this.hasPlugin("functionBind") &&
+          this.hasPlugin('functionBind') &&
           this.input.charCodeAt(this.state.pos + 1) === charCodes.colon
         ) {
           this.finishOp(tt.doubleColon, 2);
@@ -808,9 +767,9 @@ export default class Tokenizer extends ParserErrors {
         }
         return;
       case ARABIC_QUESTION_CODE:
-        // we now use the arabic comma
-        // so let do the same as the english one
-        // don't return or break
+      // we now use the arabic comma
+      // so let do the same as the english one
+      // don't return or break
       case charCodes.questionMark:
         this.readToken_question();
         return;
@@ -919,11 +878,7 @@ export default class Tokenizer extends ParserErrors {
         }
     }
 
-    throw this.raise(
-      this.state.pos,
-      Errors.InvalidOrUnexpectedToken,
-      String.fromCodePoint(code),
-    );
+    throw this.raise(this.state.pos, Errors.InvalidOrUnexpectedToken, String.fromCodePoint(code));
   }
 
   finishOp(type: TokenType, size: number): void {
@@ -946,21 +901,21 @@ export default class Tokenizer extends ParserErrors {
       if (escaped) {
         escaped = false;
       } else {
-        if (ch === "[") {
+        if (ch === '[') {
           inClass = true;
-        } else if (ch === "]" && inClass) {
+        } else if (ch === ']' && inClass) {
           inClass = false;
-        } else if (ch === "/" && !inClass) {
+        } else if (ch === '/' && !inClass) {
           break;
         }
-        escaped = ch === "\\";
+        escaped = ch === '\\';
       }
       ++this.state.pos;
     }
     const content = this.input.slice(start, this.state.pos);
     ++this.state.pos;
 
-    let mods = "";
+    let mods = '';
 
     while (this.state.pos < this.length) {
       const char = this.input[this.state.pos];
@@ -970,10 +925,7 @@ export default class Tokenizer extends ParserErrors {
         if (mods.indexOf(char) > -1) {
           this.raise(this.state.pos + 1, Errors.DuplicateRegExpFlags);
         }
-      } else if (
-        isIdentifierChar(charCode) ||
-        charCode === charCodes.backslash
-      ) {
+      } else if (isIdentifierChar(charCode) || charCode === charCodes.backslash) {
         this.raise(this.state.pos + 1, Errors.MalformedRegExpFlags);
       } else {
         break;
@@ -1002,7 +954,7 @@ export default class Tokenizer extends ParserErrors {
     radix: number,
     len?: number,
     forceLen?: boolean,
-    allowNumSeparator: boolean = true,
+    allowNumSeparator: boolean = true
   ): number | null {
     const start = this.state.pos;
     const forbiddenSiblings =
@@ -1073,11 +1025,7 @@ export default class Tokenizer extends ParserErrors {
       ++this.state.pos;
       total = total * radix + val;
     }
-    if (
-      this.state.pos === start ||
-      (len != null && this.state.pos - start !== len) ||
-      invalid
-    ) {
+    if (this.state.pos === start || (len != null && this.state.pos - start !== len) || invalid) {
       return null;
     }
 
@@ -1107,7 +1055,7 @@ export default class Tokenizer extends ParserErrors {
     }
 
     if (isBigInt) {
-      const str = this.input.slice(start, this.state.pos).replace(/[_n]/g, "");
+      const str = this.input.slice(start, this.state.pos).replace(/[_n]/g, '');
       this.finishToken(tt.bigint, str);
       return;
     }
@@ -1129,8 +1077,7 @@ export default class Tokenizer extends ParserErrors {
       this.raise(start, Errors.InvalidNumber);
     }
     const hasLeadingZero =
-      this.state.pos - start >= 2 &&
-      this.input.charCodeAt(start) === charCodes.digit0;
+      this.state.pos - start >= 2 && this.input.charCodeAt(start) === charCodes.digit0;
 
     if (hasLeadingZero) {
       const integer = this.input.slice(start, this.state.pos);
@@ -1138,7 +1085,7 @@ export default class Tokenizer extends ParserErrors {
         this.raise(start, Errors.StrictOctalLiteral);
       } else {
         // disallow numeric separators in non octal decimals and legacy octal likes
-        const underscorePos = integer.indexOf("_");
+        const underscorePos = integer.indexOf('_');
         if (underscorePos > 0) {
           this.raise(underscorePos + start, Errors.ZeroDigitNumericSeparator);
         }
@@ -1154,10 +1101,7 @@ export default class Tokenizer extends ParserErrors {
       next = this.input.charCodeAt(this.state.pos);
     }
 
-    if (
-      (next === charCodes.uppercaseE || next === charCodes.lowercaseE) &&
-      !isOctal
-    ) {
+    if ((next === charCodes.uppercaseE || next === charCodes.lowercaseE) && !isOctal) {
       next = this.input.charCodeAt(++this.state.pos);
       if (next === charCodes.plusSign || next === charCodes.dash) {
         ++this.state.pos;
@@ -1179,7 +1123,7 @@ export default class Tokenizer extends ParserErrors {
     }
 
     if (next === charCodes.lowercaseM) {
-      this.expectPlugin("decimal", this.state.pos);
+      this.expectPlugin('decimal', this.state.pos);
       if (hasExponent || hasLeadingZero) {
         this.raise(start, Errors.InvalidDecimal);
       }
@@ -1192,7 +1136,7 @@ export default class Tokenizer extends ParserErrors {
     }
 
     // remove "_" for numeric literal separator, and trailing `m` or `n`
-    const str = this.input.slice(start, this.state.pos).replace(/[_mn]/g, "");
+    const str = this.input.slice(start, this.state.pos).replace(/[_mn]/g, '');
 
     if (isBigInt) {
       this.finishToken(tt.bigint, str);
@@ -1217,9 +1161,9 @@ export default class Tokenizer extends ParserErrors {
     if (ch === charCodes.leftCurlyBrace) {
       const codePos = ++this.state.pos;
       code = this.readHexChar(
-        this.input.indexOf("}", this.state.pos) - this.state.pos,
+        this.input.indexOf('}', this.state.pos) - this.state.pos,
         true,
-        throwOnInvalid,
+        throwOnInvalid
       );
       ++this.state.pos;
       if (code !== null && code > 0x10ffff) {
@@ -1236,7 +1180,7 @@ export default class Tokenizer extends ParserErrors {
   }
 
   readString(quote: number): void {
-    let out = "",
+    let out = '',
       chunkStart = ++this.state.pos;
     for (;;) {
       if (this.state.pos >= this.length) {
@@ -1249,10 +1193,7 @@ export default class Tokenizer extends ParserErrors {
         // $FlowFixMe
         out += this.readEscapedChar(false);
         chunkStart = this.state.pos;
-      } else if (
-        ch === charCodes.lineSeparator ||
-        ch === charCodes.paragraphSeparator
-      ) {
+      } else if (ch === charCodes.lineSeparator || ch === charCodes.paragraphSeparator) {
         ++this.state.pos;
         ++this.state.curLine;
         this.state.lineStart = this.state.pos;
@@ -1269,7 +1210,7 @@ export default class Tokenizer extends ParserErrors {
   // Reads template string tokens.
 
   readTmplToken(): void {
-    let out = "",
+    let out = '',
       chunkStart = this.state.pos,
       containsInvalid = false;
     for (;;) {
@@ -1280,8 +1221,7 @@ export default class Tokenizer extends ParserErrors {
       if (
         ch === charCodes.graveAccent ||
         (ch === charCodes.dollarSign &&
-          this.input.charCodeAt(this.state.pos + 1) ===
-            charCodes.leftCurlyBrace)
+          this.input.charCodeAt(this.state.pos + 1) === charCodes.leftCurlyBrace)
       ) {
         if (this.state.pos === this.state.start && this.match(tt.template)) {
           if (ch === charCodes.dollarSign) {
@@ -1317,7 +1257,7 @@ export default class Tokenizer extends ParserErrors {
             }
           // fall through
           case charCodes.lineFeed:
-            out += "\n";
+            out += '\n';
             break;
           default:
             out += String.fromCharCode(ch);
@@ -1340,9 +1280,9 @@ export default class Tokenizer extends ParserErrors {
     ++this.state.pos;
     switch (ch) {
       case charCodes.lowercaseN:
-        return "\n";
+        return '\n';
       case charCodes.lowercaseR:
-        return "\r";
+        return '\r';
       case charCodes.lowercaseX: {
         const code = this.readHexChar(2, false, throwOnInvalid);
         return code === null ? null : String.fromCharCode(code);
@@ -1352,13 +1292,13 @@ export default class Tokenizer extends ParserErrors {
         return code === null ? null : String.fromCodePoint(code);
       }
       case charCodes.lowercaseT:
-        return "\t";
+        return '\t';
       case charCodes.lowercaseB:
-        return "\b";
+        return '\b';
       case charCodes.lowercaseV:
-        return "\u000b";
+        return '\u000b';
       case charCodes.lowercaseF:
-        return "\f";
+        return '\f';
       case charCodes.carriageReturn:
         if (this.input.charCodeAt(this.state.pos) === charCodes.lineFeed) {
           ++this.state.pos;
@@ -1370,7 +1310,7 @@ export default class Tokenizer extends ParserErrors {
       // fall through
       case charCodes.lineSeparator:
       case charCodes.paragraphSeparator:
-        return "";
+        return '';
       case charCodes.digit8:
       case charCodes.digit9:
         if (inTemplate) {
@@ -1382,9 +1322,7 @@ export default class Tokenizer extends ParserErrors {
       default:
         if (ch >= charCodes.digit0 && ch <= charCodes.digit7) {
           const codePos = this.state.pos - 1;
-          const match = this.input
-            .substr(this.state.pos - 1, 3)
-            .match(/^[0-7]+/);
+          const match = this.input.substr(this.state.pos - 1, 3).match(/^[0-7]+/);
 
           // This is never null, because of the if condition above.
           /*:: invariant(match !== null) */
@@ -1397,11 +1335,7 @@ export default class Tokenizer extends ParserErrors {
           }
           this.state.pos += octalStr.length - 1;
           const next = this.input.charCodeAt(this.state.pos);
-          if (
-            octalStr !== "0" ||
-            next === charCodes.digit8 ||
-            next === charCodes.digit9
-          ) {
+          if (octalStr !== '0' || next === charCodes.digit8 || next === charCodes.digit9) {
             if (inTemplate) {
               return null;
             } else if (this.state.strict) {
@@ -1423,11 +1357,7 @@ export default class Tokenizer extends ParserErrors {
 
   // Used to read character escape sequences ('\x', '\u').
 
-  readHexChar(
-    len: number,
-    forceLen: boolean,
-    throwOnInvalid: boolean,
-  ): number | null {
+  readHexChar(len: number, forceLen: boolean, throwOnInvalid: boolean): number | null {
     const codePos = this.state.pos;
     const n = this.readInt(16, len, forceLen, false);
     if (n === null) {
@@ -1447,7 +1377,7 @@ export default class Tokenizer extends ParserErrors {
   // as a micro-optimization.
 
   readWord1(): string {
-    let word = "";
+    let word = '';
     this.state.containsEsc = false;
     const start = this.state.pos;
     let chunkStart = this.state.pos;
@@ -1463,8 +1393,7 @@ export default class Tokenizer extends ParserErrors {
 
         word += this.input.slice(chunkStart, this.state.pos);
         const escStart = this.state.pos;
-        const identifierCheck =
-          this.state.pos === start ? isIdentifierStart : isIdentifierChar;
+        const identifierCheck = this.state.pos === start ? isIdentifierStart : isIdentifierChar;
 
         if (this.input.charCodeAt(++this.state.pos) !== charCodes.lowercaseU) {
           this.raise(this.state.pos, Errors.MissingUnicodeEscape);
@@ -1489,7 +1418,7 @@ export default class Tokenizer extends ParserErrors {
   }
 
   isIterator(word: string): boolean {
-    return word === "@@iterator" || word === "@@asyncIterator";
+    return word === '@@iterator' || word === '@@asyncIterator';
   }
 
   // Read an identifier or keyword token. Will check for reserved
@@ -1500,10 +1429,7 @@ export default class Tokenizer extends ParserErrors {
     const type = keywordTypes.get(word) || tt.name;
 
     // Allow @@iterator and @@asyncIterator as a identifier only inside type
-    if (
-      this.state.isIterator &&
-      (!this.isIterator(word) || !this.state.inType)
-    ) {
+    if (this.state.isIterator && (!this.isIterator(word) || !this.state.inType)) {
       this.raise(this.state.pos, Errors.InvalidIdentifier, word);
     }
 
@@ -1522,20 +1448,14 @@ export default class Tokenizer extends ParserErrors {
     if (parent === ct.functionExpression || parent === ct.functionStatement) {
       return true;
     }
-    if (
-      prevType === tt.colon &&
-      (parent === ct.braceStatement || parent === ct.braceExpression)
-    ) {
+    if (prevType === tt.colon && (parent === ct.braceStatement || parent === ct.braceExpression)) {
       return !parent.isExpr;
     }
 
     // The check for `tt.name && exprAllowed` detects whether we are
     // after a `yield` or `of` construct. See the `updateContext` for
     // `tt.name`.
-    if (
-      prevType === tt._return ||
-      (prevType === tt.name && this.state.exprAllowed)
-    ) {
+    if (prevType === tt._return || (prevType === tt.name && this.state.exprAllowed)) {
       return this.hasPrecedingLineBreak();
     }
 
@@ -1553,11 +1473,7 @@ export default class Tokenizer extends ParserErrors {
       return parent === ct.braceStatement;
     }
 
-    if (
-      prevType === tt._var ||
-      prevType === tt._const ||
-      prevType === tt.name
-    ) {
+    if (prevType === tt._var || prevType === tt._const || prevType === tt.name) {
       return false;
     }
 

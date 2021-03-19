@@ -48,7 +48,8 @@ class NamesAddtionalCodeManager extends LineManager {
 
   get parseStringifiedFunctionName() {
     let fnName = '__flatted__parse__';
-    !this.__parseImported && this.addTopImport('flatted', { specifiers: [{ name: 'parse', local: fnName }] });
+    !this.__parseImported &&
+      this.addTopImport('flatted', { specifiers: [{ name: 'parse', local: fnName }] });
     this.__parseImported = true;
     return fnName;
   }
@@ -99,30 +100,29 @@ class Manager extends NamesAddtionalCodeManager {
       }
     }
 
-    if (
-      imports.default && curImports.default &&
-      imports.default !== curImports.default
-    ) this.error("Add Top Import Error", "trying to import default twice with dfferent local names");
+    if (imports.default && curImports.default && imports.default !== curImports.default)
+      this.error(
+        'Add Top Import Error',
+        'trying to import default twice with dfferent local names'
+      );
     curImports.default ||= imports.default;
 
-    if (
-      imports.namespace && curImports.namespace &&
-      imports.namespace !== curImports.namespace
-    ) this.error("Add Top Import Error", "trying to import namespace twice with dfferent local names");
+    if (imports.namespace && curImports.namespace && imports.namespace !== curImports.namespace)
+      this.error(
+        'Add Top Import Error',
+        'trying to import namespace twice with dfferent local names'
+      );
     curImports.namespace ||= imports.namespace;
 
-    if (this.isOutput("module")) {
-      if (
-        curImports.namespace &&
-        curImports.specifiers &&
-        curImports.specifiers.length
-      ) this.error("Add Top Import Error", "trying to import namespace and specifiers at the same time");
+    if (this.isOutput('module')) {
+      if (curImports.namespace && curImports.specifiers && curImports.specifiers.length)
+        this.error(
+          'Add Top Import Error',
+          'trying to import namespace and specifiers at the same time'
+        );
     } else {
       // ony default or specifers
-      if (
-        curImports.namespace ||
-        curImports.default && curImports.specifiers
-      )
+      if (curImports.namespace || (curImports.default && curImports.specifiers))
         this.error(
           'Add Top Import Error',
           "can't import (or require) default and something else (specifiers or namespace) at the same time in non-es6 modules"
@@ -131,7 +131,11 @@ class Manager extends NamesAddtionalCodeManager {
   }
 
   addFile(file) {
-    if (!this.isModules) this.error("Function Abuse", "you can only create new files incase of translating connected modules inside a dir");
+    if (!this.isModules)
+      this.error(
+        'Function Abuse',
+        'you can only create new files incase of translating connected modules inside a dir'
+      );
     this.filesToAdd.push(file);
   }
 
@@ -140,7 +144,8 @@ class Manager extends NamesAddtionalCodeManager {
     let _msg = typeof node === 'string' ? ((a = node), (node = null), a) : 'Translation error:';
     let msg = _msg.bgRed.white;
     msgs.forEach((m) => (msg += '\n' + '      ' + m.error));
-    node?.loc && (msg += '\n' + '      ' + `${this.filepath}:${node.loc.start.line}:${node.loc.start.column}`);
+    node?.loc &&
+      (msg += '\n' + '      ' + `${this.filepath}:${node.loc.start.line}:${node.loc.start.column}`);
     node?.loc?.source && (msg += '\n' + '      ' + node.loc.source);
     throw new Error(msg);
   }
@@ -150,13 +155,18 @@ class Manager extends NamesAddtionalCodeManager {
     msgs.forEach((m) => {
       console.log('      ', m.warn);
     });
-    node && node.loc && console.log('      ', `${this.filepath}:${node.loc.start.line}:${node.loc.start.column}`);
+    node &&
+      node.loc &&
+      console.log('      ', `${this.filepath}:${node.loc.start.line}:${node.loc.start.column}`);
     node && node.loc && console.log('      ', node.loc.source);
   }
 
   finishingValidation() {
     if (this.functionDepth !== 0)
-      this.error(null, 'Unexpected `manager.functionDepth`, it should be 0 after the translation process!');
+      this.error(
+        null,
+        'Unexpected `manager.functionDepth`, it should be 0 after the translation process!'
+      );
   }
 
   reset() {
@@ -181,7 +191,6 @@ class Manager extends NamesAddtionalCodeManager {
     this.filepath = undefined;
     this.tmodulesDir = null;
   }
-
 }
 
 export default new Manager();

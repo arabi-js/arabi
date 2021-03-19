@@ -1,4 +1,3 @@
-
 // @flow
 
 /**
@@ -15,38 +14,38 @@ interface Closure {
 }
 
 export default class ScopeManager {
-
   // any block { ...code } start new block scope under the LEFO priciple
   // but the function block is different;
   // you can notice the the block here is a standalone statement
   // but the block of a function is not a statement, it is necessary.
-  // the whole function syntax is a statement 
-  blockScopes: Array<BlockScope> =  [];
+  // the whole function syntax is a statement
+  blockScopes: Array<BlockScope> = [];
 
   // constains the global closure of the whole program by default
-  // in addition to a new closure per function 
+  // in addition to a new closure per function
   closures: Array<Closure> = [];
 
   curBlockScope = null;
   curClosure = null;
 
   constructor() {
-    [ this.globalColsure, this.globalBlock ] = this.startClosure();
+    [this.globalColsure, this.globalBlock] = this.startClosure();
   }
 
   startBlockScope() {
     const theNewScope: BlockScope = {
-      lexicals: new Set()
+      lexicals: new Set(),
     };
 
     this.blockScopes.push(theNewScope);
-    this.curBlockScope = theNewScope; 
+    this.curBlockScope = theNewScope;
     return theNewScope;
   }
 
   endBlockScope() {
-    let scope =  this.blockScopes.pop();
-    this.curBlockScope = this.blockScopes.length > 0 ? this.blockScopes[this.blockScopes.length-1] : null;
+    let scope = this.blockScopes.pop();
+    this.curBlockScope =
+      this.blockScopes.length > 0 ? this.blockScopes[this.blockScopes.length - 1] : null;
     return scope;
   }
 
@@ -59,7 +58,7 @@ export default class ScopeManager {
     this.closures.push(theNewClosure);
     this.curClosure = theNewClosure;
 
-    return [ theNewClosure, this.startBlockScope() ];
+    return [theNewClosure, this.startBlockScope()];
   }
 
   endClosure() {
@@ -70,10 +69,10 @@ export default class ScopeManager {
   }
 
   has(name: string) {
-    for(let b of this.blockScopes) {
+    for (let b of this.blockScopes) {
       if (b.lexicals.has(name)) return true;
     }
-    for(let c of this.closures) {
+    for (let c of this.closures) {
       if (c.vars.has(name)) return true;
       if (c.functions.has(name)) return true;
     }
@@ -86,8 +85,7 @@ export default class ScopeManager {
   }
 
   addVars(names: string[]) {
-    for (let n of names)
-      this.addVar(n);
+    for (let n of names) this.addVar(n);
   }
 
   deleteVar(name: string) {
@@ -96,7 +94,7 @@ export default class ScopeManager {
   }
 
   hasVar(name: string) {
-    for(let c of this.closures) {
+    for (let c of this.closures) {
       if (c.vars.has(name)) return true;
     }
   }
@@ -114,8 +112,7 @@ export default class ScopeManager {
   }
 
   addFunctions(names: string[]) {
-    for (let n of names)
-      this.addFunction(n);
+    for (let n of names) this.addFunction(n);
   }
 
   deleteFunction(name: string) {
@@ -124,12 +121,12 @@ export default class ScopeManager {
   }
 
   hasFunction(name: string) {
-    for(let c of this.closures) {
+    for (let c of this.closures) {
       if (c.functions.has(name)) return true;
     }
   }
 
-  clearFunctions() { 
+  clearFunctions() {
     this.curClosure.functions = new Set();
   }
 
@@ -142,8 +139,7 @@ export default class ScopeManager {
   }
 
   addLexicals(names: string[]) {
-    for (let n of names)
-      this.addLexical(n);
+    for (let n of names) this.addLexical(n);
   }
 
   deleteLexical(name: string) {
@@ -152,15 +148,14 @@ export default class ScopeManager {
   }
 
   hasLexical(name: string) {
-    for(let b of this.blockScopes) {
+    for (let b of this.blockScopes) {
       if (b.lexicals.has(name)) return true;
     }
   }
 
-  clearLexical() { 
+  clearLexical() {
     this.curBlockScope.lexicals = [];
   }
 
   //#endregion
-
 }

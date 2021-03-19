@@ -1,6 +1,6 @@
 // @flow
 
-import { lineBreakG } from "./whitespace";
+import { lineBreakG } from './whitespace';
 
 export type Pos = {
   start: number,

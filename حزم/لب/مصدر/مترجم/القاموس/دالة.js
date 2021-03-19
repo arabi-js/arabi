@@ -11,10 +11,7 @@ function translateArrowFunction(node, indent = manager.indent) {
   // as fn.body.type === "BlockStatement"
   manager.scope.startClosure();
 
-  let code =
-    indent +
-    _async +
-    `(${node.params.map((p) => translate(p, '')).join(', ')}) => `;
+  let code = indent + _async + `(${node.params.map((p) => translate(p, '')).join(', ')}) => `;
 
   // add params to scope
   // the assignment expression is adding to scope while handling it
@@ -27,14 +24,9 @@ function translateArrowFunction(node, indent = manager.indent) {
 }
 
 export const functionTranslator: Translator = {
-  types: [
-    'FunctionExpression',
-    'FunctionDeclaration',
-    'ArrowFunctionExpression',
-  ],
+  types: ['FunctionExpression', 'FunctionDeclaration', 'ArrowFunctionExpression'],
   translate(node, indent = manager.indent) {
-    if (node.type === 'ArrowFunctionExpression')
-      return translateArrowFunction(node, indent);
+    if (node.type === 'ArrowFunctionExpression') return translateArrowFunction(node, indent);
 
     let _async = node.async ? 'async ' : '';
     let _generator = node.generator ? '*' : '';
@@ -48,7 +40,11 @@ export const functionTranslator: Translator = {
 
     // the declaration syntax
     let code =
-      _async + 'function' + _generator + ' ' + _name +
+      _async +
+      'function' +
+      _generator +
+      ' ' +
+      _name +
       `(${node.params.map((p) => translate(p, '')).join(', ')}) `;
 
     // add params to scope
@@ -62,8 +58,8 @@ export const functionTranslator: Translator = {
     manager.scope.endClosure();
 
     node.type === 'FunctionDeclaration' &&
-    node.body.type === 'BlockStatement' &&
-    (code = manager.voidline + code + manager.voidline);
+      node.body.type === 'BlockStatement' &&
+      (code = manager.voidline + code + manager.voidline);
 
     return code;
   },

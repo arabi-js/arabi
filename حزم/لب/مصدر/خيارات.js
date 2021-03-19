@@ -13,16 +13,15 @@ export interface GlobalMap {
 }
 
 export interface BasicTranslationMap {
-  [ArabicName: string]: string /* EnglishName */ | [
-    string, // English Name
-    TranslationMap,
-    ?TranslationMapOptions
-  ];
+  [ArabicName: string]: | string
+    | /* EnglishName */ [
+        string, // English Name
+        TranslationMap,
+        ?TranslationMapOptions
+      ];
 }
 
-export type TranslationMap =
-  BasicTranslationMap |
-  (obj: object) => BasicTranslationMap;
+export type TranslationMap = BasicTranslationMap | ((obj: object) => BasicTranslationMap);
 
 export type ModuleType = 'module' | 'commonjs';
 
@@ -44,28 +43,33 @@ export interface Options {
   globalObject: string; // = "globalThis";
   // test for files to be translated!
   patterns: Test; // = /\.(:?arabi|جس|ج.س)$/;
-  ignores: Test; // ignore specific files when translating 
-  // when the test "patterns" fails, the file is copied to the output directory  
+  ignores: Test; // ignore specific files when translating
+  // when the test "patterns" fails, the file is copied to the output directory
   // ignore files from being copied to the output when when translating dir && isModules
   globalIgnores: Test;
-  
-  
+
   //##** less important options
-  
+
   // if you want to keep the extensions of the input files, which
   // passed the patterns and ignores tests, unchanged.
   keepExtension: Boolean; // = false;
   debug?: Boolean; // = true;
   indent?: string; // = '  ';
   // enable or disable verbose loging during the translation process
-  semicolon?: Boolean; // = true;  
+  semicolon?: Boolean; // = true;
 }
 
 // use `shema-utils` for validation
 export function validateOptions(options: Options) {
   // use schema-utils
   if (!/(?:\t| )+/.test(options.indent))
-    manager.error("Invalid Option", 'invalid indent unit! please set it to a compination of <space>s and <tap>s!');
+    manager.error(
+      'Invalid Option',
+      'invalid indent unit! please set it to a compination of <space>s and <tap>s!'
+    );
   if (!/^(?:commonjs|module|mixed)$/.test(options.outputType))
-    manager.error("Invalid Option", 'invalid outputType, must be either "commonjs", "module", or "mixed"!');
+    manager.error(
+      'Invalid Option',
+      'invalid outputType, must be either "commonjs", "module", or "mixed"!'
+    );
 }

@@ -1,11 +1,11 @@
 // @flow
 
-import type { Options } from "../options";
-import * as N from "../types";
-import { Position } from "../util/location";
+import type { Options } from '../options';
+import * as N from '../types';
+import { Position } from '../util/location';
 
-import { types as ct, type TokContext } from "./context";
-import { types as tt, type TokenType } from "./types";
+import { types as ct, type TokContext } from './context';
+import { types as tt, type TokenType } from './types';
 
 type TopicContextState = {
   // When a topic binding has been currently established,
@@ -30,8 +30,7 @@ export default class State {
   endLoc: Position;
 
   init(options: Options): void {
-    this.strict =
-      options.strictMode === false ? false : options.sourceType === "module";
+    this.strict = options.strictMode === false ? false : options.sourceType === 'module';
 
     this.curLine = options.startLine;
     this.startLoc = this.endLoc = this.curPosition();
@@ -84,7 +83,7 @@ export default class State {
 
   // Labels in scope.
   labels: Array<{
-    kind: ?("loop" | "switch"),
+    kind: ?('loop' | 'switch'),
     name?: ?string,
     statementStart?: number,
   }> = [];

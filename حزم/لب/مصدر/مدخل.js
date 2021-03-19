@@ -57,25 +57,25 @@ function translateCode(arCode) {
     : Object.assign({}, options.maps.global || {}, options.maps.globalVars || {});
 
   if (manager.isEntry && options.maps.global) {
-    if (
-      options.maps.modules &&
-      manager.isOutput("module")
-    ) {
+    if (options.maps.modules && manager.isOutput('module')) {
       // create new module and import it
       let globalTransModuleName = './__arabi__global_translator__.js';
-      let globalTransModulePath = path.resolve(path.dirname(manager._filepath), globalTransModuleName);
+      let globalTransModulePath = path.resolve(
+        path.dirname(manager._filepath),
+        globalTransModuleName
+      );
       manager.addFile({
         filepath: globalTransModulePath,
-        generator(){
+        generator() {
           manager.setLineHead(lh);
-          return helpers.getGlobalTranslatorCode(options.maps.global)
-        }
+          return helpers.getGlobalTranslatorCode(options.maps.global);
+        },
       });
       manager.addTopImport(globalTransModuleName);
     } else {
       // it can be commonjs
       let globalTranslatorCode = helpers.getGlobalTranslatorCode(options.maps.global);
-      header.push(globalTranslatorCode)
+      header.push(globalTranslatorCode);
     }
   } else if (!manager.isModules) {
     // incase of translating independent file
@@ -139,8 +139,7 @@ function translateDir(tree) {
       manager.reset();
       manager.isModules = !!options.entry; // redefine this always as manager.reset change it;
       manager.isEntry =
-        manager.isModules && typeof options.entry === 'string' &&
-        f === path.resolve(options.entry);
+        manager.isModules && typeof options.entry === 'string' && f === path.resolve(options.entry);
       manager.filepath = f;
       manager._filepath = _f;
       manager.tmodulesDir = tmodulesDir;
@@ -152,7 +151,7 @@ function translateDir(tree) {
       for (let newf of manager.filesToAdd) {
         for (let __ of filesToAdd) {
           if (__.filepath === newf.filepath)
-          manager.error("Re-adding file", "you are trying to generate the same file twice");
+            manager.error('Re-adding file', 'you are trying to generate the same file twice');
         }
         filesToAdd.push(newf);
       }
@@ -181,7 +180,7 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
   filesToAdd = [];
   modulesToTranslate = new Set();
 
-  if (!options) manager.error("Invalid Arguments", "You have to pass options into the 1st arg!"); 
+  if (!options) manager.error('Invalid Arguments', 'You have to pass options into the 1st arg!');
 
   options = {
     code: undefined,
@@ -205,7 +204,7 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
     debug: true, // to console.log during the translation process or not
 
     entry: false,
-  
+
     // test for files to be translated!
     patterns: /\.(:?arabi|جس|ج.س)$/,
     ignores: null, // ignore specific files when translating
@@ -215,9 +214,7 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
   };
 
   options.outputType ||= options.inputType;
-  options.globalObject ||= // we can't use .isOutput as manager.options is not set yet
-    options.outputType === "commonjs" ?
-    'global' : 'self';
+  options.globalObject ||= options.outputType === 'commonjs' ? 'global' : 'self'; // we can't use .isOutput as manager.options is not set yet
 
   // validation
   validateOptions(options);
@@ -233,7 +230,11 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
   if (!options.debug) colors.disable();
 
   parserOptions = {
-    sourceType: manager.isInput('module') ? 'module' : manager.isInput('commonjs') ? 'script' : 'unambiguous',
+    sourceType: manager.isInput('module')
+      ? 'module'
+      : manager.isInput('commonjs')
+      ? 'script'
+      : 'unambiguous',
     createParenthesizedExpressions: true,
     ..._parserOptions,
   };
@@ -255,7 +256,7 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
         let dirname = path.dirname(filename);
         fs.mkdirSync(dirname, { recursive: true });
         fs.writeFileSync(filename, tfile);
-        log("file handled:", filename);
+        log('file handled:', filename);
         return tfile;
       } else {
         return tfile;
@@ -280,7 +281,7 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
       }
     }
 
-    filesToAdd.length && (outputTree.newFiles = filesToAdd.map(f=>f.filepath));
+    filesToAdd.length && (outputTree.newFiles = filesToAdd.map((f) => f.filepath));
     manager.filesToAdd = filesToAdd;
     helpers.addNewFiles();
     return outputTree;
@@ -298,7 +299,7 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
       let dirname = path.dirname(filename);
       fs.mkdirSync(dirname, { recursive: true });
       fs.writeFileSync(filename, translatedCode);
-      log("file created:".success.bold.underline, filename);
+      log('file created:'.success.bold.underline, filename);
     }
     return translatedCode;
   }

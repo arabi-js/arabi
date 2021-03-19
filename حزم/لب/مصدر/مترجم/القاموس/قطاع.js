@@ -17,7 +17,7 @@ export const blockTranslator: Translator = {
 
     // if not indent, don't add voidline at the end
     let vl = indent === '' ? '' : manager.voidline;
-    let code = (vl + indent) + (inline ? '{ ' : '{' + manager.nl);
+    let code = vl + indent + (inline ? '{ ' : '{' + manager.nl);
     addScope && manager.scope.startBlockScope();
     !inline && manager.increaseIndent();
 
@@ -30,8 +30,7 @@ export const blockTranslator: Translator = {
     // close block statement
     !inline && manager.decreaseIndent();
     addScope && manager.scope.endBlockScope();
-    code += inline ? ' }' : manager.indent + '}'
-      + manager.nl + vl;
+    code += inline ? ' }' : manager.indent + '}' + manager.nl + vl;
     return code;
   },
 };

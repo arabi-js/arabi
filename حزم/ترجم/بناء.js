@@ -24,6 +24,6 @@ let requireCodeStr = JSON.stringify(replaceIndents(requireContent.replace('expor
 const indexCode = fs.readFileSync(indexPath, { encoding: 'utf8' })
   .replace('TRANSLATOR_CODE', translatorCodeStr)
   .replace('REQUIRE_CODE', requireCodeStr)
-  .replace('INDENT_PLACEHOLDER', indentPH);
+  .replace('INDENT_PLACEHOLDER', '"' + indentPH + '"');
 
 fs.writeFileSync(indexDest, indexCode);

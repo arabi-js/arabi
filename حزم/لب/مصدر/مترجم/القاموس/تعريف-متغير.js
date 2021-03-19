@@ -16,7 +16,7 @@ function addToScope(id, type) {
 
 export const declarationTranslator: Translator = {
   types: ['VariableDeclaration'],
-  translate(node, indent=manager.indent, addEOL=true /* passed from ExportNamedDeclaration */) {
+  translate(node, indent = manager.indent, addEOL = true /* passed from ExportNamedDeclaration */) {
     const kind =
       node.kind === _let
         ? 'let'
@@ -31,12 +31,11 @@ export const declarationTranslator: Translator = {
       let decCode = translate(dec.id, '') + (dec.init ? ' = ' + translate(dec.init, '') : '');
       if (kind === 'let' || kind === 'const') addToScope(dec.id, 'lex');
       else addToScope(dec.id, 'var');
-      return decCode
+      return decCode;
     }
 
     let alignIndent = new Array(kind.length).fill(' ').join('') + ' ';
-    let decs =
-      node.declarations
+    let decs = node.declarations
       .map(handleDeclaration)
       .join(',' + manager.nl + manager.indent + alignIndent);
 

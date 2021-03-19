@@ -41,9 +41,12 @@ export function getIds(id) {
 }
 
 export function stringify(obj) {
-  if ((typeof obj !== 'object' && typeof obj !== 'function') || obj === null) return JSON.stringify(obj); // it is literal
+  if ((typeof obj !== 'object' && typeof obj !== 'function') || obj === null)
+    return JSON.stringify(obj); // it is literal
   if (manager.enableParseStringified)
-    return `${manager.parseStringifiedFunctionName}(${JSON.stringify(thatStringify.apply(thatStringify, arguments))})`;
+    return `${manager.parseStringifiedFunctionName}(${JSON.stringify(
+      thatStringify.apply(thatStringify, arguments)
+    )})`;
   else return thatStringify.apply(thatStringify, arguments);
 }
 
@@ -130,13 +133,15 @@ log.indentCount = 0;
 // #########  generating code **********************************
 
 function replaceIndentPH(code) {
-  return code
-    // put the current indnet to the code from @arabi/translate
-    .replace(new RegExp(arabiTranslate.indentPlaceholder, 'g'), manager.options.indent)
-    // put the lineHead at the beginning
-    .split('\n')
-    .map((l) => manager.__lineHead + l)
-    .join('\n');
+  return (
+    code
+      // put the current indnet to the code from @arabi/translate
+      .replace(new RegExp(arabiTranslate.indentPlaceholder, 'g'), manager.options.indent)
+      // put the lineHead at the beginning
+      .split('\n')
+      .map((l) => manager.__lineHead + l)
+      .join('\n')
+  );
 }
 
 export const codes: Codes = {
@@ -166,10 +171,12 @@ export function getTranslatorCode() {
 export function getTranslateRequireCode() {
   if (manager.options.runtime) {
     manager.addTopImport('@arabi/translate', {
-      specifiers: [{
-        name: 'translateRequire',
-        local: manager.translateRequireFunctnionName,
-      }],
+      specifiers: [
+        {
+          name: 'translateRequire',
+          local: manager.translateRequireFunctnionName,
+        },
+      ],
     });
     return;
   }
@@ -193,7 +200,9 @@ export function getVarsTranslatorCode(map) {
         if (Object.keys(__options).length === 1) __options = null;
       }
       if (__map || __options)
-        c = `${manager.translatorFunctionName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`;
+        c = `${manager.translatorFunctionName}(${__enName}, ${stringify(__map)}, ${stringify(
+          __options
+        )})`;
       else c = __enName;
     }
     code.push(manager.indent + `var ${p} = ${c}` + manager.eol);
@@ -221,10 +230,14 @@ export function getGlobalTranslatorCode(map) {
         if (Object.keys(__options).length === 1) __options = null;
       }
       if (__map || __options)
-        c = `${manager.translatorFunctionName}(${__enName}, ${stringify(__map)}, ${stringify(__options)})`;
+        c = `${manager.translatorFunctionName}(${__enName}, ${stringify(__map)}, ${stringify(
+          __options
+        )})`;
       else c = __enName;
     }
-    code.push(manager.indent + `${manager.options.globalObject}[${stringify(p)}] = ${c}` + manager.eol);
+    code.push(
+      manager.indent + `${manager.options.globalObject}[${stringify(p)}] = ${c}` + manager.eol
+    );
   }
   // keep the code stacked,,, but add void line peparation
   // between prototype specifiers function
@@ -236,7 +249,9 @@ export function getDeclareModuleTMapsCode() {
   let code = '';
   code +=
     manager.indent +
-    `${manager.options.globalObject}.__arabi__modules__tmap__ = ${stringify(manager.maps.modules)}` +
+    `${manager.options.globalObject}.__arabi__modules__tmap__ = ${stringify(
+      manager.maps.modules
+    )}` +
     manager.eol;
   return code;
 }
@@ -299,8 +314,9 @@ export function translatingModuleGenerator(_m) {
   let filepath = path.resolve(manager.tmodulesDir, enModuleName + '.arabi.js');
 
   function generator() {
-    let mtcode =
-      manager.isOutput('module') ? codes.es6ModuleTranslationCode : codes.commonjsModuleTranslationCode;
+    let mtcode = manager.isOutput('module')
+      ? codes.es6ModuleTranslationCode
+      : codes.commonjsModuleTranslationCode;
     return mtcode
       .replace('MODULE_NAME', m[0])
       .replace('MODULE_MAP', stringify(m[1]))
@@ -348,9 +364,12 @@ function getPrototypeTranslator(enName, constructMap) {
       let descriptor;
       if (typeof map === 'string') {
         let _name = getMember('this', map);
-        descriptor = ['{', `get: function(){ return ${_name} },`, `set: function(v){ return ${_name} = v },`, '}'].join(
-          ''
-        );
+        descriptor = [
+          '{',
+          `get: function(){ return ${_name} },`,
+          `set: function(v){ return ${_name} = v },`,
+          '}',
+        ].join('');
       } else {
         let _name = map[0];
         let _map = map[1];
@@ -360,15 +379,17 @@ function getPrototypeTranslator(enName, constructMap) {
         // add option to retranslate when [[set]] is executed
         descriptor = [
           '{',
-          `get: function(){ return ${manager.translatorFunctionName}(${_name}, ${stringify(_map)}, ${stringify(
-            _options
-          )}) },`,
+          `get: function(){ return ${manager.translatorFunctionName}(${_name}, ${stringify(
+            _map
+          )}, ${stringify(_options)}) },`,
           `set: function(v){ return ${_name} = v },`,
           '}',
         ].join('');
       }
       prototypeCode +=
-        manager.indent + `Object.defineProperty(${protoVarName}, ${stringify(pp)}, ${descriptor})` + manager.eol;
+        manager.indent +
+        `Object.defineProperty(${protoVarName}, ${stringify(pp)}, ${descriptor})` +
+        manager.eol;
     }
 
   manager.decreaseIndent();

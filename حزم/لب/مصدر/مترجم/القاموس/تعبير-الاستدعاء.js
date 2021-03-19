@@ -1,17 +1,20 @@
 // @flow
 
 import translate from '../مدخل';
-import manager from '../مدير-الترجمة'; 
+import manager from '../مدير-الترجمة';
 import { keywordsMap } from '@arabi/maps';
 import { type Translator } from '../../أنواع.js';
 import { stringify } from '../../مساعدات';
 
 function handleRequire(node, indent = manager.indent) {
-  if(node.arguments.length === 0) manager.error(node, "Unexpected no arguments to \"require\" function");
-  if(node.arguments.length !== 1) manager.wran(node,
-    "Unexpected number of arguments to \"require\" function",
-    "We will take the first argument only",
-  );
+  if (node.arguments.length === 0)
+    manager.error(node, 'Unexpected no arguments to "require" function');
+  if (node.arguments.length !== 1)
+    manager.wran(
+      node,
+      'Unexpected number of arguments to "require" function',
+      'We will take the first argument only'
+    );
 
   let arg = node.arguments[0];
   if (arg.type === 'StringLiteral') {
@@ -23,7 +26,12 @@ function handleRequire(node, indent = manager.indent) {
       // let options = a[2];
       // set manager.addTranslateRequire to `true`, but dosn't declare global.`__arabi__modules__tmap__`
       // return `${manager.translateRequireFunctionName__2}(require(${stringify(enName)}), ${arg.extra.rawValue}, ${stringify(enName)}, ${stringify(map)}, ${stringify(options)})`;
-      return indent + `${manager.translateRequireFunctionName__2}(require(${stringify(enName)}), ${stringify(arg.value)})`;
+      return (
+        indent +
+        `${manager.translateRequireFunctionName__2}(require(${stringify(enName)}), ${stringify(
+          arg.value
+        )})`
+      );
     } else return indent + `require(${translate(arg, '')})`;
   }
 
@@ -42,7 +50,7 @@ function bindExpression(node, indent = manager.indent) {
   let object = translate(node.object, '');
   let callee = translate(node.callee, '');
   return indent + `${object}::${callee}`;
-} 
+}
 
 // tag` ... `
 function taggedTemplateExpression(node, indent = manager.indent) {
@@ -60,21 +68,20 @@ export const callTranslator: Translator = {
     'OptionalCallExpression',
     'NewExpression',
     'BindExpression',
-    'TaggedTemplateExpression'
+    'TaggedTemplateExpression',
   ],
-  translate(node, indent=manager.indent) {
-    if (node.type === 'BindExpression')
-      return bindExpression(node, indent);
-    if (node.type === 'TaggedTemplateExpression')
-      return taggedTemplateExpression(node, indent);
+  translate(node, indent = manager.indent) {
+    if (node.type === 'BindExpression') return bindExpression(node, indent);
+    if (node.type === 'TaggedTemplateExpression') return taggedTemplateExpression(node, indent);
 
     if (
-      manager.isOutput("commonjs") &&
+      manager.isOutput('commonjs') &&
       node.type === 'CallExpression' &&
       node.callee.type === 'Identifier' &&
       node.callee.name === keywordsMap._require &&
       !manager.scope.has(node.callee.name)
-    ) return handleRequire(node, indent);
+    )
+      return handleRequire(node, indent);
 
     let prefix = node.type === 'NewExpression' ? 'new ' : '';
     let optional = node.optional ? '?.' : '';

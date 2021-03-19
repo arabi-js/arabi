@@ -16,7 +16,7 @@
     "عربي"
   ],
   "license": "MIT",
-  "main": "./حزمة/مدخل-مبني.js",
+  "main": "./مصدر/مدخل-مبني.js",
   "publishConfig": {
     "access": "public"
   },

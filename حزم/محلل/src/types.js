@@ -1,9 +1,9 @@
 // @flow
 
-import type { SourceType } from "./options";
-import type { Token } from "./tokenizer";
-import type { SourceLocation } from "./util/location";
-import type { PlaceholderTypes } from "./plugins/placeholders";
+import type { SourceType } from './options';
+import type { Token } from './tokenizer';
+import type { SourceLocation } from './util/location';
+import type { PlaceholderTypes } from './plugins/placeholders';
 import * as keyMap from './keywords-map';
 
 /*
@@ -17,7 +17,7 @@ import * as keyMap from './keywords-map';
  */
 
 export type Comment = {
-  type: "CommentBlock" | "CommentLine",
+  type: 'CommentBlock' | 'CommentLine',
   value: string,
   start: number,
   end: number,
@@ -41,12 +41,7 @@ export interface NodeBase {
 export type Node = NodeBase & { [key: string]: any };
 export type Expression = Node;
 export type Statement = Node;
-export type Pattern =
-  | Identifier
-  | ObjectPattern
-  | ArrayPattern
-  | RestElement
-  | AssignmentPattern;
+export type Pattern = Identifier | ObjectPattern | ArrayPattern | RestElement | AssignmentPattern;
 //| Placeholder<"Pattern">;
 export type Declaration =
   | VariableDeclaration
@@ -70,12 +65,12 @@ export type HasDecorators = NodeBase & {
 };
 
 export type InterpreterDirective = NodeBase & {
-  type: "InterpreterDirective",
+  type: 'InterpreterDirective',
   value: string,
 };
 
 export type Identifier = PatternBase & {
-  type: "Identifier",
+  type: 'Identifier',
   name: string,
 
   __clone(): Identifier,
@@ -86,7 +81,7 @@ export type Identifier = PatternBase & {
 // | Placeholder<"Identifier">;
 
 export type PrivateName = NodeBase & {
-  type: "PrivateName",
+  type: 'PrivateName',
   id: Identifier,
 };
 
@@ -101,32 +96,32 @@ export type Literal =
   | BigIntLiteral;
 
 export type RegExpLiteral = NodeBase & {
-  type: "RegExpLiteral",
+  type: 'RegExpLiteral',
   pattern: string,
   flags: RegExp$flags,
 };
 
 export type NullLiteral = NodeBase & {
-  type: "NullLiteral",
+  type: 'NullLiteral',
 };
 
 export type StringLiteral = NodeBase & {
-  type: "StringLiteral",
+  type: 'StringLiteral',
   value: string,
 };
 
 export type BooleanLiteral = NodeBase & {
-  type: "BooleanLiteral",
+  type: 'BooleanLiteral',
   value: boolean,
 };
 
 export type NumericLiteral = NodeBase & {
-  type: "NumericLiteral",
+  type: 'NumericLiteral',
   value: number,
 };
 
 export type BigIntLiteral = NodeBase & {
-  type: "BigIntLiteral",
+  type: 'BigIntLiteral',
   value: number,
 };
 
@@ -135,14 +130,14 @@ export type BigIntLiteral = NodeBase & {
 export type BlockStatementLike = Program | BlockStatement;
 
 export type File = NodeBase & {
-  type: "File",
+  type: 'File',
   program: Program,
   comments: $ReadOnlyArray<Comment>,
   tokens: $ReadOnlyArray<Token | Comment>,
 };
 
 export type Program = NodeBase & {
-  type: "Program",
+  type: 'Program',
   sourceType: SourceType,
   body: Array<Statement | ModuleDeclaration>, // TODO: $ReadOnlyArray
   directives: $ReadOnlyArray<Directive>, // TODO: Not in spec
@@ -151,11 +146,7 @@ export type Program = NodeBase & {
 
 // Functions
 
-export type Function =
-  | NormalFunction
-  | ArrowFunctionExpression
-  | ObjectMethod
-  | ClassMethod;
+export type Function = NormalFunction | ArrowFunctionExpression | ObjectMethod | ClassMethod;
 
 export type NormalFunction = FunctionDeclaration | FunctionExpression;
 
@@ -186,69 +177,69 @@ export type FunctionBase = BodilessFunctionBase & {
 // Statements
 
 export type ExpressionStatement = NodeBase & {
-  type: "ExpressionStatement",
+  type: 'ExpressionStatement',
   expression: Expression,
 };
 
 export type BlockStatement = NodeBase & {
-  type: "BlockStatement",
+  type: 'BlockStatement',
   body: Array<Statement>, // TODO: $ReadOnlyArray
   directives: $ReadOnlyArray<Directive>,
 };
 // | Placeholder<"BlockStatement">;
 
 export type EmptyStatement = NodeBase & {
-  type: "EmptyStatement",
+  type: 'EmptyStatement',
 };
 
 export type DebuggerStatement = NodeBase & {
-  type: "DebuggerStatement",
+  type: 'DebuggerStatement',
 };
 
 export type WithStatement = NodeBase & {
-  type: "WithStatement",
+  type: 'WithStatement',
   object: Expression,
   body: Statement,
 };
 
 export type ReturnStatement = NodeBase & {
-  type: "ReturnStatement",
+  type: 'ReturnStatement',
   argument: ?Expression,
 };
 
 export type LabeledStatement = NodeBase & {
-  type: "LabeledStatement",
+  type: 'LabeledStatement',
   label: Identifier,
   body: Statement,
 };
 
 export type BreakStatement = NodeBase & {
-  type: "BreakStatement",
+  type: 'BreakStatement',
   label: ?Identifier,
 };
 
 export type ContinueStatement = NodeBase & {
-  type: "ContinueStatement",
+  type: 'ContinueStatement',
   label: ?Identifier,
 };
 
 // Choice
 
 export type IfStatement = NodeBase & {
-  type: "IfStatement",
+  type: 'IfStatement',
   test: Expression,
   consequent: Statement,
   alternate: ?Statement,
 };
 
 export type SwitchStatement = NodeBase & {
-  type: "SwitchStatement",
+  type: 'SwitchStatement',
   discriminant: Expression,
   cases: $ReadOnlyArray<SwitchCase>,
 };
 
 export type SwitchCase = NodeBase & {
-  type: "SwitchCase",
+  type: 'SwitchCase',
   test: ?Expression,
   consequent: $ReadOnlyArray<Statement>,
 };
@@ -256,19 +247,19 @@ export type SwitchCase = NodeBase & {
 // Exceptions
 
 export type ThrowStatement = NodeBase & {
-  type: "ThrowStatement",
+  type: 'ThrowStatement',
   argument: Expression,
 };
 
 export type TryStatement = NodeBase & {
-  type: "TryStatement",
+  type: 'TryStatement',
   block: BlockStatement,
   handler: CatchClause | null,
   finalizer: BlockStatement | null,
 };
 
 export type CatchClause = NodeBase & {
-  type: "CatchClause",
+  type: 'CatchClause',
   param: Pattern,
   body: BlockStatement,
 };
@@ -276,13 +267,13 @@ export type CatchClause = NodeBase & {
 // Loops
 
 export type WhileStatement = NodeBase & {
-  type: "WhileStatement",
+  type: 'WhileStatement',
   test: Expression,
   body: Statement,
 };
 
 export type DoWhileStatement = NodeBase & {
-  type: "DoWhileStatement",
+  type: 'DoWhileStatement',
   body: Statement,
   test: Expression,
 };
@@ -290,7 +281,7 @@ export type DoWhileStatement = NodeBase & {
 export type ForLike = ForStatement | ForInOf;
 
 export type ForStatement = NodeBase & {
-  type: "ForStatement",
+  type: 'ForStatement',
   init: ?(VariableDeclaration | Expression),
   test: ?Expression,
   update: ?Expression,
@@ -300,20 +291,20 @@ export type ForStatement = NodeBase & {
 export type ForInOf = ForInStatement | ForOfStatement;
 
 export type ForInOfBase = NodeBase & {
-  type: "ForInStatement",
+  type: 'ForInStatement',
   left: VariableDeclaration | Expression,
   right: Expression,
   body: Statement,
 };
 
 export type ForInStatement = ForInOfBase & {
-  type: "ForInStatement",
+  type: 'ForInStatement',
   // TODO: Shouldn't be here, but have to declare it because it's assigned to a ForInOf unconditionally.
   await: boolean,
 };
 
 export type ForOfStatement = ForInOfBase & {
-  type: "ForOfStatement",
+  type: 'ForOfStatement',
   await: boolean,
 };
 
@@ -321,7 +312,7 @@ export type ForOfStatement = ForInOfBase & {
 
 export type OptFunctionDeclaration = FunctionBase &
   DeclarationBase & {
-    type: "FunctionDeclaration",
+    type: 'FunctionDeclaration',
   };
 
 export type FunctionDeclaration = OptFunctionDeclaration & {
@@ -330,13 +321,13 @@ export type FunctionDeclaration = OptFunctionDeclaration & {
 
 export type VariableDeclaration = DeclarationBase &
   HasDecorators & {
-    type: "VariableDeclaration",
+    type: 'VariableDeclaration',
     declarations: $ReadOnlyArray<VariableDeclarator>,
     kind: keyMap._var | keyMap._let | keyMap._const,
   };
 
 export type VariableDeclarator = NodeBase & {
-  type: "VariableDeclarator",
+  type: 'VariableDeclarator',
   id: Pattern,
   init: ?Expression,
 
@@ -346,67 +337,67 @@ export type VariableDeclarator = NodeBase & {
 
 // Misc
 
-export type ArgumentPlaceholder = NodeBase & { type: "ArgumentPlaceholder" };
+export type ArgumentPlaceholder = NodeBase & { type: 'ArgumentPlaceholder' };
 
 export type Decorator = NodeBase & {
-  type: "Decorator",
+  type: 'Decorator',
   expression: Expression,
   arguments?: Array<Expression | SpreadElement>,
 };
 
 export type Directive = NodeBase & {
-  type: "Directive",
+  type: 'Directive',
   value: DirectiveLiteral,
 };
 
-export type DirectiveLiteral = StringLiteral & { type: "DirectiveLiteral" };
+export type DirectiveLiteral = StringLiteral & { type: 'DirectiveLiteral' };
 
 // Expressions
 
-export type Super = NodeBase & { type: "Super" };
+export type Super = NodeBase & { type: 'Super' };
 
-export type Import = NodeBase & { type: "Import" };
+export type Import = NodeBase & { type: 'Import' };
 
-export type ThisExpression = NodeBase & { type: "ThisExpression" };
+export type ThisExpression = NodeBase & { type: 'ThisExpression' };
 
 export type ArrowFunctionExpression = FunctionBase & {
-  type: "ArrowFunctionExpression",
+  type: 'ArrowFunctionExpression',
   body: BlockStatement | Expression,
 };
 
 export type YieldExpression = NodeBase & {
-  type: "YieldExpression",
+  type: 'YieldExpression',
   argument: ?Expression,
   delegate: boolean,
 };
 
 export type AwaitExpression = NodeBase & {
-  type: "AwaitExpression",
+  type: 'AwaitExpression',
   argument: ?Expression,
 };
 
 export type ArrayExpression = NodeBase & {
-  type: "ArrayExpression",
+  type: 'ArrayExpression',
   elements: $ReadOnlyArray<?(Expression | SpreadElement)>,
 };
 
 export type DoExpression = NodeBase & {
-  type: "DoExpression",
+  type: 'DoExpression',
   body: ?BlockStatement,
 };
 
 export type TupleExpression = NodeBase & {
-  type: "TupleExpression",
+  type: 'TupleExpression',
   elements: $ReadOnlyArray<?(Expression | SpreadElement)>,
 };
 
 export type ObjectExpression = NodeBase & {
-  type: "ObjectExpression",
+  type: 'ObjectExpression',
   properties: $ReadOnlyArray<ObjectProperty | ObjectMethod | SpreadElement>,
 };
 
 export type RecordExpression = NodeBase & {
-  type: "RecordExpression",
+  type: 'RecordExpression',
   properties: $ReadOnlyArray<ObjectProperty | ObjectMethod | SpreadElement>,
 };
 
@@ -419,132 +410,132 @@ export type ObjectMemberBase = NodeBase & {
   computed: boolean,
   value: Expression,
   decorators: $ReadOnlyArray<Decorator>,
-  kind?: "get" | "set" | "method",
+  kind?: 'get' | 'set' | 'method',
   method: boolean, // TODO: Not in spec
   typeParameters?: ?TypeParameterInstantiationBase, // TODO: Not in spec
   variance?: ?FlowVariance, // TODO: Not in spec
 };
 
 export type ObjectProperty = ObjectMemberBase & {
-  type: "ObjectProperty",
+  type: 'ObjectProperty',
   shorthand: boolean,
 };
 
 export type ObjectMethod = ObjectMemberBase &
   MethodBase & {
-    type: "ObjectMethod",
-    kind: "get" | "set" | "method", // Never "constructor"
+    type: 'ObjectMethod',
+    kind: 'get' | 'set' | 'method', // Never "constructor"
   };
 
 export type FunctionExpression = MethodBase & {
   kind?: void, // never set
-  type: "FunctionExpression",
+  type: 'FunctionExpression',
 };
 
 // Unary operations
 
 export type UnaryExpression = NodeBase & {
-  type: "UnaryExpression",
+  type: 'UnaryExpression',
   operator: UnaryOperator,
   prefix: boolean,
   argument: Expression,
 };
 
 export type UnaryOperator =
-  | "-"
-  | "+"
-  | "!"
-  | "~"
+  | '-'
+  | '+'
+  | '!'
+  | '~'
   | keyMap._typeof
   | keyMap._void
   | keyMap._delete
   | keyMap._throw;
 
 export type UpdateExpression = NodeBase & {
-  type: "UpdateExpression",
+  type: 'UpdateExpression',
   operator: UpdateOperator,
   argument: Expression,
   prefix: boolean,
 };
 
-export type UpdateOperator = "++" | "--";
+export type UpdateOperator = '++' | '--';
 
 // Binary operations
 
 export type BinaryExpression = NodeBase & {
-  type: "BinaryExpression",
+  type: 'BinaryExpression',
   operator: BinaryOperator,
   left: Expression,
   right: Expression,
 };
 
 export type BinaryOperator =
-  | "=="
-  | "!="
-  | "==="
-  | "!=="
-  | "<"
-  | "<="
-  | ">"
-  | ">="
-  | "<<"
-  | ">>"
-  | ">>>"
-  | "+"
-  | "-"
-  | "*"
-  | "/"
-  | "%"
-  | "|"
-  | "^"
-  | "&"
+  | '=='
+  | '!='
+  | '==='
+  | '!=='
+  | '<'
+  | '<='
+  | '>'
+  | '>='
+  | '<<'
+  | '>>'
+  | '>>>'
+  | '+'
+  | '-'
+  | '*'
+  | '/'
+  | '%'
+  | '|'
+  | '^'
+  | '&'
   | keyMap._in
   | keyMap._instanceof;
 
 export type AssignmentExpression = NodeBase & {
-  type: "AssignmentExpression",
+  type: 'AssignmentExpression',
   operator: AssignmentOperator,
   left: Pattern | Expression,
   right: Expression,
 };
 
 export type AssignmentOperator =
-  | "="
-  | "+="
-  | "-="
-  | "*="
-  | "/="
-  | "%="
-  | "<<="
-  | ">>="
-  | ">>>="
-  | "|="
-  | "^="
-  | "&=";
+  | '='
+  | '+='
+  | '-='
+  | '*='
+  | '/='
+  | '%='
+  | '<<='
+  | '>>='
+  | '>>>='
+  | '|='
+  | '^='
+  | '&=';
 
 export type LogicalExpression = NodeBase & {
-  type: "LogicalExpression",
+  type: 'LogicalExpression',
   operator: LogicalOperator,
   left: Expression,
   right: Expression,
 };
 
-export type LogicalOperator = "||" | "&&";
+export type LogicalOperator = '||' | '&&';
 
 export type SpreadElement = NodeBase & {
-  type: "SpreadElement",
+  type: 'SpreadElement',
   argument: Expression,
 };
 
 export type MemberExpression = NodeBase & {
-  type: "MemberExpression",
+  type: 'MemberExpression',
   object: Expression | Super,
   property: Expression,
   computed: boolean,
 };
 
 export type OptionalMemberExpression = NodeBase & {
-  type: "OptionalMemberExpression",
+  type: 'OptionalMemberExpression',
   object: Expression | Super,
   property: Expression,
   computed: boolean,
@@ -552,17 +543,17 @@ export type OptionalMemberExpression = NodeBase & {
 };
 
 export type OptionalCallExpression = CallOrNewBase & {
-  type: "OptionalCallExpression",
+  type: 'OptionalCallExpression',
   optional: boolean,
 };
 export type BindExpression = NodeBase & {
-  type: "BindExpression",
+  type: 'BindExpression',
   object: $ReadOnlyArray<?Expression>,
   callee: $ReadOnlyArray<Expression>,
 };
 
 export type ConditionalExpression = NodeBase & {
-  type: "ConditionalExpression",
+  type: 'ConditionalExpression',
   test: Expression,
   alternate: Expression,
   consequent: Expression,
@@ -576,73 +567,73 @@ export type CallOrNewBase = NodeBase & {
 };
 
 export type CallExpression = CallOrNewBase & {
-  type: "CallExpression",
+  type: 'CallExpression',
 };
 
 export type NewExpression = CallOrNewBase & {
-  type: "NewExpression",
+  type: 'NewExpression',
   optional?: boolean, // TODO: Not in spec
 };
 
 export type SequenceExpression = NodeBase & {
-  type: "SequenceExpression",
+  type: 'SequenceExpression',
   expressions: $ReadOnlyArray<Expression>,
 };
 
 export type ParenthesizedExpression = NodeBase & {
-  type: "ParenthesizedExpression",
+  type: 'ParenthesizedExpression',
   expression: Expression,
 };
 
 // Pipelines
 
 export type PipelineBody = NodeBase & {
-  type: "PipelineBody",
+  type: 'PipelineBody',
 };
 
 export type PipelineBareFunctionBody = NodeBase & {
-  type: "PipelineBareFunctionBody",
+  type: 'PipelineBareFunctionBody',
   callee: Expression,
 };
 
 export type PipelineBareConstructorBody = NodeBase & {
-  type: "PipelineBareConstructorBody",
+  type: 'PipelineBareConstructorBody',
   callee: Expression,
 };
 
 export type PipelineBareAwaitedFunctionBody = NodeBase & {
-  type: "PipelineBareAwaitedFunctionBody",
+  type: 'PipelineBareAwaitedFunctionBody',
   callee: Expression,
 };
 
 export type PipelineTopicBody = NodeBase & {
-  type: "PipelineTopicBody",
+  type: 'PipelineTopicBody',
   expression: Expression,
 };
 
 export type PipelineStyle =
-  | "PipelineBareFunction"
-  | "PipelineBareConstructor"
-  | "PipelineBareAwaitedFunction"
-  | "PipelineTopicExpression";
+  | 'PipelineBareFunction'
+  | 'PipelineBareConstructor'
+  | 'PipelineBareAwaitedFunction'
+  | 'PipelineTopicExpression';
 
 // Template Literals
 
 export type TemplateLiteral = NodeBase & {
-  type: "TemplateLiteral",
+  type: 'TemplateLiteral',
   quasis: $ReadOnlyArray<TemplateElement>,
   expressions: $ReadOnlyArray<Expression>,
 };
 
 export type TaggedTemplateExpression = NodeBase & {
-  type: "TaggedTemplateExpression",
+  type: 'TaggedTemplateExpression',
   tag: Expression,
   quasi: TemplateLiteral,
   typeParameters?: ?TypeParameterInstantiationBase, // TODO: Not in spec
 };
 
 export type TemplateElement = NodeBase & {
-  type: "TemplateElement",
+  type: 'TemplateElement',
   tail: boolean,
   value: {
     cooked: string,
@@ -653,7 +644,7 @@ export type TemplateElement = NodeBase & {
 // Patterns
 
 // TypeScript access modifiers
-export type Accessibility = "public" | "protected" | "private";
+export type Accessibility = 'public' | 'protected' | 'private';
 
 export type PatternBase = HasDecorators & {
   // TODO: All not in spec
@@ -666,22 +657,22 @@ export type AssignmentProperty = ObjectProperty & {
 };
 
 export type ObjectPattern = PatternBase & {
-  type: "ObjectPattern",
+  type: 'ObjectPattern',
   properties: $ReadOnlyArray<AssignmentProperty | RestElement>,
 };
 
 export type ArrayPattern = PatternBase & {
-  type: "ArrayPattern",
+  type: 'ArrayPattern',
   elements: $ReadOnlyArray<?Pattern>,
 };
 
 export type RestElement = PatternBase & {
-  type: "RestElement",
+  type: 'RestElement',
   argument: Pattern,
 };
 
 export type AssignmentPattern = PatternBase & {
-  type: "AssignmentPattern",
+  type: 'AssignmentPattern',
   left: Pattern,
   right: Expression,
 };
@@ -699,13 +690,11 @@ export type ClassBase = HasDecorators & {
   // TODO: All not in spec
   typeParameters?: ?TypeParameterDeclarationBase,
   superTypeParameters?: ?TypeParameterInstantiationBase,
-  implements?:
-    | ?$ReadOnlyArray<TsExpressionWithTypeArguments>
-    | $ReadOnlyArray<FlowClassImplements>,
+  implements?: ?$ReadOnlyArray<TsExpressionWithTypeArguments> | $ReadOnlyArray<FlowClassImplements>,
 };
 
 export type ClassBody = NodeBase & {
-  type: "ClassBody",
+  type: 'ClassBody',
   body: Array<ClassMember | TsIndexSignature>, // TODO: $ReadOnlyArray
 };
 // | Placeholder<"ClassBody">;
@@ -720,11 +709,7 @@ export type ClassMemberBase = NodeBase &
     optional?: ?true,
   };
 
-export type ClassMember =
-  | ClassMethod
-  | ClassPrivateMethod
-  | ClassProperty
-  | ClassPrivateProperty;
+export type ClassMember = ClassMethod | ClassPrivateMethod | ClassProperty | ClassPrivateProperty;
 
 export type MethodLike =
   | ObjectMethod
@@ -737,7 +722,7 @@ export type MethodBase = FunctionBase & {
   +kind: MethodKind,
 };
 
-export type MethodKind = "constructor" | "method" | "get" | "set";
+export type MethodKind = 'constructor' | 'method' | 'get' | 'set';
 
 export type ClassMethodOrDeclareMethodCommon = ClassMemberBase & {
   key: Expression,
@@ -748,21 +733,21 @@ export type ClassMethodOrDeclareMethodCommon = ClassMemberBase & {
 
 export type ClassMethod = MethodBase &
   ClassMethodOrDeclareMethodCommon & {
-    type: "ClassMethod",
+    type: 'ClassMethod',
     variance?: ?FlowVariance, // TODO: Not in spec
   };
 
 export type ClassPrivateMethod = NodeBase &
   ClassMethodOrDeclareMethodCommon &
   MethodBase & {
-    type: "ClassPrivateMethod",
+    type: 'ClassPrivateMethod',
     key: PrivateName,
     computed: false,
   };
 
 export type ClassProperty = ClassMemberBase &
   DeclarationBase & {
-    type: "ClassProperty",
+    type: 'ClassProperty',
     key: Expression,
     value: ?Expression, // TODO: Not in spec that this is nullable.
 
@@ -775,7 +760,7 @@ export type ClassProperty = ClassMemberBase &
   };
 
 export type ClassPrivateProperty = NodeBase & {
-  type: "ClassPrivateProperty",
+  type: 'ClassPrivateProperty',
   key: PrivateName,
   value: ?Expression, // TODO: Not in spec that this is nullable.
   static: boolean,
@@ -793,7 +778,7 @@ export type ClassPrivateProperty = NodeBase & {
 export type OptClassDeclaration = ClassBase &
   DeclarationBase &
   HasDecorators & {
-    type: "ClassDeclaration",
+    type: 'ClassDeclaration',
     // TypeScript only
     abstract?: ?true,
   };
@@ -802,10 +787,10 @@ export type ClassDeclaration = OptClassDeclaration & {
   id: Identifier,
 };
 
-export type ClassExpression = ClassBase & { type: "ClassExpression" };
+export type ClassExpression = ClassBase & { type: 'ClassExpression' };
 
 export type MetaProperty = NodeBase & {
-  type: "MetaProperty",
+  type: 'MetaProperty',
   meta: Identifier,
   property: Identifier,
 };
@@ -831,64 +816,58 @@ export type ModuleSpecifier = NodeBase & {
 // Imports
 
 export type ImportDeclaration = NodeBase & {
-  type: "ImportDeclaration",
+  type: 'ImportDeclaration',
   // TODO: $ReadOnlyArray
-  specifiers: Array<
-    ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier,
-  >,
+  specifiers: Array<ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier>,
   source: Literal,
 
-  importKind?: "type" | "typeof" | "value", // TODO: Not in spec
+  importKind?: 'type' | 'typeof' | 'value', // TODO: Not in spec
 };
 
 export type ImportSpecifier = ModuleSpecifier & {
-  type: "ImportSpecifier",
+  type: 'ImportSpecifier',
   imported: Identifier,
 };
 
 export type ImportDefaultSpecifier = ModuleSpecifier & {
-  type: "ImportDefaultSpecifier",
+  type: 'ImportDefaultSpecifier',
 };
 
 export type ImportNamespaceSpecifier = ModuleSpecifier & {
-  type: "ImportNamespaceSpecifier",
+  type: 'ImportNamespaceSpecifier',
 };
 
 // Exports
 
 export type ExportNamedDeclaration = NodeBase & {
-  type: "ExportNamedDeclaration",
+  type: 'ExportNamedDeclaration',
   declaration: ?Declaration,
   specifiers: $ReadOnlyArray<ExportSpecifier | ExportDefaultSpecifier>,
   source: ?Literal,
 
-  exportKind?: "type" | "value", // TODO: Not in spec
+  exportKind?: 'type' | 'value', // TODO: Not in spec
 };
 
 export type ExportSpecifier = NodeBase & {
-  type: "ExportSpecifier",
+  type: 'ExportSpecifier',
   exported: Identifier,
   local: Identifier,
 };
 
 export type ExportDefaultSpecifier = NodeBase & {
-  type: "ExportDefaultSpecifier",
+  type: 'ExportDefaultSpecifier',
   exported: Identifier,
 };
 
 export type ExportDefaultDeclaration = NodeBase & {
-  type: "ExportDefaultDeclaration",
-  declaration:
-    | OptFunctionDeclaration
-    | OptTSDeclareFunction
-    | OptClassDeclaration
-    | Expression,
+  type: 'ExportDefaultDeclaration',
+  declaration: OptFunctionDeclaration | OptTSDeclareFunction | OptClassDeclaration | Expression,
 };
 
 export type ExportAllDeclaration = NodeBase & {
-  type: "ExportAllDeclaration",
+  type: 'ExportAllDeclaration',
   source: Literal,
-  exportKind?: "type" | "value", // TODO: Not in spec
+  exportKind?: 'type' | 'value', // TODO: Not in spec
 };
 
 // JSX (TODO: Not in spec)
@@ -901,7 +880,7 @@ export type JSXSpreadChild = Node;
 export type JSXExpressionContainer = Node;
 export type JSXAttribute = Node;
 export type JSXOpeningElement = NodeBase & {
-  type: "JSXOpeningElement",
+  type: 'JSXOpeningElement',
   name: JSXNamespacedName | JSXMemberExpression,
   typeParameters?: ?TypeParameterInstantiationBase, // TODO: Not in spec
   attributes: $ReadOnlyArray<JSXAttribute>,
@@ -920,12 +899,12 @@ export type TypeAnnotationBase = NodeBase & {
 };
 
 export type TypeAnnotation = NodeBase & {
-  type: "TypeAnnotation",
+  type: 'TypeAnnotation',
   typeAnnotation: FlowTypeAnnotation,
 };
 
 export type TsTypeAnnotation = NodeBase & {
-  type: "TSTypeAnnotation",
+  type: 'TSTypeAnnotation',
   typeAnnotation: TsType,
 };
 
@@ -934,12 +913,12 @@ export type TypeParameterDeclarationBase = NodeBase & {
 };
 
 export type TypeParameterDeclaration = TypeParameterDeclarationBase & {
-  type: "TypeParameterDeclaration",
+  type: 'TypeParameterDeclaration',
   params: $ReadOnlyArray<TypeParameter>,
 };
 
 export type TsTypeParameterDeclaration = TypeParameterDeclarationBase & {
-  type: "TsTypeParameterDeclaration",
+  type: 'TsTypeParameterDeclaration',
   params: $ReadOnlyArray<TsTypeParameter>,
 };
 
@@ -948,12 +927,12 @@ export type TypeParameterBase = NodeBase & {
 };
 
 export type TypeParameter = TypeParameterBase & {
-  type: "TypeParameter",
+  type: 'TypeParameter',
   default?: TypeAnnotation,
 };
 
 export type TsTypeParameter = TypeParameterBase & {
-  type: "TSTypeParameter",
+  type: 'TSTypeParameter',
   constraint?: TsType,
   default?: TsType,
 };
@@ -963,12 +942,12 @@ export type TypeParameterInstantiationBase = NodeBase & {
 };
 
 export type TypeParameterInstantiation = TypeParameterInstantiationBase & {
-  type: "TypeParameterInstantiation",
+  type: 'TypeParameterInstantiation',
   params: $ReadOnlyArray<FlowType>,
 };
 
 export type TsTypeParameterInstantiation = TypeParameterInstantiationBase & {
-  type: "TSTypeParameterInstantiation",
+  type: 'TSTypeParameterInstantiation',
   params: $ReadOnlyArray<TsType>,
 };
 
@@ -980,13 +959,13 @@ export type TypeCastExpressionBase = NodeBase & {
 };
 
 export type TypeCastExpression = NodeBase & {
-  type: "TypeCastExpression",
+  type: 'TypeCastExpression',
   expression: Expression,
   typeAnnotation: TypeAnnotation,
 };
 
 export type TsTypeCastExpression = NodeBase & {
-  type: "TSTypeCastExpression",
+  type: 'TSTypeCastExpression',
   expression: Expression,
   typeAnnotation: TsTypeAnnotation,
 };
@@ -1024,7 +1003,7 @@ export type FlowVariance = Node;
 export type FlowClassImplements = Node;
 
 export type FlowInterfaceType = NodeBase & {
-  type: "FlowInterfaceType",
+  type: 'FlowInterfaceType',
   extends: FlowInterfaceExtends,
   body: FlowObjectTypeAnnotation,
 };
@@ -1032,31 +1011,31 @@ export type FlowInterfaceType = NodeBase & {
 // ESTree
 
 export type EstreeProperty = NodeBase & {
-  type: "Property",
+  type: 'Property',
   shorthand: boolean,
   key: Expression,
   computed: boolean,
   value: Expression,
   decorators: $ReadOnlyArray<Decorator>,
-  kind?: "get" | "set" | "init",
+  kind?: 'get' | 'set' | 'init',
 
   variance?: ?FlowVariance,
 };
 
 export type EstreeMethodDefinition = NodeBase & {
-  type: "MethodDefinition",
+  type: 'MethodDefinition',
   static: boolean,
   key: Expression,
   computed: boolean,
   value: Expression,
   decorators: $ReadOnlyArray<Decorator>,
-  kind?: "get" | "set" | "method",
+  kind?: 'get' | 'set' | 'method',
 
   variance?: ?FlowVariance,
 };
 
 export type EstreeImportExpression = NodeBase & {
-  type: "ImportExpression",
+  type: 'ImportExpression',
   source: Expression,
 };
 
@@ -1080,7 +1059,7 @@ export type EstreeImportExpression = NodeBase & {
 
 export type TSParameterProperty = HasDecorators & {
   // Note: This has decorators instead of its parameter.
-  type: "TSParameterProperty",
+  type: 'TSParameterProperty',
   // At least one of `accessibility` or `readonly` must be set.
   accessibility?: ?Accessibility,
   readonly?: ?true,
@@ -1089,7 +1068,7 @@ export type TSParameterProperty = HasDecorators & {
 
 export type OptTSDeclareFunction = BodilessFunctionBase &
   DeclarationBase & {
-    type: "TSDeclareFunction",
+    type: 'TSDeclareFunction',
   };
 
 export type TSDeclareFunction = OptTSDeclareFunction & {
@@ -1098,12 +1077,12 @@ export type TSDeclareFunction = OptTSDeclareFunction & {
 
 export type TSDeclareMethod = BodilessFunctionOrMethodBase &
   ClassMethodOrDeclareMethodCommon & {
-    type: "TSDeclareMethod",
+    type: 'TSDeclareMethod',
     +kind: MethodKind,
   };
 
 export type TsQualifiedName = NodeBase & {
-  type: "TSQualifiedName",
+  type: 'TSQualifiedName',
   left: TsEntityName,
   right: Identifier,
 };
@@ -1119,9 +1098,7 @@ export type TsSignatureDeclaration =
 
 export type TsSignatureDeclarationOrIndexSignatureBase = NodeBase & {
   // Not using TypeScript's "ParameterDeclaration" here, since it's inconsistent with regular functions.
-  parameters: $ReadOnlyArray<
-    Identifier | RestElement | ObjectPattern | ArrayPattern,
-  >,
+  parameters: $ReadOnlyArray<Identifier | RestElement | ObjectPattern | ArrayPattern>,
   typeAnnotation: ?TsTypeAnnotation,
 };
 
@@ -1141,11 +1118,11 @@ export type TsTypeElement =
   | TsIndexSignature;
 
 export type TsCallSignatureDeclaration = TsSignatureDeclarationBase & {
-  type: "TSCallSignatureDeclaration",
+  type: 'TSCallSignatureDeclaration',
 };
 
 export type TsConstructSignatureDeclaration = TsSignatureDeclarationBase & {
-  type: "TSConstructSignature",
+  type: 'TSConstructSignature',
 };
 
 export type TsNamedTypeElementBase = NodeBase & {
@@ -1157,7 +1134,7 @@ export type TsNamedTypeElementBase = NodeBase & {
 };
 
 export type TsPropertySignature = TsNamedTypeElementBase & {
-  type: "TSPropertySignature",
+  type: 'TSPropertySignature',
   readonly?: true,
   typeAnnotation?: TsTypeAnnotation,
   initializer?: Expression,
@@ -1165,13 +1142,13 @@ export type TsPropertySignature = TsNamedTypeElementBase & {
 
 export type TsMethodSignature = TsSignatureDeclarationBase &
   TsNamedTypeElementBase & {
-    type: "TSMethodSignature",
+    type: 'TSMethodSignature',
   };
 
 // *Not* a ClassMemberBase: Can't have accessibility, can't be abstract, can't be optional.
 export type TsIndexSignature = TsSignatureDeclarationOrIndexSignatureBase & {
   readonly?: true,
-  type: "TSIndexSignature",
+  type: 'TSIndexSignature',
   // Note: parameters.length must be 1.
 };
 
@@ -1205,48 +1182,48 @@ export type TsType =
 export type TsTypeBase = NodeBase;
 
 export type TsKeywordTypeType =
-  | "TSAnyKeyword"
-  | "TSUnknownKeyword"
-  | "TSNumberKeyword"
-  | "TSObjectKeyword"
-  | "TSBooleanKeyword"
-  | "TSBigIntKeyword"
-  | "TSStringKeyword"
-  | "TSSymbolKeyword"
-  | "TSVoidKeyword"
-  | "TSUndefinedKeyword"
-  | "TSNullKeyword"
-  | "TSNeverKeyword";
+  | 'TSAnyKeyword'
+  | 'TSUnknownKeyword'
+  | 'TSNumberKeyword'
+  | 'TSObjectKeyword'
+  | 'TSBooleanKeyword'
+  | 'TSBigIntKeyword'
+  | 'TSStringKeyword'
+  | 'TSSymbolKeyword'
+  | 'TSVoidKeyword'
+  | 'TSUndefinedKeyword'
+  | 'TSNullKeyword'
+  | 'TSNeverKeyword';
 export type TsKeywordType = TsTypeBase & {
   type: TsKeywordTypeType,
 };
 
 export type TsThisType = TsTypeBase & {
-  type: "TSThisType",
+  type: 'TSThisType',
 };
 
 export type TsFunctionOrConstructorType = TsFunctionType | TsConstructorType;
 
 export type TsFunctionType = TsTypeBase &
   TsSignatureDeclarationBase & {
-    type: "TSFunctionType",
+    type: 'TSFunctionType',
     typeAnnotation: TypeAnnotation, // not optional
   };
 
 export type TsConstructorType = TsTypeBase &
   TsSignatureDeclarationBase & {
-    type: "TSConstructorType",
+    type: 'TSConstructorType',
     typeAnnotation: TsTypeAnnotation,
   };
 
 export type TsTypeReference = TsTypeBase & {
-  type: "TSTypeReference",
+  type: 'TSTypeReference',
   typeName: TsEntityName,
   typeParameters?: TsTypeParameterInstantiation,
 };
 
 export type TsTypePredicate = TsTypeBase & {
-  type: "TSTypePredicate",
+  type: 'TSTypePredicate',
   parameterName: Identifier | TsThisType,
   typeAnnotation: TsTypeAnnotation,
   asserts?: boolean,
@@ -1254,39 +1231,39 @@ export type TsTypePredicate = TsTypeBase & {
 
 // `typeof` operator
 export type TsTypeQuery = TsTypeBase & {
-  type: "TSTypeQuery",
+  type: 'TSTypeQuery',
   exprName: TsEntityName | TsImportType,
 };
 
 export type TsTypeLiteral = TsTypeBase & {
-  type: "TSTypeLiteral",
+  type: 'TSTypeLiteral',
   members: $ReadOnlyArray<TsTypeElement>,
 };
 
 export type TsArrayType = TsTypeBase & {
-  type: "TSArrayType",
+  type: 'TSArrayType',
   elementType: TsType,
 };
 
 export type TsTupleType = TsTypeBase & {
-  type: "TSTupleType",
+  type: 'TSTupleType',
   elementTypes: $ReadOnlyArray<TsType | TsNamedTupleMember>,
 };
 
 export type TsNamedTupleMember = NodeBase & {
-  type: "TSNamedTupleMember",
+  type: 'TSNamedTupleMember',
   label: Identifier,
   optional: boolean,
   elementType: TsType,
 };
 
 export type TsOptionalType = TsTypeBase & {
-  type: "TSOptionalType",
+  type: 'TSOptionalType',
   typeAnnotation: TsType,
 };
 
 export type TsRestType = TsTypeBase & {
-  type: "TSRestType",
+  type: 'TSRestType',
   typeAnnotation: TsType | TsNamedTupleMember,
 };
 
@@ -1297,15 +1274,15 @@ export type TsUnionOrIntersectionTypeBase = TsTypeBase & {
 };
 
 export type TsUnionType = TsUnionOrIntersectionTypeBase & {
-  type: "TSUnionType",
+  type: 'TSUnionType',
 };
 
 export type TsIntersectionType = TsUnionOrIntersectionTypeBase & {
-  type: "TSIntersectionType",
+  type: 'TSIntersectionType',
 };
 
 export type TsConditionalType = TsTypeBase & {
-  type: "TSConditionalType",
+  type: 'TSConditionalType',
   checkType: TsType,
   extendsType: TsType,
   trueType: TsType,
@@ -1313,42 +1290,42 @@ export type TsConditionalType = TsTypeBase & {
 };
 
 export type TsInferType = TsTypeBase & {
-  type: "TSInferType",
+  type: 'TSInferType',
   typeParameter: TypeParameter,
 };
 
 export type TsParenthesizedType = TsTypeBase & {
-  type: "TSParenthesizedType",
+  type: 'TSParenthesizedType',
   typeAnnotation: TsType,
 };
 
 export type TsTypeOperator = TsTypeBase & {
-  type: "TSTypeOperator",
-  operator: "keyof" | "unique" | "readonly",
+  type: 'TSTypeOperator',
+  operator: 'keyof' | 'unique' | 'readonly',
   typeAnnotation: TsType,
 };
 
 export type TsIndexedAccessType = TsTypeBase & {
-  type: "TSIndexedAccessType",
+  type: 'TSIndexedAccessType',
   objectType: TsType,
   indexType: TsType,
 };
 
 export type TsMappedType = TsTypeBase & {
-  type: "TSMappedType",
-  readonly?: true | "+" | "-",
+  type: 'TSMappedType',
+  readonly?: true | '+' | '-',
   typeParameter: TsTypeParameter,
-  optional?: true | "+" | "-",
+  optional?: true | '+' | '-',
   typeAnnotation: ?TsType,
 };
 
 export type TsLiteralType = TsTypeBase & {
-  type: "TSLiteralType",
+  type: 'TSLiteralType',
   literal: NumericLiteral | StringLiteral | BooleanLiteral | TemplateLiteral,
 };
 
 export type TsImportType = TsTypeBase & {
-  type: "TsImportType",
+  type: 'TsImportType',
   argument: StringLiteral,
   qualifier?: TsEntityName,
   typeParameters?: TsTypeParameterInstantiation,
@@ -1359,7 +1336,7 @@ export type TsImportType = TsTypeBase & {
 // ================
 
 export type TsInterfaceDeclaration = DeclarationBase & {
-  type: "TSInterfaceDeclaration",
+  type: 'TSInterfaceDeclaration',
   id: Identifier,
   typeParameters: ?TsTypeParameterDeclaration,
   // TS uses "heritageClauses", but want this to resemble ClassBase.
@@ -1368,38 +1345,38 @@ export type TsInterfaceDeclaration = DeclarationBase & {
 };
 
 export type TSInterfaceBody = NodeBase & {
-  type: "TSInterfaceBody",
+  type: 'TSInterfaceBody',
   body: $ReadOnlyArray<TsTypeElement>,
 };
 
 export type TsExpressionWithTypeArguments = TsTypeBase & {
-  type: "TSExpressionWithTypeArguments",
+  type: 'TSExpressionWithTypeArguments',
   expression: TsEntityName,
   typeParameters?: TsTypeParameterInstantiation,
 };
 
 export type TsTypeAliasDeclaration = DeclarationBase & {
-  type: "TSTypeAliasDeclaration",
+  type: 'TSTypeAliasDeclaration',
   id: Identifier,
   typeParameters: ?TsTypeParameterDeclaration,
   typeAnnotation: TsType,
 };
 
 export type TsEnumDeclaration = DeclarationBase & {
-  type: "TSEnumDeclaration",
+  type: 'TSEnumDeclaration',
   const?: true,
   id: Identifier,
   members: $ReadOnlyArray<TsEnumMember>,
 };
 
 export type TsEnumMember = NodeBase & {
-  type: "TSEnumMemodulmber",
+  type: 'TSEnumMemodulmber',
   id: Identifier | StringLiteral,
   initializer?: Expression,
 };
 
 export type TsModuleDeclaration = DeclarationBase & {
-  type: "TSModuleDeclaration",
+  type: 'TSModuleDeclaration',
   global?: true, // In TypeScript, this is only available through `node.flags`.
   id: TsModuleName,
   body: TsNamespaceBody,
@@ -1409,7 +1386,7 @@ export type TsModuleDeclaration = DeclarationBase & {
 export type TsNamespaceBody = TsModuleBlock | TsNamespaceDeclaration;
 
 export type TsModuleBlock = NodeBase & {
-  type: "TSModuleBlock",
+  type: 'TSModuleBlock',
   body: $ReadOnlyArray<Statement>,
 };
 
@@ -1421,7 +1398,7 @@ export type TsNamespaceDeclaration = TsModuleDeclaration & {
 export type TsModuleName = Identifier | StringLiteral;
 
 export type TsImportEqualsDeclaration = NodeBase & {
-  type: "TSImportEqualsDeclaration",
+  type: 'TSImportEqualsDeclaration',
   isExport: boolean,
   id: Identifier,
   moduleReference: TsModuleReference,
@@ -1430,7 +1407,7 @@ export type TsImportEqualsDeclaration = NodeBase & {
 export type TsModuleReference = TsEntityName | TsExternalModuleReference;
 
 export type TsExternalModuleReference = NodeBase & {
-  type: "TSExternalModuleReference",
+  type: 'TSExternalModuleReference',
   expression: StringLiteral,
 };
 
@@ -1438,12 +1415,12 @@ export type TsExternalModuleReference = NodeBase & {
 // But for @babel/parser, `export default` is an ExportDefaultDeclaration,
 // so a TsExportAssignment is always `export =`.
 export type TsExportAssignment = NodeBase & {
-  type: "TSExportAssignment",
+  type: 'TSExportAssignment',
   expression: Expression,
 };
 
 export type TsNamespaceExportDeclaration = NodeBase & {
-  type: "TSNamespaceExportDeclaration",
+  type: 'TSNamespaceExportDeclaration',
   id: Identifier,
 };
 
@@ -1457,15 +1434,15 @@ export type TsTypeAssertionLikeBase = NodeBase & {
 };
 
 export type TsAsExpression = TsTypeAssertionLikeBase & {
-  type: "TSAsExpression",
+  type: 'TSAsExpression',
 };
 
 export type TsTypeAssertion = TsTypeAssertionLikeBase & {
-  type: "TSTypeAssertion",
+  type: 'TSTypeAssertion',
 };
 
 export type TsNonNullExpression = NodeBase & {
-  type: "TSNonNullExpression",
+  type: 'TSNonNullExpression',
   expression: Expression,
 };
 
@@ -1474,7 +1451,7 @@ export type TsNonNullExpression = NodeBase & {
 // ================
 
 export type Placeholder<N: PlaceholderTypes> = NodeBase & {
-  type: "Placeholder",
+  type: 'Placeholder',
   id: Identifier,
   expectedNode: N,
 };

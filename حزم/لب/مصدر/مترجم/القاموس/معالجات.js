@@ -35,7 +35,7 @@ export const expressionTranslator: Translator = {
 export const seqExprTranslator: Translator = {
   types: ['SequenceExpression'],
   translate(node, indent = manager.indent) {
-    return indent + node.expressions.map(e=>translate(e, '')).join(', ');
+    return indent + node.expressions.map((e) => translate(e, '')).join(', ');
   },
 };
 
@@ -60,11 +60,10 @@ export const identifierTranslator: Translator = {
   translate(node, indent = '') {
     // TODO: make sure that the ids maping is happening only with referenced ids
     // `Foo.arguments`, arguments has to still the same.
-    if(!manager.scope.has(node.name)) {
+    if (!manager.scope.has(node.name)) {
       if (node.name === keywordsMap._arguments && manager.functionDepth)
         return indent + 'arguments';
-      if (node.name === keywordsMap._eval)
-        return 'eval';
+      if (node.name === keywordsMap._eval) return 'eval';
     }
     return indent + node.name;
   },
@@ -73,11 +72,11 @@ export const identifierTranslator: Translator = {
 // e.g., `1 + 2`
 export const binaryExpressionTranslator: Translator = {
   types: ['BinaryExpression', 'LogicalExpression'],
-  translate(node, indent=manager.indent) {
+  translate(node, indent = manager.indent) {
     // enum LogicalOperator {
     //   "||" | "&&" | "??"
     // }
-    // 
+    //
     // enum BinaryOperator {
     //   "==" | "!=" | "===" | "!=="
     //     | "<" | "<=" | ">" | ">="
@@ -87,16 +86,14 @@ export const binaryExpressionTranslator: Translator = {
     //     | "instanceof"
     //     | "|>"
     // }
-    // 
-    return (
-      indent + `${translate(node.left, '')} ${node.operator} ${translate(node.right, '')}`
-    );
+    //
+    return indent + `${translate(node.left, '')} ${node.operator} ${translate(node.right, '')}`;
   },
 };
 
 export const updateExprTranslator: Translator = {
   types: ['UpdateExpression'],
-  translate(node, indent=manager.indent) {
+  translate(node, indent = manager.indent) {
     return indent + node.prefix
       ? node.operator + translate(node.argument, '')
       : translate(node.argument, '') + node.operator;
@@ -106,19 +103,20 @@ export const updateExprTranslator: Translator = {
 // e.g., `throw "An error"`
 export const unaryExprTranslator: Translator = {
   types: ['UnaryExpression'],
-  translate(node, indent=manager.indent) {
+  translate(node, indent = manager.indent) {
     let o = node.operator;
     // "-" | "+" | "!" | "~" | "typeof" | "void" | "delete" | "throw"
-    let a, k = ['typeof', 'void', 'delete', 'throw'];
+    let a,
+      k = ['typeof', 'void', 'delete', 'throw'];
     // e.g., a = _throw when o === keywordsMap._throw
-    o = ((a = k.find(_=>o===keywordsMap[`_${_}`])) && (a + ' ')) || o;
+    o = ((a = k.find((_) => o === keywordsMap[`_${_}`])) && a + ' ') || o;
     return indent + o + translate(node.argument, '');
   },
 };
 
 export const parenthesizedExpression: Translator = {
   types: ['ParenthesizedExpression'],
-  translate(node, indent=manager.indent) {
+  translate(node, indent = manager.indent) {
     return indent + `(${translate(node.expression, '')})`;
   },
 };
@@ -127,16 +125,16 @@ export const returnStatment: Translator = {
   types: ['ReturnStatement', 'ThrowStatement', 'AwaitExpression', 'YieldExpression'],
   translate(node, indent = manager.indent) {
     let keyword =
-      node.type === 'ReturnStatement' ?
-      'return' : node.type === 'ThrowStatement' ?
-      'throw' :  node.type === 'AwaitExpression' ? 
-      'await' : 'yeild'
-    ;
-    let arg = (node.argument ? ' ' + translate(node.argument, '') : '');
-    let semi = node.type.slice(-"Statement".length) === "Statement" ? manager.eol : '';
-    return (
-      indent + keyword + ' ' + arg + semi
-    );
+      node.type === 'ReturnStatement'
+        ? 'return'
+        : node.type === 'ThrowStatement'
+        ? 'throw'
+        : node.type === 'AwaitExpression'
+        ? 'await'
+        : 'yeild';
+    let arg = node.argument ? ' ' + translate(node.argument, '') : '';
+    let semi = node.type.slice(-'Statement'.length) === 'Statement' ? manager.eol : '';
+    return indent + keyword + ' ' + arg + semi;
   },
 };
 
@@ -144,10 +142,8 @@ export const blockStatment: Translator = {
   types: ['BreakStatement', 'ContinueStatement'],
   translate(node, indent = manager.indent) {
     let keyword = node.type === 'BreakStatement' ? 'break' : 'continue';
-    let label = (node.label ? ' ' + translate(node.label, '') : '');
-    return (
-      indent + keyword + label + manager.eol
-    );
+    let label = node.label ? ' ' + translate(node.label, '') : '';
+    return indent + keyword + label + manager.eol;
   },
 };
 
@@ -164,7 +160,7 @@ export const dotsTranslator: Translator = {
   types: ['RestElement', 'SpreadElement'],
   translate(node, indent = manager.indent) {
     let arg = translate(node.label, '');
-    return indent + "..." + arg;
+    return indent + '...' + arg;
   },
 };
 
@@ -178,7 +174,7 @@ export const specialLiteralsTranslator: Translator = {
 export const memExpressionTranslator: Translator = {
   types: ['MemberExpression', 'OptionalMemberExpression'],
   translate(node, indent = '') {
-    let optional = node.optional ? node.computed ? '?.' : '?' : '';
+    let optional = node.optional ? (node.computed ? '?.' : '?') : '';
     if (node.computed) {
       return indent + `${translate(node.object, '')}${optional}[${translate(node.property, '')}]`;
     }
@@ -188,21 +184,21 @@ export const memExpressionTranslator: Translator = {
 
 export const othersTranslator: Translator = {
   types: ['EmptyStatement', 'DebuggerStatement', 'PrivateName'],
-  translate(node, indent=manager.indent) {
+  translate(node, indent = manager.indent) {
     if (node.type === 'DebuggerStatement') return indent + 'debugger' + manager.eol;
     if (node.type === 'PrivateName') return '#' + translate(node.id, '');
     if (node.type === 'EmptyStatement') return indent + ';';
-    // if (node.type === '') 
-  }
-}
+    // if (node.type === '')
+  },
+};
 
 export const metaPropTranslator: Translator = {
   types: ['MetaProperty'],
-  translate(node, indent=manager.indent) {
+  translate(node, indent = manager.indent) {
     // both `meta` and `property` are of type "Identifier"
     return indent + `${node.meta.name}.${node.property.name}`;
-  }
-}
+  },
+};
 
 // ----------------
 /*

@@ -1,8 +1,4 @@
-export {
-  isIdentifierName,
-  isIdentifierChar,
-  isIdentifierStart,
-} from "./identifier";
+export { isIdentifierName, isIdentifierChar, isIdentifierStart } from './identifier';
 
 export {
   isReservedWord,
@@ -10,4 +6,4 @@ export {
   isStrictBindReservedWord,
   isStrictReservedWord,
   isKeyword,
-} from "./keyword";
+} from './keyword';

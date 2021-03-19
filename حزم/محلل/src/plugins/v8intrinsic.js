@@ -1,6 +1,6 @@
-import type Parser from "../parser";
-import { types as tt } from "../tokenizer/types";
-import * as N from "../types";
+import type Parser from '../parser';
+import { types as tt } from '../tokenizer/types';
+import * as N from '../types';
 
 export default (superClass: Class<Parser>): Class<Parser> =>
   class extends superClass {
@@ -13,7 +13,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
         if (this.match(tt.name)) {
           const name = this.parseIdentifierName(this.state.start);
           const identifier = this.createIdentifier(node, name);
-          identifier.type = "V8IntrinsicIdentifier";
+          identifier.type = 'V8IntrinsicIdentifier';
           if (this.match(tt.parenL)) {
             return identifier;
           }

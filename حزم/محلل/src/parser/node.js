@@ -1,15 +1,15 @@
 // @flow
 
-import type Parser from "./index";
-import UtilParser from "./util";
-import { SourceLocation, type Position } from "../util/location";
-import type { Comment, Node as NodeType, NodeBase } from "../types";
+import type Parser from './index';
+import UtilParser from './util';
+import { SourceLocation, type Position } from '../util/location';
+import type { Comment, Node as NodeType, NodeBase } from '../types';
 
 // Start an AST node, attaching a start offset.
 
 class Node implements NodeBase {
   constructor(parser: Parser, pos: number, loc: Position) {
-    this.type = "";
+    this.type = '';
     this.start = pos;
     this.end = 0;
     this.loc = new SourceLocation(loc);
@@ -34,11 +34,7 @@ class Node implements NodeBase {
     for (let i = 0, length = keys.length; i < length; i++) {
       const key = keys[i];
       // Do not clone comments that are already attached to the node
-      if (
-        key !== "leadingComments" &&
-        key !== "trailingComments" &&
-        key !== "innerComments"
-      ) {
+      if (key !== 'leadingComments' && key !== 'trailingComments' && key !== 'innerComments') {
         // $FlowIgnore
         newNode[key] = this[key];
       }
@@ -67,26 +63,16 @@ export class NodeUtils extends UtilParser {
   // Finish an AST node, adding `type` and `end` properties.
 
   finishNode<T: NodeType>(node: T, type: string): T {
-    return this.finishNodeAt(
-      node,
-      type,
-      this.state.lastTokEnd,
-      this.state.lastTokEndLoc,
-    );
+    return this.finishNodeAt(node, type, this.state.lastTokEnd, this.state.lastTokEndLoc);
   }
 
   // Finish node at given position
 
-  finishNodeAt<T: NodeType>(
-    node: T,
-    type: string,
-    pos: number,
-    loc: Position,
-  ): T {
-    if (process.env.NODE_ENV !== "production" && node.end > 0) {
+  finishNodeAt<T: NodeType>(node: T, type: string, pos: number, loc: Position): T {
+    if (process.env.NODE_ENV !== 'production' && node.end > 0) {
       throw new Error(
-        "Do not call finishNode*() twice on the same node." +
-          " Instead use resetEndLocation() or change type directly.",
+        'Do not call finishNode*() twice on the same node.' +
+          ' Instead use resetEndLocation() or change type directly.'
       );
     }
     node.type = type;
@@ -106,7 +92,7 @@ export class NodeUtils extends UtilParser {
   resetEndLocation(
     node: NodeBase,
     end?: number = this.state.lastTokEnd,
-    endLoc?: Position = this.state.lastTokEndLoc,
+    endLoc?: Position = this.state.lastTokEndLoc
   ): void {
     node.end = end;
     node.loc.end = endLoc;

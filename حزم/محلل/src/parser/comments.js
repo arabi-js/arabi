@@ -24,8 +24,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import BaseParser from "./base";
-import type { Comment, Node } from "../types";
+import BaseParser from './base';
+import type { Comment, Node } from '../types';
 
 function last<T>(stack: $ReadOnlyArray<T>): T {
   return stack[stack.length - 1];
@@ -49,7 +49,7 @@ export default class CommentsParser extends BaseParser {
     // On the other hand, in
     //     fn(x) [new line] /* cmt */ [new line] y
     // /* cmt */ is both a trailing comment of fn(x) and a leading comment of y
-    takeAllComments?: boolean,
+    takeAllComments?: boolean
   ) {
     if (this.state.leadingComments.length === 0) {
       return;
@@ -65,9 +65,7 @@ export default class CommentsParser extends BaseParser {
     }
 
     for (let j = 0; j < this.state.leadingComments.length; j++) {
-      if (
-        this.state.leadingComments[j].end < this.state.commentPreviousNode.end
-      ) {
+      if (this.state.leadingComments[j].end < this.state.commentPreviousNode.end) {
         this.state.leadingComments.splice(j, 1);
         j--;
       }
@@ -101,7 +99,7 @@ export default class CommentsParser extends BaseParser {
   }
 
   processComment(node: Node): void {
-    if (node.type === "Program" && node.body.length > 0) return;
+    if (node.type === 'Program' && node.body.length > 0) return;
 
     const stack = this.state.commentStack;
 
@@ -126,10 +124,7 @@ export default class CommentsParser extends BaseParser {
       }
     } else if (stack.length > 0) {
       const lastInStack = last(stack);
-      if (
-        lastInStack.trailingComments &&
-        lastInStack.trailingComments[0].start >= node.end
-      ) {
+      if (lastInStack.trailingComments && lastInStack.trailingComments[0].start >= node.end) {
         trailingComments = lastInStack.trailingComments;
         delete lastInStack.trailingComments;
       }
@@ -151,32 +146,30 @@ export default class CommentsParser extends BaseParser {
     // element
     if (firstChild) {
       switch (node.type) {
-        case "ObjectExpression":
+        case 'ObjectExpression':
           this.adjustCommentsAfterTrailingComma(node, node.properties);
           break;
-        case "ObjectPattern":
+        case 'ObjectPattern':
           this.adjustCommentsAfterTrailingComma(node, node.properties, true);
           break;
-        case "CallExpression":
+        case 'CallExpression':
           this.adjustCommentsAfterTrailingComma(node, node.arguments);
           break;
-        case "ArrayExpression":
+        case 'ArrayExpression':
           this.adjustCommentsAfterTrailingComma(node, node.elements);
           break;
-        case "ArrayPattern":
+        case 'ArrayPattern':
           this.adjustCommentsAfterTrailingComma(node, node.elements, true);
           break;
       }
     } else if (
       this.state.commentPreviousNode &&
-      ((this.state.commentPreviousNode.type === "ImportSpecifier" &&
-        node.type !== "ImportSpecifier") ||
-        (this.state.commentPreviousNode.type === "ExportSpecifier" &&
-          node.type !== "ExportSpecifier"))
+      ((this.state.commentPreviousNode.type === 'ImportSpecifier' &&
+        node.type !== 'ImportSpecifier') ||
+        (this.state.commentPreviousNode.type === 'ExportSpecifier' &&
+          node.type !== 'ExportSpecifier'))
     ) {
-      this.adjustCommentsAfterTrailingComma(node, [
-        this.state.commentPreviousNode,
-      ]);
+      this.adjustCommentsAfterTrailingComma(node, [this.state.commentPreviousNode]);
     }
 
     if (lastChild) {
@@ -204,10 +197,7 @@ export default class CommentsParser extends BaseParser {
       if (last(this.state.leadingComments).end <= node.start) {
         if (this.state.commentPreviousNode) {
           for (j = 0; j < this.state.leadingComments.length; j++) {
-            if (
-              this.state.leadingComments[j].end <
-              this.state.commentPreviousNode.end
-            ) {
+            if (this.state.leadingComments[j].end < this.state.commentPreviousNode.end) {
               this.state.leadingComments.splice(j, 1);
               j--;
             }
@@ -266,17 +256,12 @@ export default class CommentsParser extends BaseParser {
       } else {
         // TrailingComments maybe contain innerComments
         const firstTrailingCommentIndex = trailingComments.findIndex(
-          comment => comment.end >= node.end,
+          (comment) => comment.end >= node.end
         );
 
         if (firstTrailingCommentIndex > 0) {
-          node.innerComments = trailingComments.slice(
-            0,
-            firstTrailingCommentIndex,
-          );
-          node.trailingComments = trailingComments.slice(
-            firstTrailingCommentIndex,
-          );
+          node.innerComments = trailingComments.slice(0, firstTrailingCommentIndex);
+          node.trailingComments = trailingComments.slice(firstTrailingCommentIndex);
         } else {
           node.trailingComments = trailingComments;
         }

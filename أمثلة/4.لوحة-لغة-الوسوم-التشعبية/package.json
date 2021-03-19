@@ -10,10 +10,10 @@
     "@arabi/core": "^1.0.0",
     "@arabi/maps": "^1.4.1",
     "@babel/runtime": "^7.12.5",
+    "babel-loader": "^8.2.2",
     "colors": "^1.4.0",
     "http-server": "^0.12.3",
-    "webpack": "^5.10.3",
-    "babel-loader": "^8.2.2"
+    "webpack": "^5.10.3"
   },
   "license": "MIT",
   "private": true,

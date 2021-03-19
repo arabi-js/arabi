@@ -14,9 +14,9 @@ import {
   BIND_KIND_VALUE,
   type ScopeFlags,
   type BindingTypes,
-} from "./scopeflags";
-import * as N from "../types";
-import { Errors } from "../parser/error";
+} from './scopeflags';
+import * as N from '../types';
+import { Errors } from '../parser/error';
 
 // Start an AST node, attaching a start offset.
 export class Scope {
@@ -86,10 +86,7 @@ export default class ScopeHandler<IScope: Scope = Scope> {
   // > At the top level of a function, or script, function declarations are
   // > treated like var declarations rather than like lexical declarations.
   treatFunctionsAsVarInScope(scope: IScope): boolean {
-    return !!(
-      scope.flags & SCOPE_FUNCTION ||
-      (!this.inModule && scope.flags & SCOPE_PROGRAM)
-    );
+    return !!(scope.flags & SCOPE_FUNCTION || (!this.inModule && scope.flags & SCOPE_PROGRAM));
   }
 
   declareName(name: string, bindingType: BindingTypes, pos: number) {
@@ -127,22 +124,13 @@ export default class ScopeHandler<IScope: Scope = Scope> {
     }
   }
 
-  checkRedeclarationInScope(
-    scope: IScope,
-    name: string,
-    bindingType: BindingTypes,
-    pos: number,
-  ) {
+  checkRedeclarationInScope(scope: IScope, name: string, bindingType: BindingTypes, pos: number) {
     if (this.isRedeclaredInScope(scope, name, bindingType)) {
       this.raise(pos, Errors.VarRedeclaration, name);
     }
   }
 
-  isRedeclaredInScope(
-    scope: IScope,
-    name: string,
-    bindingType: BindingTypes,
-  ): boolean {
+  isRedeclaredInScope(scope: IScope, name: string, bindingType: BindingTypes): boolean {
     if (!(bindingType & BIND_KIND_VALUE)) return false;
 
     if (bindingType & BIND_SCOPE_LEXICAL) {
@@ -156,16 +144,14 @@ export default class ScopeHandler<IScope: Scope = Scope> {
     if (bindingType & BIND_SCOPE_FUNCTION) {
       return (
         scope.lexical.indexOf(name) > -1 ||
-        (!this.treatFunctionsAsVarInScope(scope) &&
-          scope.var.indexOf(name) > -1)
+        (!this.treatFunctionsAsVarInScope(scope) && scope.var.indexOf(name) > -1)
       );
     }
 
     return (
       (scope.lexical.indexOf(name) > -1 &&
         !(scope.flags & SCOPE_SIMPLE_CATCH && scope.lexical[0] === name)) ||
-      (!this.treatFunctionsAsVarInScope(scope) &&
-        scope.functions.indexOf(name) > -1)
+      (!this.treatFunctionsAsVarInScope(scope) && scope.functions.indexOf(name) > -1)
     );
   }
 
@@ -201,10 +187,7 @@ export default class ScopeHandler<IScope: Scope = Scope> {
   currentThisScope(): IScope {
     for (let i = this.scopeStack.length - 1; ; i--) {
       const scope = this.scopeStack[i];
-      if (
-        (scope.flags & SCOPE_VAR || scope.flags & SCOPE_CLASS) &&
-        !(scope.flags & SCOPE_ARROW)
-      ) {
+      if ((scope.flags & SCOPE_VAR || scope.flags & SCOPE_CLASS) && !(scope.flags & SCOPE_ARROW)) {
         return scope;
       }
     }

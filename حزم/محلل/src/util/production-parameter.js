@@ -59,9 +59,6 @@ export default class ProductionParameterHandler {
   }
 }
 
-export function functionFlags(
-  isAsync: boolean,
-  isGenerator: boolean,
-): ParamKind {
+export function functionFlags(isAsync: boolean, isGenerator: boolean): ParamKind {
   return (isAsync ? PARAM_AWAIT : 0) | (isGenerator ? PARAM_YIELD : 0);
 }

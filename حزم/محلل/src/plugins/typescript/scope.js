@@ -1,6 +1,6 @@
 // @flow
 
-import ScopeHandler, { Scope } from "../../util/scope";
+import ScopeHandler, { Scope } from '../../util/scope';
 import {
   BIND_KIND_TYPE,
   BIND_FLAGS_TS_ENUM,
@@ -10,8 +10,8 @@ import {
   BIND_FLAGS_CLASS,
   type ScopeFlags,
   type BindingTypes,
-} from "../../util/scopeflags";
-import * as N from "../../types";
+} from '../../util/scopeflags';
+import * as N from '../../types';
 
 class TypeScriptScope extends Scope {
   types: string[] = [];
@@ -63,11 +63,7 @@ export default class TypeScriptScopeHandler extends ScopeHandler<TypeScriptScope
     if (bindingType & BIND_FLAGS_CLASS) scope.classes.push(name);
   }
 
-  isRedeclaredInScope(
-    scope: TypeScriptScope,
-    name: string,
-    bindingType: BindingTypes,
-  ): boolean {
+  isRedeclaredInScope(scope: TypeScriptScope, name: string, bindingType: BindingTypes): boolean {
     if (scope.enums.indexOf(name) > -1) {
       if (bindingType & BIND_FLAGS_TS_ENUM) {
         // Enums can be merged with other enums if they are both

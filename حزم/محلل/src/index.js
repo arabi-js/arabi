@@ -1,27 +1,27 @@
 // @flow
 
-import { type Options } from "./options";
+import { type Options } from './options';
 import {
   hasPlugin,
   validatePlugins,
   mixinPluginNames,
   mixinPlugins,
   type PluginList,
-} from "./plugin-utils";
-import Parser from "./parser";
+} from './plugin-utils';
+import Parser from './parser';
 
-import { types as tokTypes } from "./tokenizer/types";
-import "./tokenizer/context";
+import { types as tokTypes } from './tokenizer/types';
+import './tokenizer/context';
 
-import type { Expression, File } from "./types";
+import type { Expression, File } from './types';
 
 export function parse(input: string, options?: Options): File {
-  if (options?.sourceType === "unambiguous") {
+  if (options?.sourceType === 'unambiguous') {
     options = {
       ...options,
     };
     try {
-      options.sourceType = "module";
+      options.sourceType = 'module';
       const parser = getParser(options, input);
       const ast = parser.parse();
 
@@ -36,19 +36,19 @@ export function parse(input: string, options?: Options): File {
         //    0
         // can be parsed either as an AwaitExpression, or as two ExpressionStatements.
         try {
-          options.sourceType = "script";
+          options.sourceType = 'script';
           return getParser(options, input).parse();
         } catch {}
       } else {
         // This is both a valid module and a valid script, but
         // we parse it as a script by default
-        ast.program.sourceType = "script";
+        ast.program.sourceType = 'script';
       }
 
       return ast;
     } catch (moduleError) {
       try {
-        options.sourceType = "script";
+        options.sourceType = 'script';
         return getParser(options, input).parse();
       } catch {}
 
@@ -83,11 +83,9 @@ const parserClassCache: { [key: string]: Class<Parser> } = {};
 
 /** Get a Parser class with plugins applied. */
 function getParserClass(pluginsFromOptions: PluginList): Class<Parser> {
-  const pluginList = mixinPluginNames.filter(name =>
-    hasPlugin(pluginsFromOptions, name),
-  );
+  const pluginList = mixinPluginNames.filter((name) => hasPlugin(pluginsFromOptions, name));
 
-  const key = pluginList.join("/");
+  const key = pluginList.join('/');
   let cls = parserClassCache[key];
   if (!cls) {
     cls = Parser;
@@ -100,5 +98,7 @@ function getParserClass(pluginsFromOptions: PluginList): Class<Parser> {
 }
 
 export default {
-  parse, parseExpression, tokTypes
-}
+  parse,
+  parseExpression,
+  tokTypes,
+};

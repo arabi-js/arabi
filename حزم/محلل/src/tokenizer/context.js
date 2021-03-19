@@ -4,15 +4,15 @@
 // given point in the program is loosely based on sweet.js' approach.
 // See https://github.com/mozilla/sweet.js/wiki/design
 
-import { types as tt } from "./types";
-import * as keyMap from '../keywords-map'
+import { types as tt } from './types';
+import * as keyMap from '../keywords-map';
 
 export class TokContext {
   constructor(
     token: string,
     isExpr?: boolean,
     preserveSpace?: boolean,
-    override?: ?Function, // Takes a Tokenizer as a this-parameter, and returns void.
+    override?: ?Function // Takes a Tokenizer as a this-parameter, and returns void.
   ) {
     this.token = token;
     this.isExpr = !!isExpr;
@@ -29,13 +29,13 @@ export class TokContext {
 export const types: {
   [key: string]: TokContext,
 } = {
-  braceStatement: new TokContext("{", false),
-  braceExpression: new TokContext("{", true),
-  recordExpression: new TokContext("#{", true),
-  templateQuasi: new TokContext("${", false),
-  parenStatement: new TokContext("(", false),
-  parenExpression: new TokContext("(", true),
-  template: new TokContext("`", true, true, p => p.readTmplToken()),
+  braceStatement: new TokContext('{', false),
+  braceExpression: new TokContext('{', true),
+  recordExpression: new TokContext('#{', true),
+  templateQuasi: new TokContext('${', false),
+  parenStatement: new TokContext('(', false),
+  parenExpression: new TokContext('(', true),
+  template: new TokContext('`', true, true, (p) => p.readTmplToken()),
   functionExpression: new TokContext(keyMap._function, true),
   functionStatement: new TokContext(keyMap._function, false),
 };
@@ -78,7 +78,7 @@ tt.name.updateContext = function (prevType) {
 
 tt.braceL.updateContext = function (prevType) {
   this.state.context.push(
-    this.braceIsBlock(prevType) ? types.braceStatement : types.braceExpression,
+    this.braceIsBlock(prevType) ? types.braceStatement : types.braceExpression
   );
   this.state.exprAllowed = true;
 };
@@ -90,13 +90,8 @@ tt.dollarBraceL.updateContext = function () {
 
 tt.parenL.updateContext = function (prevType) {
   const statementParens =
-    prevType === tt._if ||
-    prevType === tt._for ||
-    prevType === tt._with ||
-    prevType === tt._while;
-  this.state.context.push(
-    statementParens ? types.parenStatement : types.parenExpression,
-  );
+    prevType === tt._if || prevType === tt._for || prevType === tt._with || prevType === tt._while;
+  this.state.context.push(statementParens ? types.parenStatement : types.parenExpression);
   this.state.exprAllowed = true;
 };
 
@@ -110,10 +105,7 @@ tt._function.updateContext = tt._class.updateContext = function (prevType) {
     prevType !== tt.semi &&
     prevType !== tt._else &&
     !(prevType === tt._return && this.hasPrecedingLineBreak()) &&
-    !(
-      (prevType === tt.colon || prevType === tt.braceL) &&
-      this.curContext() === types.b_stat
-    )
+    !((prevType === tt.colon || prevType === tt.braceL) && this.curContext() === types.b_stat)
   ) {
     this.state.context.push(types.functionExpression);
   } else {

@@ -4,8 +4,8 @@ import {
   CLASS_ELEMENT_KIND_ACCESSOR,
   CLASS_ELEMENT_FLAG_STATIC,
   type ClassElementTypes,
-} from "./scopeflags";
-import { Errors } from "../parser/error";
+} from './scopeflags';
+import { Errors } from '../parser/error';
 
 export class ClassScope {
   // A list of private named declared in the current class
@@ -58,11 +58,7 @@ export default class ClassScopeHandler {
     }
   }
 
-  declarePrivateName(
-    name: string,
-    elementType: ClassElementTypes,
-    pos: number,
-  ) {
+  declarePrivateName(name: string, elementType: ClassElementTypes, pos: number) {
     const classScope = this.current();
     let redefined = classScope.privateNames.has(name);
 

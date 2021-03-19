@@ -34,11 +34,11 @@
   "repository": "arabi-js/arabi.git",
   "scripts": {
     "build": "webpack --mode development",
+    "format": "prettier ./مصدر --write",
     "lint": "eslint ./مصدر --fix --format=codeframe",
     "preprod": "npm run style && npm run lint && npm run test",
     "prod": "npm run build",
     "start": "webpack --watch --mode development",
-    "style": "prettier ./مصدر --write",
     "test": "echo testing!!!"
   }
 }

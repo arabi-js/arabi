@@ -37,7 +37,7 @@ function handleForOf(node, indent) {
   let right = translate(node.right, '');
   // return it back as it was
   manager.eol = semi;
-  
+
   // let add some checkes for the loosy mode
   node.left.type === 'Identifier' && manager.scope.addVar(node.name);
 
@@ -53,7 +53,7 @@ export const forTranslator: Translator = {
   translate(node, indent = manager.indent) {
     if (node.type === 'ForOfStatement') return handleForOf(node, indent);
     if (node.type === 'ForInStatement') return handleForIn(node, indent);
-    
+
     // if > init, test, bodate > body
     manager.scope.startBlockScope();
 
@@ -68,7 +68,7 @@ export const forTranslator: Translator = {
 
     let code = indent + `for (${init}; ${test}; ${update}) `;
     code += translate(node.body, '');
-    
+
     manager.scope.endBlockScope();
     return code;
   },

@@ -1,7 +1,7 @@
 // @flow
 /* eslint sort-keys: "error" */
-import { getLineInfo, type Position } from "../util/location";
-import CommentsParser from "./comments";
+import { getLineInfo, type Position } from '../util/location';
+import CommentsParser from './comments';
 
 // This function is used to raise exceptions on parse errors. It
 // takes an offset integer (into the current `input`) to indicate
@@ -16,7 +16,7 @@ type ErrorContext = {
   code?: string,
 };
 
-export { ErrorMessages as Errors } from "./error-message.js";
+export { ErrorMessages as Errors } from './error-message.js';
 
 export default class ParserError extends CommentsParser {
   // Forward-declaration: defined in tokenizer/index.js

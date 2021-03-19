@@ -7,22 +7,18 @@ import { keywordsMap } from '@arabi/maps';
 import { type Translator } from '../../أنواع.js';
 
 export const classTranslator: Translator = {
-  types: [ 'ClassDeclaration', 'ClassExpression' ],
-  translate(
-    node,
-    indent = manager.indent,
-    addEOL=true /* passed from ExportNamedDeclaration */
-  ) {
+  types: ['ClassDeclaration', 'ClassExpression'],
+  translate(node, indent = manager.indent, addEOL = true /* passed from ExportNamedDeclaration */) {
     // node.id, superClass, body
     let id = node.id ? ' ' + translate(node.id, '') : '';
     let superClass = node.superClass ? ' extends ' + translate(node.superClass, '') : '';
     let code = indent + `class${id}${superClass} {` + manager.nl;
     let classBody = [];
     manager.increaseIndent();
-    
+
     // n.body.type === 'ClassBody'
     for (let n of node.body.body) {
-      if(n.type === 'ClassProperty' || n.type === 'ClassPrivateProperty') {
+      if (n.type === 'ClassProperty' || n.type === 'ClassPrivateProperty') {
         // key, value, static, computed
         let key = translate(n.key, '');
         let value = translate(n.value, '');
@@ -41,7 +37,7 @@ export const classTranslator: Translator = {
         // let _private = n.type === 'ClassPrivateMethod' ? '#' : '';
         let prefix = n.kind === 'method' ? '' : n.kind + ' ';
         let key = translate(n.key, '');
-        key = (n.computed ? `[${key}]`: key);
+        key = n.computed ? `[${key}]` : key;
 
         manager.functionDepth++;
         manager.scope.startClosure();
@@ -51,7 +47,8 @@ export const classTranslator: Translator = {
 
         let declarator = `${_static}${_async}${prefix}${_gen}${key}`;
         declarator = declarator === keywordsMap._constructor ? 'constructor' : declarator;
-        methodCode = manager.indent + `${declarator}(${n.params.map((p) => translate(p, '')).join(', ')}) `;
+        methodCode =
+          manager.indent + `${declarator}(${n.params.map((p) => translate(p, '')).join(', ')}) `;
         methodCode += translate(n.body, '');
 
         manager.functionDepth--;
@@ -62,9 +59,9 @@ export const classTranslator: Translator = {
 
     manager.decreaseIndent();
     code += classBody.join('') + manager.voidline + manager.indent + '}';
-    addEOL && node.type === 'ClassDeclaration' && (
-      code = manager.voidline + code + manager.nl + manager.voidline
-    );
+    addEOL &&
+      node.type === 'ClassDeclaration' &&
+      (code = manager.voidline + code + manager.nl + manager.voidline);
     return code;
   },
 };

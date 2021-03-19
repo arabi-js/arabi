@@ -1,7 +1,7 @@
 // @flow
 
 import dictionary from './القاموس/مدخل';
-import manager from './مدير-الترجمة'; 
+import manager from './مدير-الترجمة';
 import type { Node } from '@arabi/parser';
 
 // TODO: collect the scope variables as all functions and "var"s
@@ -10,9 +10,7 @@ import type { Node } from '@arabi/parser';
 
 export default function translate(node: Node, indent?: string): string {
   if (Array.isArray(node))
-    return handleArray(
-      node.map((a, i) => translate(a, !i ? indent : manager.indent))
-    );
+    return handleArray(node.map((a, i) => translate(a, !i ? indent : manager.indent)));
   if (node && node.type in dictionary) return dictionary[node.type](node, indent);
   manager.error(
     node,
@@ -21,16 +19,18 @@ export default function translate(node: Node, indent?: string): string {
   );
 }
 
-export function handleArray(a: [ string | Array ]) {
+export function handleArray(a: [string | Array]) {
   // reduce then join,,, built-in Array methods
-  return a.reduce((newA, c)=>{
-    // comma operator is used here, exec the ternary operator
-    // then return the last expression which is `newA`
-    return (
-      typeof c === 'string' ? newA.push(c)
-      : newA.push(
-        this.voidline, this.handleArray(c), this.voidline
-      ), /* returned value */ newA
-    );
-  }, []).join('');
+  return a
+    .reduce((newA, c) => {
+      // comma operator is used here, exec the ternary operator
+      // then return the last expression which is `newA`
+      return (
+        typeof c === 'string'
+          ? newA.push(c)
+          : newA.push(this.voidline, this.handleArray(c), this.voidline),
+        /* returned value */ newA
+      );
+    }, [])
+    .join('');
 }

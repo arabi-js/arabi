@@ -1,11 +1,11 @@
 // @flow
 
-import type { Options } from "../options";
-import type State from "../tokenizer/state";
-import type { PluginsMap } from "./index";
-import type ScopeHandler from "../util/scope";
-import type ClassScopeHandler from "../util/class-scope";
-import type ProductionParameterHandler from "../util/production-parameter";
+import type { Options } from '../options';
+import type State from '../tokenizer/state';
+import type { PluginsMap } from './index';
+import type ScopeHandler from '../util/scope';
+import type ClassScopeHandler from '../util/class-scope';
+import type ProductionParameterHandler from '../util/production-parameter';
 
 export default class BaseParser {
   // Properties set by constructor in index.js

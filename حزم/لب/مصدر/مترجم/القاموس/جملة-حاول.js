@@ -8,21 +8,20 @@ export const tryTranslator: Translator = {
   types: ['TryStatement'],
   translate(node, indent = manager.indent) {
     // node.handler.param is Identifier
-    let catchClause =
-      `catch (${node.handler.param.name}) ` +
-      translate(node.handler.body, '');
+    let catchClause = `catch (${node.handler.param.name}) ` + translate(node.handler.body, '');
 
     let code =
-      indent + 'try ' +
+      indent +
+      'try ' +
       // block statement, there is manage.nl after "}"
       translate(node.body, '') +
       // indent, then add the CatchClause
-      manager.indent + catchClause;
+      manager.indent +
+      catchClause;
 
     // the `finally { ... }` part
-    if (node.finalizer)
-      code += `${manager.indent}finally ` + translate(node.finalizer, '');
-    
+    if (node.finalizer) code += `${manager.indent}finally ` + translate(node.finalizer, '');
+
     return code;
-  }
+  },
 };

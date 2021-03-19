@@ -14,8 +14,10 @@ export const arrayTranslator: Translator = {
     for (let e of node.elements) {
       // we are not indenting at the begining
       // because we sill do it at the following line
-      if (!e) { // e === null
-        code += ','; continue;
+      if (!e) {
+        // e === null
+        code += ',';
+        continue;
       }
       let elmCode = translate(e, '');
       code += (inline ? '' : manager.indent) + elmCode;

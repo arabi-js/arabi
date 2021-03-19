@@ -1,11 +1,11 @@
 // @flow
 
-import type { PluginList } from "./plugin-utils";
+import type { PluginList } from './plugin-utils';
 
 // A second optional argument can be given to further configure
 // the parser process. These options are recognized:
 
-export type SourceType = "script" | "module" | "unambiguous";
+export type SourceType = 'script' | 'module' | 'unambiguous';
 
 export type Options = {
   sourceType: SourceType,
@@ -26,7 +26,7 @@ export type Options = {
 
 export const defaultOptions: Options = {
   // Source type ("script" or "module") for different semantics
-  sourceType: "script",
+  sourceType: 'script',
   // Source filename.
   sourceFilename: undefined,
   // Line from which to start counting source. Useful for

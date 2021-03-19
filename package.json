@@ -35,6 +35,7 @@
   "scripts": {
     "build": "lerna run build --concurrency 4 --stream",
     "clean": "lerna run test --concurrency 4",
+    "format": "syncpack format && lerna run format --concurrency 4 --stream",
     "lint": "lerna run lint --concurrency 4 --stream",
     "test": "lerna run test --concurrency 4 --stream"
   },

@@ -25,6 +25,7 @@
   "scripts": {
     "analyze": "webpack",
     "build": "webpack --mode development",
-    "build:watch": "webpack --mode development --watch"
+    "build:watch": "webpack --mode development --watch",
+    "format": "prettier --write ./src"
   }
 }

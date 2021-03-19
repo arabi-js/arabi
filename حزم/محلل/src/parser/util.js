@@ -1,12 +1,12 @@
 // @flow
 
-import { types as tt, type TokenType } from "../tokenizer/types";
-import Tokenizer from "../tokenizer";
-import State from "../tokenizer/state";
-import type { Node } from "../types";
-import { lineBreak } from "../util/whitespace";
-import { isIdentifierChar } from "../util/identifier";
-import { Errors } from "./error";
+import { types as tt, type TokenType } from '../tokenizer/types';
+import Tokenizer from '../tokenizer';
+import State from '../tokenizer/state';
+import type { Node } from '../types';
+import { lineBreak } from '../util/whitespace';
+import { isIdentifierChar } from '../util/identifier';
+import { Errors } from './error';
 
 type TryParse<Node, Error, Thrown, Aborted, FailState> = {
   node: Node,
@@ -30,13 +30,13 @@ export default class UtilParser extends Tokenizer {
 
   // TODO
 
-  isRelational(op: "<" | ">"): boolean {
+  isRelational(op: '<' | '>'): boolean {
     return this.match(tt.relational) && this.state.value === op;
   }
 
   // TODO
 
-  expectRelational(op: "<" | ">"): void {
+  expectRelational(op: '<' | '>'): void {
     if (this.isRelational(op)) {
       this.next();
     } else {
@@ -47,19 +47,14 @@ export default class UtilParser extends Tokenizer {
   // Tests whether parsed token is a contextual keyword.
 
   isContextual(name: string): boolean {
-    return (
-      this.match(tt.name) &&
-      this.state.value === name &&
-      !this.state.containsEsc
-    );
+    return this.match(tt.name) && this.state.value === name && !this.state.containsEsc;
   }
 
   isUnparsedContextual(nameStart: number, name: string): boolean {
     const nameEnd = nameStart + name.length;
     return (
       this.input.slice(nameStart, nameEnd) === name &&
-      (nameEnd === this.input.length ||
-        !isIdentifierChar(this.input.charCodeAt(nameEnd)))
+      (nameEnd === this.input.length || !isIdentifierChar(this.input.charCodeAt(nameEnd)))
     );
   }
 
@@ -83,17 +78,11 @@ export default class UtilParser extends Tokenizer {
   // Test whether a semicolon can be inserted at the current position.
 
   canInsertSemicolon(): boolean {
-    return (
-      this.match(tt.eof) ||
-      this.match(tt.braceR) ||
-      this.hasPrecedingLineBreak()
-    );
+    return this.match(tt.eof) || this.match(tt.braceR) || this.hasPrecedingLineBreak();
   }
 
   hasPrecedingLineBreak(): boolean {
-    return lineBreak.test(
-      this.input.slice(this.state.lastTokEnd, this.state.start),
-    );
+    return lineBreak.test(this.input.slice(this.state.lastTokEnd, this.state.start));
   }
 
   // TODO
@@ -117,7 +106,7 @@ export default class UtilParser extends Tokenizer {
   }
 
   // Throws if the current token and the prev one are separated by a space.
-  assertNoSpace(message: string = "Unexpected space."): void {
+  assertNoSpace(message: string = 'Unexpected space.'): void {
     if (this.state.start > this.state.lastTokEnd) {
       /* eslint-disable @babel/development-internal/dry-error-messages */
       this.raise(this.state.lastTokEnd, message);
@@ -128,11 +117,8 @@ export default class UtilParser extends Tokenizer {
   // Raise an unexpected token error. Can take the expected token type
   // instead of a message string.
 
-  unexpected(
-    pos: ?number,
-    messageOrType: string | TokenType = "Unexpected token",
-  ): empty {
-    if (typeof messageOrType !== "string") {
+  unexpected(pos: ?number, messageOrType: string | TokenType = 'Unexpected token'): empty {
+    if (typeof messageOrType !== 'string') {
       messageOrType = `Unexpected token, expected "${messageOrType.label}"`;
     }
     /* eslint-disable @babel/development-internal/dry-error-messages */
@@ -145,7 +131,7 @@ export default class UtilParser extends Tokenizer {
       throw this.raiseWithData(
         pos != null ? pos : this.state.start,
         { missingPlugin: [name] },
-        `This experimental syntax requires enabling the parser plugin: '${name}'`,
+        `This experimental syntax requires enabling the parser plugin: '${name}'`
       );
     }
 
@@ -153,13 +139,13 @@ export default class UtilParser extends Tokenizer {
   }
 
   expectOnePlugin(names: Array<string>, pos?: ?number): void {
-    if (!names.some(n => this.hasPlugin(n))) {
+    if (!names.some((n) => this.hasPlugin(n))) {
       throw this.raiseWithData(
         pos != null ? pos : this.state.start,
         { missingPlugin: names },
         `This experimental syntax requires enabling one of the following parser plugin(s): '${names.join(
-          ", ",
-        )}'`,
+          ', '
+        )}'`
       );
     }
   }
@@ -180,7 +166,7 @@ export default class UtilParser extends Tokenizer {
   // It is expensive and should be used with cautions
   tryParse<T: Node | $ReadOnlyArray<Node>>(
     fn: (abort: (node?: T) => empty) => T,
-    oldState: State = this.state.clone(),
+    oldState: State = this.state.clone()
   ):
     | TryParse<T, null, false, false, null>
     | TryParse<T | null, SyntaxError, boolean, false, State>
@@ -230,10 +216,7 @@ export default class UtilParser extends Tokenizer {
     }
   }
 
-  checkExpressionErrors(
-    refExpressionErrors: ?ExpressionErrors,
-    andThrow: boolean,
-  ) {
+  checkExpressionErrors(refExpressionErrors: ?ExpressionErrors, andThrow: boolean) {
     if (!refExpressionErrors) return false;
     const { shorthandAssign, doubleProto } = refExpressionErrors;
     if (!andThrow) return shorthandAssign >= 0 || doubleProto >= 0;

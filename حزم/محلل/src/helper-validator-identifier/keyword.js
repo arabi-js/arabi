@@ -87,13 +87,8 @@ export function isStrictBindOnlyReservedWord(word: string): boolean {
  *
  * Includes non-strict reserved words and non-binding strict reserved words
  */
-export function isStrictBindReservedWord(
-  word: string,
-  inModule: boolean,
-): boolean {
-  return (
-    isStrictReservedWord(word, inModule) || isStrictBindOnlyReservedWord(word)
-  );
+export function isStrictBindReservedWord(word: string, inModule: boolean): boolean {
+  return isStrictReservedWord(word, inModule) || isStrictBindOnlyReservedWord(word);
 }
 
 export function isKeyword(word: string): boolean {
