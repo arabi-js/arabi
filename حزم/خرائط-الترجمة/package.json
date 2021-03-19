@@ -1,28 +1,21 @@
 {
   "name": "@arabi/maps",
-  "version": "1.4.1",
   "description": "خرائط ترجمة لمعرب الجافاسكريبت",
-  "main": "./مصدر/مدخل.js",
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/arabi-js/arabi.git",
-    "directory": "حزم/خرائط_الترجمة"
-  },
+  "version": "1.4.1",
+  "contributors": [
+    "محمد سمير الصوالحي"
+  ],
   "keywords": [
-    "arjs",
     "arabic",
+    "arjs",
     "javascript",
     "translation-map",
     "خراط-الترجمة"
   ],
-  "contributors": [
-    "محمد سمير الصوالحي"
-  ],
   "license": "MIT",
-  "dependencies": {
-    "@arabi/parser": "^1.0.0"
-  }
+  "main": "./مصدر/مدخل.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "arabi-js/arabi.git"
 }

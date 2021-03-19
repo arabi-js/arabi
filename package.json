@@ -1,29 +1,10 @@
 {
   "name": "@arabi/arabi",
   "description": "جافاسكريبت معربةً",
-  "private": true,
-  "workspaces": [
-    "حزم/*",
-    "أمثلة/*"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/arabi-js/arabi.git"
-  },
-  "bugs": {
-    "url": "https://github.com/arabi-js/arabi/issues"
-  },
-  "homepage": "https://github.com/arabi-js/arabi#readme",
+  "bugs": "https://github.com/arabi-js/arabi/issues",
   "contributors": [
     "محمد سمير الصوالحي"
   ],
-  "license": "MIT",
-  "scripts": {
-    "build": "lerna run build --concurrency 4 --stream",
-    "test": "lerna run test --concurrency 4 --stream",
-    "lint": "lerna run lint --concurrency 4 --stream",
-    "clean": "lerna run test --concurrency 4"
-  },
   "devDependencies": {
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
@@ -37,6 +18,7 @@
     "eslint": "^7.15.0",
     "eslint-plugin-flowtype": "^5.4.0",
     "lerna": "^4.0.0",
+    "lerna-update-wizard": "^0.17.8",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
@@ -45,5 +27,19 @@
     "webpack-clean-plugin": "^0.2.3",
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0"
-  }
+  },
+  "homepage": "https://github.com/arabi-js/arabi#readme",
+  "license": "MIT",
+  "private": true,
+  "repository": "arabi-js/arabi.git",
+  "scripts": {
+    "build": "lerna run build --concurrency 4 --stream",
+    "clean": "lerna run test --concurrency 4",
+    "lint": "lerna run lint --concurrency 4 --stream",
+    "test": "lerna run test --concurrency 4 --stream"
+  },
+  "workspaces": [
+    "حزم/*",
+    "أمثلة/*"
+  ]
 }

@@ -1,37 +1,27 @@
 {
   "name": "@arabi/translate",
-  "version": "1.2.5",
   "description": "حزمة مساعدة للحزمة الأم - core",
-  "main": "./حزمة/مدخل.js",
-  "files": [
-    "حزمة"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/arabi-js/arabi.git",
-    "directory": "حزم/ترجم"
-  },
-  "scripts": {
-    "build": "node ./بناء.js"
-  },
-  "keywords": [
-    "arjs",
-    "arjs-translate",
-    "translate",
-    "arabic",
-    "js",
-    "javascript",
-    "arabi",
-    "عربي"
-  ],
+  "version": "1.2.5",
   "contributors": [
     "محمد سمير الصوالحي"
   ],
+  "keywords": [
+    "arabi",
+    "arabic",
+    "arjs",
+    "arjs-translate",
+    "javascript",
+    "js",
+    "translate",
+    "عربي"
+  ],
   "license": "MIT",
-  "dependencies": {
-    "@arabi/parser": "^1.0.0"
+  "main": "./حزمة/مدخل-مبني.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "arabi-js/arabi.git",
+  "scripts": {
+    "build": "node ./بناء.js"
   }
 }

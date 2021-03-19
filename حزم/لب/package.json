@@ -1,48 +1,44 @@
 {
   "name": "@arabi/core",
-  "version": "1.0.0",
   "description": "جافاسكريبت معربة.",
-  "main": "حزمة/arabi.js",
-  "files": [
-    "حزمة"
+  "version": "1.0.0",
+  "contributors": [
+    "محمد سمير الصوالحي"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/arabi-js/arabi.git",
-    "directory": "حزم/لب"
-  },
-  "scripts": {
-    "start": "webpack --watch --mode development",
-    "build": "webpack --mode development",
-    "preprod": "npm run style && npm run lint && npm run test",
-    "prod": "npm run build",
-    "style": "prettier ./مصدر --write",
-    "lint": "eslint ./مصدر --fix --format=codeframe",
-    "test": "echo testing!!!"
-  },
   "dependencies": {
-    "@arabi/maps": "^1.4.0",
+    "@arabi/maps": "^1.4.1",
     "@arabi/parser": "^1.0.0",
     "@arabi/translate": "^1.2.5",
     "@babel/runtime": "^7.12.5",
     "colors": "^1.4.0",
     "flatted": "^3.1.0"
   },
+  "files": [
+    "حزمة"
+  ],
   "keywords": [
-    "جافاسكريبت",
-    "لغة-عربية",
-    "عربي",
     "arabic",
-    "js",
     "javascript",
+    "js",
     "pegjs",
-    "programming-in-arabic"
+    "programming-in-arabic",
+    "جافاسكريبت",
+    "عربي",
+    "لغة-عربية"
   ],
-  "contributors": [
-    "محمد سمير الصوالحي"
-  ],
-  "license": "MIT"
+  "license": "MIT",
+  "main": "حزمة/arabi.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "arabi-js/arabi.git",
+  "scripts": {
+    "build": "webpack --mode development",
+    "lint": "eslint ./مصدر --fix --format=codeframe",
+    "preprod": "npm run style && npm run lint && npm run test",
+    "prod": "npm run build",
+    "start": "webpack --watch --mode development",
+    "style": "prettier ./مصدر --write",
+    "test": "echo testing!!!"
+  }
 }

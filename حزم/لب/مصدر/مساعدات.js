@@ -9,7 +9,7 @@ import path from 'path';
 import manager from './مترجم/مدير-الترجمة';
 import arabiTranslate from '@arabi/translate';
 import { stringify as thatStringify } from 'flatted';
-import { isIdentifierName } from 'babel-loader!!@arabi/parser/src/helper-validator-identifier/identifier';
+import { isIdentifierName } from '@arabi/parser/src/helper-validator-identifier/identifier';
 import type { Codes } from './أنواع';
 
 export function addToScope(ids, type: 'lex' | 'var') {
@@ -166,12 +166,10 @@ export function getTranslatorCode() {
 export function getTranslateRequireCode() {
   if (manager.options.runtime) {
     manager.addTopImport('@arabi/translate', {
-      specifiers: [
-        {
-          name: 'translateRequire',
-          local: manager.translateRequireFunctnionName,
-        },
-      ],
+      specifiers: [{
+        name: 'translateRequire',
+        local: manager.translateRequireFunctnionName,
+      }],
     });
     return;
   }

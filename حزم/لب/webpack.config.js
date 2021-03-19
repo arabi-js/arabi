@@ -3,6 +3,11 @@ const fs = require('fs');
 const webpack = require('webpack');
 const CleanPlugin = require('webpack-clean-plugin');
 
+// I dont't know the babel-loader is not working for
+// the files inside node_modules, it is working with the
+// right options they are passed explicitly
+const babelOptions = require('./.babelrc');
+
 let mode =
   process.argv[process.argv.indexOf('--mode') + 1] || 'production';
 
@@ -26,9 +31,12 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: 'babel-loader'
-      },
-    ],
+        use: {
+          loader: 'babel-loader',
+          options: babelOptions
+        }
+      }
+    ]
   },
 
   plugins: [
