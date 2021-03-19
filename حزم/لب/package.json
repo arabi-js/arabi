@@ -33,6 +33,7 @@
   },
   "repository": "arabi-js/arabi.git",
   "scripts": {
+    "analyze": "webpack --profile --json=webpack.stats.json",
     "build": "webpack --mode development",
     "format": "prettier ./مصدر --write",
     "lint": "eslint ./مصدر --fix --format=codeframe",

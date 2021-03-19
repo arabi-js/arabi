@@ -23,7 +23,7 @@
   },
   "repository": "arabi-js/arabi.git",
   "scripts": {
-    "analyze": "webpack",
+    "analyze": "webpack --profile --json=webpack.stats.json",
     "build": "webpack --mode development",
     "build:watch": "webpack --mode development --watch",
     "format": "prettier --write ./src"
