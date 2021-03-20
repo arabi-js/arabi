@@ -13,7 +13,8 @@ export interface GlobalMap {
 }
 
 export interface BasicTranslationMap {
-  [ArabicName: string]: | string
+  [ArabicName: string]:
+    | string
     | /* EnglishName */ [
         string, // English Name
         TranslationMap,

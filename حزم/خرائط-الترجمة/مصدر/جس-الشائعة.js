@@ -1,6 +1,6 @@
-import generalGlobalThis from './الكائن-العالمي-العام/مدخل';
+const generalGlobalThis = require('./الكائن-العالمي-العام/مدخل');
 
-export default {
+module.exports = {
   استدعي: 'require',
   ...generalGlobalThis,
 };

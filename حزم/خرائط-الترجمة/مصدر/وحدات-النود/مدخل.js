@@ -1,5 +1,5 @@
-import jqueryMap from './جي-كويري';
+const jqueryMap = require('./جي-كويري');
 
-export default {
-  "جي-كويري": jqueryMap,
-}
+module.exports = {
+  'جي-كويري': jqueryMap,
+};

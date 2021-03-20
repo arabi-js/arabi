@@ -1255,12 +1255,7 @@ export default class ExpressionParser extends LValParser {
     return this.parseMetaProperty(node, id, 'meta');
   }
 
-  parseLiteral<T: N.Literal>(
-    value: any,
-    type: /*T["kind"]*/ string,
-    startPos?: number,
-    startLoc?: Position
-  ): T {
+  parseLiteral<T: N.Literal>(value: any, type: string, startPos?: number, startLoc?: Position): T {
     startPos = startPos || this.state.start;
     startLoc = startLoc || this.state.startLoc;
 

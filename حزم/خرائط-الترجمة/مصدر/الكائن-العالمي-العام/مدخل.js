@@ -1,20 +1,23 @@
-import objectMap from './كائن';
-import arrayMap from './مصفوفة';
-import functionMap from './دالة';
-import mathMap from './رياضيات';
-import symbolMap from './رمز';
-import stringMap from './نص';
-import numberMap from './رقم';
+const objectMap = require('./كائن');
+const arrayMap = require('./مصفوفة');
+const functionMap = require('./دالة');
+const mathMap = require('./رياضيات');
+const symbolMap = require('./رمز');
+const stringMap = require('./نص');
+const numberMap = require('./رقم');
 
-export const consoleMap = ["console", {
-  اطبع: "log",
-  خطأ: "error",
-  جدول: "table",
-  وقت: "time",
-  أوقف_الوقت: "timeEnd",
-}];
+const consoleMap = [
+  'console',
+  {
+    اطبع: 'log',
+    خطأ: 'error',
+    جدول: 'table',
+    وقت: 'time',
+    أوقف_الوقت: 'timeEnd',
+  },
+];
 
-export default {
+module.exports = {
   رقم: numberMap,
   كائن: objectMap,
   مصفوفة: arrayMap,
@@ -22,6 +25,6 @@ export default {
   رياضيات: mathMap,
   لوحة: consoleMap,
   رمز: symbolMap,
-  خطأ: "Error",
-  نص: stringMap
+  خطأ: 'Error',
+  نص: stringMap,
 };

@@ -1,4 +1,6 @@
-
-export default ["Number", {
-  ليس_رقما: "isNaN",
-}];
+module.exports = [
+  'Number',
+  {
+    ليس_رقما: 'isNaN',
+  },
+];

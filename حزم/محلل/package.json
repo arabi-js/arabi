@@ -16,7 +16,7 @@
     "dist"
   ],
   "license": "MIT",
-  "main": "dist/main.js",
+  "main": "توزيعة/main.js",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -26,6 +26,10 @@
     "analyze": "webpack --profile --json=webpack.stats.json",
     "build": "webpack --mode development",
     "build:watch": "webpack --mode development --watch",
-    "format": "prettier --write ./src"
+    "format": "scripty ./مصدر",
+    "lint": "scripty ./مصدر"
+  },
+  "scripty": {
+    "path": "../../أوامر/حزم"
   }
 }

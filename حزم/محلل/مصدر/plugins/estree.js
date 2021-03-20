@@ -220,7 +220,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
 
     parseLiteral<T: N.Literal>(
       value: any,
-      type: /*T["kind"]*/ string,
+      type: string,
       startPos?: number,
       startLoc?: Position
     ): T {

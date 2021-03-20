@@ -1,6 +1,5 @@
-
 const symbolPrototypeMap = {};
 
 const symbolMap = {};
 
-export default ["Symbol", symbolMap, { constructMap: [symbolPrototypeMap] }];
+module.exports = ['Symbol', symbolMap, { constructMap: [symbolPrototypeMap] }];

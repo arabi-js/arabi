@@ -17,5 +17,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "arabi-js/arabi.git"
+  "repository": "arabi-js/arabi.git",
+  "scripts": {
+    "format": "scripty ./مصدر",
+    "lint": "scripty ./مصدر"
+  },
+  "scripty": {
+    "path": "../../أوامر/حزم"
+  }
 }

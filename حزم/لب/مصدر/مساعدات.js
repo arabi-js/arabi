@@ -136,7 +136,7 @@ function replaceIndentPH(code) {
   return (
     code
       // put the current indnet to the code from @arabi/translate
-      .replace(new RegExp(arabiTranslate.indentPlaceholder, 'g'), manager.options.indent)
+      .replaceAll(arabiTranslate.indentPlaceholder, manager.options.indent)
       // put the lineHead at the beginning
       .split('\n')
       .map((l) => manager.__lineHead + l)

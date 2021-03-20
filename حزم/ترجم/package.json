@@ -22,6 +22,11 @@
   },
   "repository": "arabi-js/arabi.git",
   "scripts": {
-    "build": "node ./بناء.js"
+    "build": "node ./بناء.js",
+    "format": "scripty ./مصدر",
+    "lint": "scripty ./مصدر"
+  },
+  "scripty": {
+    "path": "../../أوامر/حزم"
   }
 }

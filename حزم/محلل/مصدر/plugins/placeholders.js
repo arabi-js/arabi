@@ -47,9 +47,7 @@ type MaybePlaceholder<T: PlaceholderTypes> = NodeOf<T>; // | Placeholder<T>
 
 export default (superClass: Class<Parser>): Class<Parser> =>
   class extends superClass {
-    parsePlaceholder<T: PlaceholderTypes>(
-      expectedNode: T
-    ): /*?N.Placeholder<T>*/ ?MaybePlaceholder<T> {
+    parsePlaceholder<T: PlaceholderTypes>(expectedNode: T): ?MaybePlaceholder<T> {
       if (this.match(tt.placeholder)) {
         const node = this.startNode();
         this.next();
@@ -65,10 +63,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       }
     }
 
-    finishPlaceholder<T: PlaceholderTypes>(
-      node: N.Node,
-      expectedNode: T
-    ): /*N.Placeholder<T>*/ MaybePlaceholder<T> {
+    finishPlaceholder<T: PlaceholderTypes>(node: N.Node, expectedNode: T): MaybePlaceholder<T> {
       const isFinished = !!(node.expectedNode && node.type === 'Placeholder');
       node.expectedNode = expectedNode;
 
@@ -172,11 +167,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       return this.parsePlaceholder('Identifier') || super.parseFunctionId(...arguments);
     }
 
-    parseClass<T: N.Class>(
-      node: T,
-      isStatement: /* T === ClassDeclaration */ boolean,
-      optionalId?: boolean
-    ): T {
+    parseClass<T: N.Class>(node: T, isStatement: boolean, optionalId?: boolean): T {
       const type = isStatement ? 'ClassDeclaration' : 'ClassExpression';
 
       this.next();

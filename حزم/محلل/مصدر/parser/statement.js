@@ -1110,11 +1110,7 @@ export default class StatementParser extends ExpressionParser {
   // Parse a class declaration or literal (depending on the
   // `isStatement` parameter).
 
-  parseClass<T: N.Class>(
-    node: T,
-    isStatement: /* T === ClassDeclaration */ boolean,
-    optionalId?: boolean
-  ): T {
+  parseClass<T: N.Class>(node: T, isStatement: boolean, optionalId?: boolean): T {
     this.next();
     this.takeDecorators(node);
 

@@ -1,15 +1,17 @@
-import htmlElementMap, { elementSelectors } from './عناصر-ل_و_ت/مدخل';
-import generalGlobalThis from '../الكائن-العالمي-العام/مدخل';
+const { htmlElementMap, elementSelectors } = require('./عناصر-ل_و_ت/مدخل');
+const generalGlobalThis = require('../الكائن-العالمي-العام/مدخل');
 
 // create sub-directory for sub-repos
 // create sub-packages: arjs-translate, arjs-maps
-export default {
-  انذر: "alert",
+module.exports = {
+  انذر: 'alert',
   ...generalGlobalThis,
 
-  مستند: ["document", {
-    جسم:["body", htmlElementMap],
-    ...elementSelectors
-  }],
-
+  مستند: [
+    'document',
+    {
+      جسم: ['body', htmlElementMap],
+      ...elementSelectors,
+    },
+  ],
 };

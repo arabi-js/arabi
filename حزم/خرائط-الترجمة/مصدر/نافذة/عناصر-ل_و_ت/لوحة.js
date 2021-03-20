@@ -1,11 +1,10 @@
-
 const canvasContextMap = {
-  اتساع_الخط: "lineWidth",
-  رأس_الخط: "lineCap",
-  وصلة_الخط: "lineJoint",
-  حد_الشطب: "miterLimit",
-  شكل_الخط: "strokeStyle",
-  شكل_الملئ: "fillStyle",
+  اتساع_الخط: 'lineWidth',
+  رأس_الخط: 'lineCap',
+  وصلة_الخط: 'lineJoint',
+  حد_الشطب: 'miterLimit',
+  شكل_الخط: 'strokeStyle',
+  شكل_الملئ: 'fillStyle',
   // : "lineDashOffset",
   // : "getLineDash",
   // : "setLineDash",
@@ -18,35 +17,35 @@ const canvasContextMap = {
   // : "createLinearGradient",
   // : "createRadialGradient",
   // : "createPattern",
-  
-  ألفا_العالمية: "globalAlpha",
-  عملية_التركيب_العالمية: "globalCompositeOperation",
-  
-  خط_أساس_النص: "textBaseLine",
-  محازاة_النص: "textAlign",
+
+  ألفا_العالمية: 'globalAlpha',
+  عملية_التركيب_العالمية: 'globalCompositeOperation',
+
+  خط_أساس_النص: 'textBaseLine',
+  محازاة_النص: 'textAlign',
   // : "direction",
   // : "font",
   // : "fillText",
-  خطط_نص: "strokeText",
+  خطط_نص: 'strokeText',
   // : "measureText",
-  
-  مستطيل_المسح: "clearRect",
-  املئ_مستطيل: "fillRect",
+
+  مستطيل_المسح: 'clearRect',
+  املئ_مستطيل: 'fillRect',
   // :  "strokeRect",
   // :  "",
-  
-  ابدأ_مسار: "beginPath",
-  اقفل_مسار: "closePath",
-  حظ_إلى: "lineTo",
-  تحرك_إلى: "moveTo",
-  قوس_إلى: "arcTo",
-  قوس: "arc",
-  إهليج: "ellipse",
-  مستطيل: "rect",
+
+  ابدأ_مسار: 'beginPath',
+  اقفل_مسار: 'closePath',
+  حظ_إلى: 'lineTo',
+  تحرك_إلى: 'moveTo',
+  قوس_إلى: 'arcTo',
+  قوس: 'arc',
+  إهليج: 'ellipse',
+  مستطيل: 'rect',
   // :  "bezierCurveTo",
   // :  "quadraticCurveTo",
-  خطط: "stroke",
-  املئ: "fill",
+  خطط: 'stroke',
+  املئ: 'fill',
   // :  "drawFocusIfNeeded",
   // :  "scrollPathIntoView",
   // :  "clip",
@@ -54,24 +53,21 @@ const canvasContextMap = {
   // :  "isPointInStroke"
 
   // : "",
-  املئ_إهليج: "fillEllipse",
-  
-  التحويل_الحالي: "currentTransform",
-  احضر_التحويل: "getTransform",
-  عين_التحويل: "setTransform",
-  أعد_تعيين_التحويل: "resetTransform",
-  ادر: "rotate",
-  كبر: "scale",
-  حرك: "translate",
-  حول: "transform",
-  
-}
+  املئ_إهليج: 'fillEllipse',
 
-const canvasElementMap = {
-  احضر_السياق: ["getContext", null, { returnMap: [canvasContextMap] }],
-}
+  التحويل_الحالي: 'currentTransform',
+  احضر_التحويل: 'getTransform',
+  عين_التحويل: 'setTransform',
+  أعد_تعيين_التحويل: 'resetTransform',
+  ادر: 'rotate',
+  كبر: 'scale',
+  حرك: 'translate',
+  حول: 'transform',
+};
 
-export default canvasElementMap;
+module.exports = {
+  احضر_السياق: ['getContext', null, { returnMap: [canvasContextMap] }],
+};
 
 /*
 {

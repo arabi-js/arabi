@@ -1,7 +1,7 @@
-export default ["jquery", {
-  
-}, {
-  returnMap: {
-
-  }
-}];
+module.exports = [
+  'jquery',
+  {},
+  {
+    returnMap: {},
+  },
+];
