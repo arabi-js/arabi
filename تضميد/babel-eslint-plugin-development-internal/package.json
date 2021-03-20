@@ -1,32 +1,26 @@
 {
   "name": "@babel/eslint-plugin-development-internal",
-  "version": "7.13.10",
   "description": "The Babel Team's ESLint custom rules plugin. Since it's internal, it might not respect semver.",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/babel/babel.git",
-    "directory": "eslint/babel-eslint-plugin-development-internal"
-  },
-  "keywords": [
-    "babel",
-    "eslint",
-    "eslintplugin",
-    "eslint-plugin",
-    "babel-eslint"
-  ],
+  "version": "7.13.10",
   "author": "Kai Cataldo <kai@kaicataldo.com>",
-  "license": "MIT",
-  "private": true,
-  "bugs": {
-    "url": "https://github.com/babel/babel/issues"
+  "bugs": "https://github.com/babel/babel/issues",
+  "devDependencies": {
+    "eslint": "^7.15.0"
   },
   "homepage": "https://github.com/babel/babel/tree/master/eslint/babel-eslint-plugin-development-internal",
+  "keywords": [
+    "babel",
+    "babel-eslint",
+    "eslint",
+    "eslint-plugin",
+    "eslintplugin"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
   "peerDependencies": {
     "@babel/eslint-parser": "^7.13.10",
     "eslint": "^7.15.0"
   },
-  "devDependencies": {
-    "eslint": "^7.15.0"
-  }
+  "private": true,
+  "repository": "babel/babel.git"
 }

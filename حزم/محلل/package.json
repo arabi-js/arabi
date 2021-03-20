@@ -9,9 +9,6 @@
     "@arabi/maps": "^1.4.1",
     "charcodes": "^0.2.0"
   },
-  "devDependencies": {
-    "syncpack": "^5.7.11"
-  },
   "files": [
     "dist"
   ],

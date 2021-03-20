@@ -23,6 +23,7 @@
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
     "scripty": "^2.0.0",
+    "syncpack": "^5.7.11",
     "webpack": "^5.10.3",
     "webpack-bundle-analyzer": "^4.2.0",
     "webpack-clean-plugin": "^0.2.3",
