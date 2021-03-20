@@ -1,7 +1,8 @@
 {
   "packages": [
     "حزم/*",
-    "أمثلة/*"
+    "أمثلة/*",
+    "تضميد/*"
   ],
   "npmClient": "yarn",
   "version": "independent",
