@@ -11,7 +11,7 @@ export {
   isStrictBindOnlyReservedWord,
   isStrictBindReservedWord,
   isStrictReservedWord,
-  isKeyword,
+  isKeyword
 } from '../helper-validator-identifier';
 
 // export const keywordRelationalOperator = /^in(stanceof)?$/;

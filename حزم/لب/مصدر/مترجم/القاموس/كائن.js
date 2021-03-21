@@ -11,7 +11,7 @@ export const objectTranslator: Translator = {
     'ObjectExpression',
     'RecordExpression',
     'ObjectProperty',
-    'ObjectMethod',
+    'ObjectMethod'
   ],
   translate(node, indent = manager.indent) {
     if (node.type === 'ObjectProperty') {
@@ -54,5 +54,5 @@ export const objectTranslator: Translator = {
     }
     if (!inline) manager.decreaseIndent();
     return code + (inline ? '}' : manager.indent + '}');
-  },
+  }
 };

@@ -52,7 +52,7 @@ exports.default = function __arabi__translate__(obj, map, options = {}) {
         if (prop in map) prop = map[prop];
         (prop === typeof prop) === 'string' ? prop : prop[0];
         return prop in target;
-      },
+      }
 
       // hasProperty(target, prop) {
       //   return true;

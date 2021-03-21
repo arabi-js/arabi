@@ -3,7 +3,7 @@
 import { lineBreakG } from './whitespace';
 
 export type Pos = {
-  start: number,
+  start: number
 };
 
 // These are used when `options.locations` is on, for the

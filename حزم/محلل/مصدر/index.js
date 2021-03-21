@@ -6,7 +6,7 @@ import {
   validatePlugins,
   mixinPluginNames,
   mixinPlugins,
-  type PluginList,
+  type PluginList
 } from './plugin-utils';
 import Parser from './parser';
 
@@ -18,7 +18,7 @@ import type { Expression, File } from './types';
 export function parse(input: string, options?: Options): File {
   if (options?.sourceType === 'unambiguous') {
     options = {
-      ...options,
+      ...options
     };
     try {
       options.sourceType = 'module';
@@ -100,5 +100,5 @@ function getParserClass(pluginsFromOptions: PluginList): Class<Parser> {
 export default {
   parse,
   parseExpression,
-  tokTypes,
+  tokTypes
 };

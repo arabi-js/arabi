@@ -3,7 +3,7 @@ module.exports = {
   وحدة: [
     'module',
     {
-      صادرات: 'exports',
-    },
-  ],
+      صادرات: 'exports'
+    }
+  ]
 };

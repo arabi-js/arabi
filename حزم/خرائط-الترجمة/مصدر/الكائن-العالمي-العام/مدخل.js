@@ -13,8 +13,8 @@ const consoleMap = [
     خطأ: 'error',
     جدول: 'table',
     وقت: 'time',
-    أوقف_الوقت: 'timeEnd',
-  },
+    أوقف_الوقت: 'timeEnd'
+  }
 ];
 
 module.exports = {
@@ -26,5 +26,5 @@ module.exports = {
   لوحة: consoleMap,
   رمز: symbolMap,
   خطأ: 'Error',
-  نص: stringMap,
+  نص: stringMap
 };

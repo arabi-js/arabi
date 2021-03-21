@@ -38,7 +38,7 @@ const reservedWords = {
     keyMap._instanceof,
     keyMap._typeof,
     keyMap._void,
-    keyMap._delete,
+    keyMap._delete
   ],
   strict: [
     keyMap._implements,
@@ -49,9 +49,9 @@ const reservedWords = {
     keyMap._protected,
     keyMap._public,
     keyMap._static,
-    keyMap._yield,
+    keyMap._yield
   ],
-  strictBind: [keyMap._eval, keyMap._arguments],
+  strictBind: [keyMap._eval, keyMap._arguments]
 };
 
 const keywords = new Set(reservedWords.keyword);

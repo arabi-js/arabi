@@ -43,7 +43,7 @@ const htmlElementMap = {
   لغة_الوسوم_التشعبية_الداخلية: 'innerHTML',
   // لابد لنا من أن نجد طريقة لكتابة الحروف مقطعة دون وجود فواصل
   // وذلك لكتاب الاختصارات، وكأنها حروف كابيتال، أو كبيرة مقارنة ببعض اللغات
-  لوت_الداخلية: 'innerHTML',
+  لوت_الداخلية: 'innerHTML'
 };
 
 const elementSelectors = {
@@ -52,7 +52,7 @@ const elementSelectors = {
   محدد_الاستعلام_الشامل: ['querySelectorAll', null, { returnMap: [htmlElementMap] }],
   احصل_بالمعرف: ['getElementById', null, { returnMap: [htmlElementMap] }],
   احصل_بالفئة: ['getElementsByClassName', null, { returnMap: [htmlElementMap] }],
-  احصل_بالوسم: ['getElementsByTagName', null, { returnMap: [htmlElementMap] }],
+  احصل_بالوسم: ['getElementsByTagName', null, { returnMap: [htmlElementMap] }]
   // احصل_بالوسم: ["getElementsByTagNameNS", null, { returnMap: [htmlElementMap] }],
 };
 

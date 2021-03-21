@@ -3,7 +3,7 @@
 import {
   CLASS_ELEMENT_KIND_ACCESSOR,
   CLASS_ELEMENT_FLAG_STATIC,
-  type ClassElementTypes,
+  type ClassElementTypes
 } from './scopeflags';
 import { Errors } from '../parser/error';
 

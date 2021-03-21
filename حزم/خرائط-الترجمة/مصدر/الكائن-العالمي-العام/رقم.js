@@ -1,6 +1,6 @@
 module.exports = [
   'Number',
   {
-    ليس_رقما: 'isNaN',
-  },
+    ليس_رقما: 'isNaN'
+  }
 ];

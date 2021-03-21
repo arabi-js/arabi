@@ -27,7 +27,7 @@ export class TokContext {
 }
 
 export const types: {
-  [key: string]: TokContext,
+  [key: string]: TokContext
 } = {
   braceStatement: new TokContext('{', false),
   braceExpression: new TokContext('{', true),
@@ -37,7 +37,7 @@ export const types: {
   parenExpression: new TokContext('(', true),
   template: new TokContext('`', true, true, (p) => p.readTmplToken()),
   functionExpression: new TokContext(keyMap._function, true),
-  functionStatement: new TokContext(keyMap._function, false),
+  functionStatement: new TokContext(keyMap._function, false)
 };
 
 // Token-specific context update code

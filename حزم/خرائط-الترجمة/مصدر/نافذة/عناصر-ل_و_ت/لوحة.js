@@ -62,11 +62,11 @@ const canvasContextMap = {
   ادر: 'rotate',
   كبر: 'scale',
   حرك: 'translate',
-  حول: 'transform',
+  حول: 'transform'
 };
 
 module.exports = {
-  احضر_السياق: ['getContext', null, { returnMap: [canvasContextMap] }],
+  احضر_السياق: ['getContext', null, { returnMap: [canvasContextMap] }]
 };
 
 /*

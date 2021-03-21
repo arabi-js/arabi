@@ -23,7 +23,7 @@ function importSpecifierstranslate(s, map, mapOptions) {
         name: _default,
         alterName: __default,
         map: mapOptions?.defaultMap || map,
-        mapOptions,
+        mapOptions
       });
       // now, we changes the name, the actual name will be a proxy of translation.
       // so the code hanceforth deals with a translated object.
@@ -70,7 +70,7 @@ function importSpecifierstranslate(s, map, mapOptions) {
             name: local,
             alterName: _local,
             map: _map,
-            mapOptions: _options,
+            mapOptions: _options
           });
           [_local, local] = [local, _local];
         }
@@ -133,7 +133,7 @@ export const importTranslator: Translator = {
       let importCode = `import ${source}`;
       return indent + importCode + manager.eol;
     }
-  },
+  }
 };
 
 function exportSpecifierstranslate(s) {
@@ -171,5 +171,5 @@ export const exportTranslator: Translator = {
     return (
       indent + `export ${exportSpecifierstranslate(node.specifiers, '')}` + source + manager.eol
     );
-  },
+  }
 };

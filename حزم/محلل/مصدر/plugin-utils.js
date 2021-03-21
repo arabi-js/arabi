@@ -117,7 +117,7 @@ export const mixinPlugins: { [name: string]: MixinPlugin } = {
   flow,
   typescript,
   v8intrinsic,
-  placeholders,
+  placeholders
 };
 
 export const mixinPluginNames: $ReadOnlyArray<string> = Object.keys(mixinPlugins);

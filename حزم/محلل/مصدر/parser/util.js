@@ -13,7 +13,7 @@ type TryParse<Node, Error, Thrown, Aborted, FailState> = {
   error: Error,
   thrown: Thrown,
   aborted: Aborted,
-  failState: FailState,
+  failState: FailState
 };
 
 // ## Parser utilities
@@ -185,7 +185,7 @@ export default class UtilParser extends Tokenizer {
           error: (failState.errors[oldState.errors.length]: SyntaxError),
           thrown: false,
           aborted: false,
-          failState,
+          failState
         };
       }
 
@@ -194,7 +194,7 @@ export default class UtilParser extends Tokenizer {
         error: null,
         thrown: false,
         aborted: false,
-        failState: null,
+        failState: null
       };
     } catch (error) {
       const failState = this.state;
@@ -208,7 +208,7 @@ export default class UtilParser extends Tokenizer {
           error: null,
           thrown: false,
           aborted: true,
-          failState,
+          failState
         };
       }
 

@@ -253,6 +253,6 @@ const entities: { [name: string]: string } = {
   spades: '\u2660',
   clubs: '\u2663',
   hearts: '\u2665',
-  diams: '\u2666',
+  diams: '\u2666'
 };
 export default entities;

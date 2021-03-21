@@ -63,5 +63,5 @@ export const classTranslator: Translator = {
       node.type === 'ClassDeclaration' &&
       (code = manager.voidline + code + manager.nl + manager.voidline);
     return code;
-  },
+  }
 };

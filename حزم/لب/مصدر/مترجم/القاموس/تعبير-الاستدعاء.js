@@ -68,7 +68,7 @@ export const callTranslator: Translator = {
     'OptionalCallExpression',
     'NewExpression',
     'BindExpression',
-    'TaggedTemplateExpression',
+    'TaggedTemplateExpression'
   ],
   translate(node, indent = manager.indent) {
     if (node.type === 'BindExpression') return bindExpression(node, indent);
@@ -91,5 +91,5 @@ export const callTranslator: Translator = {
         .map((n) => translate(n, ''))
         .join(', ')})`
     );
-  },
+  }
 };

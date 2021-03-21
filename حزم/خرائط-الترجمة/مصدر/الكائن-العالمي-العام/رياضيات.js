@@ -42,7 +42,7 @@ const mathMap = {
   لوهـ2: 'LN2',
   مطلق: 'abs',
   هـ: 'E',
-  وتر: 'hypot',
+  وتر: 'hypot'
 };
 
 module.exports = ['Math', mathMap];

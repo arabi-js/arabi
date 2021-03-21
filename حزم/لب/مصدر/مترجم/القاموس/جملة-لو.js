@@ -11,5 +11,5 @@ export const ifTranslator: Translator = {
     if (node.alternate)
       code += `${manager.nl}${manager.indent}else ` + translate(node.alternate, '');
     return code;
-  },
+  }
 };

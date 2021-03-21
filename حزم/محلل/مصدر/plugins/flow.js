@@ -22,7 +22,7 @@ import {
   BIND_FUNCTION,
   SCOPE_ARROW,
   SCOPE_FUNCTION,
-  SCOPE_OTHER,
+  SCOPE_OTHER
 } from '../util/scopeflags';
 import type { ExpressionErrors } from '../parser/util';
 import { Errors } from '../parser/error';
@@ -44,7 +44,7 @@ const reservedTypes = new Set([
   'string',
   'true',
   'typeof',
-  'void',
+  'void'
 ]);
 
 /* eslint sort-keys: "error" */
@@ -112,7 +112,7 @@ const FlowErrors = Object.freeze({
   UnsupportedDeclareExportKind: '`declare export %0` is not supported. Use `%1` instead',
   UnsupportedStatementInDeclareModule:
     'Only declares and type imports are allowed inside declare module',
-  UnterminatedFlowComment: 'Unterminated flow-comment',
+  UnterminatedFlowComment: 'Unterminated flow-comment'
 });
 /* eslint-disable sort-keys */
 
@@ -138,7 +138,7 @@ const exportSuggestions = {
   const: 'declare export var',
   let: 'declare export var',
   type: 'export type',
-  interface: 'export interface',
+  interface: 'export interface'
 };
 
 // Like Array#filter, but returns a tuple [ acceptedElements, discardedElements ]
@@ -158,7 +158,7 @@ type EnumExplicitType = null | 'boolean' | 'number' | 'string' | 'symbol';
 type EnumContext = {|
   enumName: string,
   explicitType: EnumExplicitType,
-  memberName: string,
+  memberName: string
 |};
 type EnumMemberInit =
   | {| type: 'number', pos: number, value: N.Node |}
@@ -292,7 +292,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
         // $FlowFixMe (destructuring not supported yet)
         typeNode.returnType,
         // $FlowFixMe (destructuring not supported yet)
-        node.predicate,
+        node.predicate
       ] = this.flowParseTypeAndPredicateInitialiser();
 
       typeContainer.typeAnnotation = this.finishNode(typeNode, 'FunctionTypeAnnotation');
@@ -548,7 +548,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
         allowExact: false,
         allowSpread: false,
         allowProto: isClass,
-        allowInexact: false,
+        allowInexact: false
       });
     }
 
@@ -758,7 +758,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
         allowExact: false,
         allowSpread: false,
         allowProto: false,
-        allowInexact: false,
+        allowInexact: false
       });
 
       return this.finishNode(node, 'InterfaceTypeAnnotation');
@@ -858,13 +858,13 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       allowExact,
       allowSpread,
       allowProto,
-      allowInexact,
+      allowInexact
     }: {
       allowStatic: boolean,
       allowExact: boolean,
       allowSpread: boolean,
       allowProto: boolean,
-      allowInexact: boolean,
+      allowInexact: boolean
     }): N.FlowObjectTypeAnnotation {
       const oldInType = this.state.inType;
       this.state.inType = true;
@@ -1275,7 +1275,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
             allowExact: false,
             allowSpread: true,
             allowProto: false,
-            allowInexact: true,
+            allowInexact: true
           });
 
         case tt.braceBarL:
@@ -1284,7 +1284,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
             allowExact: true,
             allowSpread: true,
             allowProto: false,
-            allowInexact: false,
+            allowInexact: false
           });
 
         case tt.bracketL:
@@ -1584,7 +1584,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
           // $FlowFixMe (destructuring not supported yet)
           typeNode.typeAnnotation,
           // $FlowFixMe (destructuring not supported yet)
-          node.predicate,
+          node.predicate
         ] = this.flowParseTypeAndPredicateInitialiser();
 
         node.returnType = typeNode.typeAnnotation
@@ -1757,7 +1757,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
 
     tryParseConditionalConsequent(): {
       consequent: N.Expression,
-      failed: boolean,
+      failed: boolean
     } {
       this.state.noArrowParamsConversionAt.push(this.state.start);
 
@@ -2561,7 +2561,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
             // $FlowFixMe (destructuring not supported yet)
             typeNode.typeAnnotation,
             // $FlowFixMe (destructuring not supported yet)
-            node.predicate,
+            node.predicate
           ] = this.flowParseTypeAndPredicateInitialiser();
 
           this.state.noAnonFunctionType = oldNoAnonFunctionType;
@@ -2916,7 +2916,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
             return {
               type: 'boolean',
               pos: literal.start,
-              value: literal,
+              value: literal
             };
           }
           return { type: 'invalid', pos: startPos };
@@ -2949,22 +2949,22 @@ export default (superClass: Class<Parser>): Class<Parser> =>
 
     flowEnumMembers({
       enumName,
-      explicitType,
+      explicitType
     }: {
       enumName: string,
-      explicitType: EnumExplicitType,
+      explicitType: EnumExplicitType
     }): {|
       booleanMembers: Array<N.Node>,
       numberMembers: Array<N.Node>,
       stringMembers: Array<N.Node>,
-      defaultedMembers: Array<N.Node>,
+      defaultedMembers: Array<N.Node>
     |} {
       const seenNames = new Set();
       const members = {
         booleanMembers: [],
         numberMembers: [],
         stringMembers: [],
-        defaultedMembers: [],
+        defaultedMembers: []
       };
       while (!this.match(tt.braceR)) {
         const memberNode = this.startNode();
@@ -2976,13 +2976,13 @@ export default (superClass: Class<Parser>): Class<Parser> =>
         if (/^[a-z]/.test(memberName)) {
           this.flowEnumErrorInvalidMemberName(id.start, {
             enumName,
-            memberName,
+            memberName
           });
         }
         if (seenNames.has(memberName)) {
           this.flowEnumErrorDuplicateMemberName(id.start, {
             enumName,
-            memberName,
+            memberName
           });
         }
         seenNames.add(memberName);
@@ -3058,7 +3058,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
         if (!this.match(tt.name)) {
           throw this.flowEnumErrorInvalidExplicitType(this.state.start, {
             enumName,
-            suppliedType: null,
+            suppliedType: null
           });
         }
 
@@ -3068,7 +3068,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
         if (value !== 'boolean' && value !== 'number' && value !== 'string' && value !== 'symbol') {
           this.flowEnumErrorInvalidExplicitType(this.state.start, {
             enumName,
-            suppliedType: value,
+            suppliedType: value
           });
         }
 
@@ -3134,7 +3134,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
             for (const member of members.defaultedMembers) {
               this.flowEnumErrorBooleanMemberNotInitialized(member.start, {
                 enumName,
-                memberName: member.id.name,
+                memberName: member.id.name
               });
             }
             node.members = members.booleanMembers;
@@ -3144,7 +3144,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
             for (const member of members.defaultedMembers) {
               this.flowEnumErrorNumberMemberNotInitialized(member.start, {
                 enumName,
-                memberName: member.id.name,
+                memberName: member.id.name
               });
             }
             node.members = members.numberMembers;
@@ -3163,7 +3163,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       node.id = id;
       node.body = this.flowEnumBody(this.startNode(), {
         enumName: id.name,
-        nameLoc: id.start,
+        nameLoc: id.start
       });
       return this.finishNode(node, 'EnumDeclaration');
     }

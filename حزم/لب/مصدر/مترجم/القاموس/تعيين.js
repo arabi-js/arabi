@@ -12,5 +12,5 @@ export const assignmentTranslator: Translator = {
     // in non-script mode, the assignment of undeclared id is a declaration
     if (op === '=') addToScope(node.left, 'var');
     return indent + `${translate(node.left, '')} ${op} ${translate(node.right, '')}`;
-  },
+  }
 };

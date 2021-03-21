@@ -11,7 +11,7 @@ module.exports = {
     'document',
     {
       جسم: ['body', htmlElementMap],
-      ...elementSelectors,
-    },
-  ],
+      ...elementSelectors
+    }
+  ]
 };

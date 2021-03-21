@@ -28,7 +28,7 @@ export const expressionTranslator: Translator = {
   types: ['ExpressionStatement'],
   translate(node, indent = manager.indent) {
     return indent + translate(node.expression, '') + manager.eol;
-  },
+  }
 };
 
 // tuples... e.g., `(0, doSomeThing(), callme())`
@@ -36,7 +36,7 @@ export const seqExprTranslator: Translator = {
   types: ['SequenceExpression'],
   translate(node, indent = manager.indent) {
     return indent + node.expressions.map((e) => translate(e, '')).join(', ');
-  },
+  }
 };
 
 // do { ... }
@@ -44,7 +44,7 @@ export const doExprTranslator: Translator = {
   types: ['DoExpression'],
   translate(node, indent = manager.indent) {
     return indent + `do ${translate(node.body, '')}`;
-  },
+  }
 };
 
 // while (object) { ... }
@@ -52,7 +52,7 @@ export const withStatement: Translator = {
   types: ['WithStatement'],
   translate(node, indent = manager.indent) {
     return indent + `with (${translate(node.object, '')}) ${translate(node.body, '')}`;
-  },
+  }
 };
 
 export const identifierTranslator: Translator = {
@@ -66,7 +66,7 @@ export const identifierTranslator: Translator = {
       if (node.name === keywordsMap._eval) return 'eval';
     }
     return indent + node.name;
-  },
+  }
 };
 
 // e.g., `1 + 2`
@@ -88,7 +88,7 @@ export const binaryExpressionTranslator: Translator = {
     // }
     //
     return indent + `${translate(node.left, '')} ${node.operator} ${translate(node.right, '')}`;
-  },
+  }
 };
 
 export const updateExprTranslator: Translator = {
@@ -97,7 +97,7 @@ export const updateExprTranslator: Translator = {
     return indent + node.prefix
       ? node.operator + translate(node.argument, '')
       : translate(node.argument, '') + node.operator;
-  },
+  }
 };
 
 // e.g., `throw "An error"`
@@ -111,14 +111,14 @@ export const unaryExprTranslator: Translator = {
     // e.g., a = _throw when o === keywordsMap._throw
     o = ((a = k.find((_) => o === keywordsMap[`_${_}`])) && a + ' ') || o;
     return indent + o + translate(node.argument, '');
-  },
+  }
 };
 
 export const parenthesizedExpression: Translator = {
   types: ['ParenthesizedExpression'],
   translate(node, indent = manager.indent) {
     return indent + `(${translate(node.expression, '')})`;
-  },
+  }
 };
 
 export const returnStatment: Translator = {
@@ -135,7 +135,7 @@ export const returnStatment: Translator = {
     let arg = node.argument ? ' ' + translate(node.argument, '') : '';
     let semi = node.type.slice(-'Statement'.length) === 'Statement' ? manager.eol : '';
     return indent + keyword + ' ' + arg + semi;
-  },
+  }
 };
 
 export const blockStatment: Translator = {
@@ -144,7 +144,7 @@ export const blockStatment: Translator = {
     let keyword = node.type === 'BreakStatement' ? 'break' : 'continue';
     let label = node.label ? ' ' + translate(node.label, '') : '';
     return indent + keyword + label + manager.eol;
-  },
+  }
 };
 
 export const labeledTranslator: Translator = {
@@ -153,7 +153,7 @@ export const labeledTranslator: Translator = {
     let label = translate(node.label, '') + ': ';
     let body = translate(node.body, '');
     return indent + label + body + manager.eol;
-  },
+  }
 };
 
 export const dotsTranslator: Translator = {
@@ -161,14 +161,14 @@ export const dotsTranslator: Translator = {
   translate(node, indent = manager.indent) {
     let arg = translate(node.label, '');
     return indent + '...' + arg;
-  },
+  }
 };
 
 export const specialLiteralsTranslator: Translator = {
   types: ['Import', 'Super', 'ThisExpression'],
   translate(node, indent = manager.indent) {
     return indent + (node.type === 'ThisExpression' ? 'this' : node.type.toLowerCase());
-  },
+  }
 };
 
 export const memExpressionTranslator: Translator = {
@@ -179,7 +179,7 @@ export const memExpressionTranslator: Translator = {
       return indent + `${translate(node.object, '')}${optional}[${translate(node.property, '')}]`;
     }
     return indent + `${translate(node.object, '')}${optional}.${translate(node.property, '')}`;
-  },
+  }
 };
 
 export const othersTranslator: Translator = {
@@ -189,7 +189,7 @@ export const othersTranslator: Translator = {
     if (node.type === 'PrivateName') return '#' + translate(node.id, '');
     if (node.type === 'EmptyStatement') return indent + ';';
     // if (node.type === '')
-  },
+  }
 };
 
 export const metaPropTranslator: Translator = {
@@ -197,7 +197,7 @@ export const metaPropTranslator: Translator = {
   translate(node, indent = manager.indent) {
     // both `meta` and `property` are of type "Identifier"
     return indent + `${node.meta.name}.${node.property.name}`;
-  },
+  }
 };
 
 // ----------------

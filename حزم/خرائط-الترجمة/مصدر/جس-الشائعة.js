@@ -2,5 +2,5 @@ const generalGlobalThis = require('./الكائن-العالمي-العام/مد
 
 module.exports = {
   استدعي: 'require',
-  ...generalGlobalThis,
+  ...generalGlobalThis
 };

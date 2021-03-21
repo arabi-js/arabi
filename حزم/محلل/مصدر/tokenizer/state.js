@@ -17,7 +17,7 @@ type TopicContextState = {
   // has been used as a topic reference `#`, then this is 0. Otherwise, it is
   // `null`. This is forwards compatible with a future plugin for multiple
   // lexical topics.
-  maxTopicIndex: null | 0,
+  maxTopicIndex: null | 0
 };
 
 export default class State {
@@ -74,7 +74,7 @@ export default class State {
   // For the smartPipelines plugin:
   topicContext: TopicContextState = {
     maxNumOfResolvableTopics: 0,
-    maxTopicIndex: null,
+    maxTopicIndex: null
   };
 
   // For the F# plugin
@@ -85,7 +85,7 @@ export default class State {
   labels: Array<{
     kind: ?('loop' | 'switch'),
     name?: ?string,
-    statementStart?: number,
+    statementStart?: number
   }> = [];
 
   // Leading decorators. Last element of the stack represents the decorators in current context.
@@ -107,7 +107,7 @@ export default class State {
     start: number,
     leadingComments: ?Array<N.Comment>,
     trailingComments: ?Array<N.Comment>,
-    type: string,
+    type: string
   }> = [];
   // $FlowIgnore this is initialized when the parser starts.
   commentPreviousNode: N.Node = null;

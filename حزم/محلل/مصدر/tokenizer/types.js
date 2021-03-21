@@ -41,7 +41,7 @@ type TokenOptions = {
   isAssign?: boolean,
   prefix?: boolean,
   postfix?: boolean,
-  binop?: ?number,
+  binop?: ?number
 };
 
 export class TokenType {
@@ -168,7 +168,7 @@ export const types: { [name: string]: TokenType } = {
   exponent: new TokenType('**', {
     beforeExpr,
     binop: 11,
-    rightAssociative: true,
+    rightAssociative: true
   }),
 
   // Keywords
@@ -208,5 +208,5 @@ export const types: { [name: string]: TokenType } = {
   _instanceof: createKeyword(keyMap._instanceof, { beforeExpr, binop: 7 }),
   _typeof: createKeyword(keyMap._typeof, { beforeExpr, prefix, startsExpr }),
   _void: createKeyword(keyMap._void, { beforeExpr, prefix, startsExpr }),
-  _delete: createKeyword(keyMap._delete, { beforeExpr, prefix, startsExpr }),
+  _delete: createKeyword(keyMap._delete, { beforeExpr, prefix, startsExpr })
 };

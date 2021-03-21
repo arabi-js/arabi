@@ -18,14 +18,14 @@ colors.setTheme({
   error: 'red',
   wran: 'yellow',
   success: 'green',
-  info: 'blue',
+  info: 'blue'
 });
 
 Object.defineProperty(parser, '__info', {
-  value: 'أنا نسخة معدلة من محلل بابل!',
+  value: 'أنا نسخة معدلة من محلل بابل!'
 });
 Object.defineProperty(parser, '__info_', {
-  value: 'I am a modified version of @babel/parser!',
+  value: 'I am a modified version of @babel/parser!'
 });
 
 export { parser };
@@ -69,7 +69,7 @@ function translateCode(arCode) {
         generator() {
           manager.setLineHead(lh);
           return helpers.getGlobalTranslatorCode(options.maps.global);
-        },
+        }
       });
       manager.addTopImport(globalTransModuleName);
     } else {
@@ -210,7 +210,7 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
     ignores: null, // ignore specific files when translating
     globalIgnores: null, // ignore files from being copied to the output when when translating dir && isModules
     keepExtension: false,
-    ...options,
+    ...options
   };
 
   options.outputType ||= options.inputType;
@@ -236,7 +236,7 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
       ? 'script'
       : 'unambiguous',
     createParenthesizedExpressions: true,
-    ..._parserOptions,
+    ..._parserOptions
   };
 
   //###################################

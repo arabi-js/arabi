@@ -13,7 +13,7 @@ import {
   BIND_SCOPE_LEXICAL,
   BIND_KIND_VALUE,
   type ScopeFlags,
-  type BindingTypes,
+  type BindingTypes
 } from './scopeflags';
 import * as N from '../types';
 import { Errors } from '../parser/error';

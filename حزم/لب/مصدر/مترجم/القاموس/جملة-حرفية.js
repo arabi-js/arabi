@@ -38,7 +38,7 @@ export const literalTranslator: Translator = {
     'BigIntLiteral',
     'NumericLiteral',
     'DecimalLiteral',
-    'TemplateLiteral',
+    'TemplateLiteral'
   ],
   translate(node, indent = manager.indent) {
     switch (node.type) {
@@ -53,5 +53,5 @@ export const literalTranslator: Translator = {
       default:
         return indent + node.value;
     }
-  },
+  }
 };

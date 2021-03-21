@@ -31,13 +31,13 @@ const arrayPrototypeMap = {
   للمصدر: 'toSource',
   لنص: 'toString',
   دفع_أمامي: 'unshift', // المعنى غير حرفي، لكن هذا أكثر دلالة على وظيفىة الدالة
-  قيم: 'values',
+  قيم: 'values'
 };
 
 const arrayMap = {
   هل_مصفوفة: 'isArray',
   من: 'from',
-  من: 'of',
+  من: 'of'
   // the followning properties will be maped in ./رمز
   // "": "Array.prototype[@@unscopables]",
   // "": "Array.prototype[@@iterator]()",

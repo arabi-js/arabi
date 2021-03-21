@@ -32,21 +32,21 @@ const forbiddenNumericSeparatorSiblings = {
     charCodes.underscore, // multiple separators are not allowed
     charCodes.lowercaseB,
     charCodes.lowercaseE,
-    charCodes.lowercaseO,
+    charCodes.lowercaseO
   ],
   hex: [
     charCodes.dot,
     charCodes.uppercaseX,
     charCodes.underscore, // multiple separators are not allowed
-    charCodes.lowercaseX,
-  ],
+    charCodes.lowercaseX
+  ]
 };
 
 const allowedNumericSeparatorSiblings = {};
 allowedNumericSeparatorSiblings.bin = [
   // 0 - 1
   charCodes.digit0,
-  charCodes.digit1,
+  charCodes.digit1
 ];
 allowedNumericSeparatorSiblings.oct = [
   // 0 - 7
@@ -57,14 +57,14 @@ allowedNumericSeparatorSiblings.oct = [
   charCodes.digit4,
   charCodes.digit5,
   charCodes.digit6,
-  charCodes.digit7,
+  charCodes.digit7
 ];
 allowedNumericSeparatorSiblings.dec = [
   // 0 - 9
   ...allowedNumericSeparatorSiblings.oct,
 
   charCodes.digit8,
-  charCodes.digit9,
+  charCodes.digit9
 ];
 
 allowedNumericSeparatorSiblings.hex = [
@@ -83,7 +83,7 @@ allowedNumericSeparatorSiblings.hex = [
   charCodes.lowercaseC,
   charCodes.lowercaseD,
   charCodes.lowercaseE,
-  charCodes.lowercaseF,
+  charCodes.lowercaseF
 ];
 
 // Object type used to represent tokens. Note that normally, tokens
@@ -257,7 +257,7 @@ export default class Tokenizer extends ParserErrors {
       value: text,
       start: start,
       end: end,
-      loc: new SourceLocation(startLoc, endLoc),
+      loc: new SourceLocation(startLoc, endLoc)
     };
 
     if (this.options.tokens) this.pushToken(comment);
@@ -937,7 +937,7 @@ export default class Tokenizer extends ParserErrors {
 
     this.finishToken(tt.regexp, {
       pattern: content,
-      flags: mods,
+      flags: mods
     });
   }
 

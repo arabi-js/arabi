@@ -9,7 +9,7 @@ import {
   BIND_KIND_VALUE,
   BIND_FLAGS_CLASS,
   type ScopeFlags,
-  type BindingTypes,
+  type BindingTypes
 } from '../../util/scopeflags';
 import * as N from '../../types';
 

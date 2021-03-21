@@ -13,7 +13,7 @@ type ErrorContext = {
   pos: number,
   loc: Position,
   missingPlugin?: Array<string>,
-  code?: string,
+  code?: string
 };
 
 export { ErrorMessages as Errors } from './error-message.js';
@@ -43,7 +43,7 @@ export default class ParserError extends CommentsParser {
     pos: number,
     data?: {
       missingPlugin?: Array<string>,
-      code?: string,
+      code?: string
     },
     errorTemplate: string,
     ...params: any

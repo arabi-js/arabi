@@ -123,7 +123,7 @@ Object.defineProperty(log, 'indentCount', {
   set(v) {
     this.__ic = v;
     this.indent = new Array(v * 2).fill(' ').join('');
-  },
+  }
 });
 log.indentCount = 0;
 
@@ -150,7 +150,7 @@ export const codes: Codes = {
   // eslint-disable-next-line no-undef
   es6ModuleTranslationCode: ES6_MODULE_TRANSLATION_CODE,
   // eslint-disable-next-line no-undef
-  commonjsModuleTranslationCode: COMMONJS_MODULE_TRANSLATION_CODE,
+  commonjsModuleTranslationCode: COMMONJS_MODULE_TRANSLATION_CODE
 };
 
 export function getTranslatorCode() {
@@ -159,9 +159,9 @@ export function getTranslatorCode() {
       specifiers: [
         {
           name: 'translate',
-          local: manager.translatorFunctionName,
-        },
-      ],
+          local: manager.translatorFunctionName
+        }
+      ]
     });
     return;
   }
@@ -174,9 +174,9 @@ export function getTranslateRequireCode() {
       specifiers: [
         {
           name: 'translateRequire',
-          local: manager.translateRequireFunctnionName,
-        },
-      ],
+          local: manager.translateRequireFunctnionName
+        }
+      ]
     });
     return;
   }
@@ -368,7 +368,7 @@ function getPrototypeTranslator(enName, constructMap) {
           '{',
           `get: function(){ return ${_name} },`,
           `set: function(v){ return ${_name} = v },`,
-          '}',
+          '}'
         ].join('');
       } else {
         let _name = map[0];
@@ -383,7 +383,7 @@ function getPrototypeTranslator(enName, constructMap) {
             _map
           )}, ${stringify(_options)}) },`,
           `set: function(v){ return ${_name} = v },`,
-          '}',
+          '}'
         ].join('');
       }
       prototypeCode +=

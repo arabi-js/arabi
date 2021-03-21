@@ -71,5 +71,5 @@ export const forTranslator: Translator = {
 
     manager.scope.endBlockScope();
     return code;
-  },
+  }
 };

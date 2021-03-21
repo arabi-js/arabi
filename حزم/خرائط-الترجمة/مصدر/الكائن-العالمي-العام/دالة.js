@@ -10,7 +10,7 @@ const functionPrototypeMap = {
   اسم_ظاهر: 'displayName',
   طول: 'length',
   اسم: 'name',
-  نموذج: 'prototype',
+  نموذج: 'prototype'
 };
 
 const functionMap = null;

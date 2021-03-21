@@ -25,5 +25,5 @@ export const arrayTranslator: Translator = {
     }
     if (!inline) manager.decreaseIndent();
     return code + (inline ? ']' : manager.indent + ']');
-  },
+  }
 };

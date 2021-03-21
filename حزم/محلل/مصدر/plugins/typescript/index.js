@@ -24,7 +24,7 @@ import {
   BIND_TS_AMBIENT,
   BIND_TS_NAMESPACE,
   BIND_CLASS,
-  BIND_LEXICAL,
+  BIND_LEXICAL
 } from '../../util/scopeflags';
 import TypeScriptScopeHandler from './scope';
 import * as charCodes from 'charcodes';
@@ -97,7 +97,7 @@ const TSErrors = Object.freeze({
   UnsupportedParameterPropertyKind:
     'A parameter property may not be declared using a binding pattern.',
   UnsupportedSignatureParameterKind:
-    'Name in a signature must be an Identifier, ObjectPattern or ArrayPattern, instead got %0',
+    'Name in a signature must be an Identifier, ObjectPattern or ArrayPattern, instead got %0'
 });
 
 // Doesn't handle "void" or "null" because those are keywords, not identifiers.

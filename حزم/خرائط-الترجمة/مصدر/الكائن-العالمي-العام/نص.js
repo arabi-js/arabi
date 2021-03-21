@@ -94,13 +94,13 @@ const stringPrototype = {
   '': 'trim',
   '': 'trimEnd',
   '': 'trimStart',
-  '': 'valueOf',
+  '': 'valueOf'
 };
 
 const stringMap = {
   من_كود_الحرف: 'fromCharCode',
   ' ': 'fromCodePoint',
-  '': 'raw',
+  '': 'raw'
 };
 
 module.exports = ['String', stringMap, { constructMap: stringPrototype }];

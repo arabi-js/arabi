@@ -27,7 +27,7 @@ import {
   isReservedWord,
   isStrictReservedWord,
   isStrictBindReservedWord,
-  isIdentifierStart,
+  isIdentifierStart
 } from '../util/identifier';
 import type { Pos, Position } from '../util/location';
 import * as charCodes from 'charcodes';
@@ -39,7 +39,7 @@ import {
   SCOPE_DIRECT_SUPER,
   SCOPE_FUNCTION,
   SCOPE_SUPER,
-  SCOPE_PROGRAM,
+  SCOPE_PROGRAM
 } from '../util/scopeflags';
 import { ExpressionErrors } from './util';
 import {
@@ -47,7 +47,7 @@ import {
   PARAM_IN,
   PARAM_RETURN,
   PARAM,
-  functionFlags,
+  functionFlags
 } from '../util/production-parameter';
 import { Errors } from './error';
 import * as keyMap from '../keywords-map';
@@ -550,7 +550,7 @@ export default class ExpressionParser extends LValParser {
     const state = {
       optionalChainMember: false,
       maybeAsyncArrow: this.atPossibleAsyncArrow(base),
-      stop: false,
+      stop: false
     };
     do {
       const oldMaybeInAsyncArrowHead = this.state.maybeInAsyncArrowHead;
@@ -1472,7 +1472,7 @@ export default class ExpressionParser extends LValParser {
     }
     elem.value = {
       raw: this.input.slice(this.state.start, this.state.end).replace(/\r\n?/g, '\n'),
-      cooked: this.state.value,
+      cooked: this.state.value
     };
     this.next();
     elem.tail = this.match(tt.backQuote);
@@ -2387,7 +2387,7 @@ export default class ExpressionParser extends LValParser {
       // Enable the use of the primary topic reference.
       maxNumOfResolvableTopics: 1,
       // Hide the use of any topic references from outer contexts.
-      maxTopicIndex: null,
+      maxTopicIndex: null
     };
 
     try {
@@ -2410,7 +2410,7 @@ export default class ExpressionParser extends LValParser {
       // Disable the use of the primary topic reference.
       maxNumOfResolvableTopics: 0,
       // Hide the use of any topic references from outer contexts.
-      maxTopicIndex: null,
+      maxTopicIndex: null
     };
 
     try {

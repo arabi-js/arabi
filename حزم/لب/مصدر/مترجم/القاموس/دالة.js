@@ -62,5 +62,5 @@ export const functionTranslator: Translator = {
       (code = manager.voidline + code + manager.voidline);
 
     return code;
-  },
+  }
 };

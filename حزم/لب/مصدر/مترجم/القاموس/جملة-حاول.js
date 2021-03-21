@@ -23,5 +23,5 @@ export const tryTranslator: Translator = {
     if (node.finalizer) code += `${manager.indent}finally ` + translate(node.finalizer, '');
 
     return code;
-  },
+  }
 };

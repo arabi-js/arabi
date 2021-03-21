@@ -17,5 +17,5 @@ export const whileTranslator: Translator = {
     let code = indent + 'while (' + translate(node.test, '') + ') ';
     code += translate(node.body, '');
     return code;
-  },
+  }
 };

@@ -2,6 +2,6 @@ module.exports = [
   'jquery',
   {},
   {
-    returnMap: {},
-  },
+    returnMap: {}
+  }
 ];

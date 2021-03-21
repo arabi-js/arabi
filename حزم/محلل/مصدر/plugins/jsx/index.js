@@ -26,7 +26,7 @@ const JsxErrors = Object.freeze({
   UnsupportedJsxValue: 'JSX value should be either an expression or a quoted JSX text',
   UnterminatedJsxContent: 'Unterminated JSX contents',
   UnwrappedAdjacentJSXElements:
-    'Adjacent JSX elements must be wrapped in an enclosing tag. Did you want a JSX fragment <>...</>?',
+    'Adjacent JSX elements must be wrapped in an enclosing tag. Did you want a JSX fragment <>...</>?'
 });
 
 // Be aware that this file is always executed and not only when the plugin is enabled.

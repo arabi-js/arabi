@@ -9,7 +9,7 @@ import type {
   Node,
   Pattern,
   RestElement,
-  SpreadElement,
+  SpreadElement
   /*:: Identifier, */
   /*:: ObjectExpression, */
   /*:: ObjectPattern, */

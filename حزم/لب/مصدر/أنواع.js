@@ -34,5 +34,5 @@ export type ParserOptions = {
   ranges: boolean,
   tokens: boolean,
   createParenthesizedExpressions: boolean,
-  errorRecovery: boolean,
+  errorRecovery: boolean
 };

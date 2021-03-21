@@ -34,7 +34,7 @@ export default class ScopeManager {
 
   startBlockScope() {
     const theNewScope: BlockScope = {
-      lexicals: new Set(),
+      lexicals: new Set()
     };
 
     this.blockScopes.push(theNewScope);
@@ -52,7 +52,7 @@ export default class ScopeManager {
   startClosure() {
     const theNewClosure: Colsure = {
       vars: new Set(),
-      functions: new Set(),
+      functions: new Set()
     };
 
     this.closures.push(theNewClosure);

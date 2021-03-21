@@ -6,7 +6,7 @@ const objectPrototypeMap = {
   هل_الخاصية_قابلة_للحصر: 'propertyIsEnumerable',
   لنص_محلي: 'toLocaleString',
   لنص: 'toString',
-  قيمة: 'valueOf',
+  قيمة: 'valueOf'
 };
 
 const objectMap = {
@@ -30,7 +30,7 @@ const objectMap = {
   هل_مختوم: 'isSealed',
   جمد: 'freeze',
   اختم: 'seal',
-  امنع_الامتدادات: 'preventExtensions',
+  امنع_الامتدادات: 'preventExtensions'
 };
 
 module.exports = ['Object', objectMap, { constructMap: [objectPrototypeMap] }];

@@ -32,5 +32,5 @@ export const blockTranslator: Translator = {
     addScope && manager.scope.endBlockScope();
     code += inline ? ' }' : manager.indent + '}' + manager.nl + vl;
     return code;
-  },
+  }
 };

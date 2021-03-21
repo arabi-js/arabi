@@ -10,15 +10,15 @@ exports.keywordsMap = keywordsMap;
 exports.commonjs = {
   global: commonjsMap,
   globalVars: commonjsVars,
-  modules,
+  modules
 };
 
 exports.window = {
   global: windowMap,
-  modules,
+  modules
 };
 
 exports.general = {
   global: generalGlobalThis,
-  modules,
+  modules
 };

@@ -41,5 +41,5 @@ export const declarationTranslator: Translator = {
 
     let eol = addEOL ? manager.eol : '';
     return indent + kind + ' ' + decs + eol;
-  },
+  }
 };

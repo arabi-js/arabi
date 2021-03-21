@@ -22,7 +22,7 @@ import {
   CLASS_ELEMENT_INSTANCE_SETTER,
   CLASS_ELEMENT_STATIC_GETTER,
   CLASS_ELEMENT_STATIC_SETTER,
-  type BindingTypes,
+  type BindingTypes
 } from '../util/scopeflags';
 import { ExpressionErrors } from './util';
 import { PARAM, functionFlags } from '../util/production-parameter';
@@ -296,7 +296,7 @@ export default class StatementParser extends ExpressionParser {
       this.raiseWithData(
         node.start,
         {
-          code: 'BABEL_PARSER_SOURCETYPE_MODULE_REQUIRED',
+          code: 'BABEL_PARSER_SOURCETYPE_MODULE_REQUIRED'
         },
         Errors.ImportOutsideModule
       );
@@ -745,7 +745,7 @@ export default class StatementParser extends ExpressionParser {
     this.state.labels.push({
       name: maybeName,
       kind: kind,
-      statementStart: this.state.start,
+      statementStart: this.state.start
     });
     node.body = this.parseStatement(
       context

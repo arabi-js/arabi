@@ -28,5 +28,5 @@ export const switchTranslator: Translator = {
 
     manager.decreaseIndent();
     return code + manager.nl + manager.indent + '}' + manager.nl + manager.voidline;
-  },
+  }
 };

@@ -5,5 +5,5 @@ export {
   isStrictBindOnlyReservedWord,
   isStrictBindReservedWord,
   isStrictReservedWord,
-  isKeyword,
+  isKeyword
 } from './keyword';
