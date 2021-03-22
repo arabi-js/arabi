@@ -34,26 +34,27 @@
   },
   "homepage": "https://github.com/arabi-js/arabi#readme",
   "license": "MIT",
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.--stream": "prettier --write",
+    "**/package.json": "syncpack format"
+  },
   "private": true,
   "repository": "arabi-js/arabi.git",
   "scripts": {
-    "prepare": "yarn simple-git-hooks",
     "build": "lerna run build --concurrency 4 --stream",
     "clean": "lerna run test --concurrency 4",
     "format": "syncpack format && lerna run format --concurrency 4 --stream",
     "lint": "lerna run lint --concurrency 4 --stream",
+    "prepare": "yarn simple-git-hooks",
     "test": "lerna run test --concurrency 4 --stream"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "yarn lint-staged"
   },
   "workspaces": [
     "حزم/*",
     "أمثلة/*",
     "تضميد/*"
-  ],
-  "simple-git-hooks": {
-    "pre-commit": "yarn lint-staged"
-  },
-  "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.--stream": "prettier --write"
-  }
+  ]
 }
