@@ -1,9 +1,11 @@
 node_modules/
-yarn-error.log
 .vscode/
 .vim/
+
+yarn-error.log
+webpack.stats.json
+.eslintcache
 
 حزم/**/توزيعة
 حزم/**/مكتبة
 حزم/**/حزمة
-webpack.stats.json
