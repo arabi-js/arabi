@@ -28,5 +28,9 @@
   },
   "scripty": {
     "path": "../../أوامر/حزم"
+  },
+  "devDependencies": {
+    "@babel/eslint-config-internal": "^7.12.13",
+    "@babel/eslint-plugin-development-internal": "^7.13.10"
   }
 }

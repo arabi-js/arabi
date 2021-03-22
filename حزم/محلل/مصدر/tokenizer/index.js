@@ -701,6 +701,7 @@ export default class Tokenizer extends ParserErrors {
       // we now use the arabic semicolon
       // so let do the same as the english one
       // don't return or break
+      // eslint-disable-next-line no-fallthrough
       case charCodes.semicolon:
         ++this.state.pos;
         this.finishToken(tt.semi);
@@ -709,6 +710,7 @@ export default class Tokenizer extends ParserErrors {
       // we now use the arabic comma
       // so let do the same as the english one
       // don't return or break
+      // eslint-disable-next-line no-fallthrough
       case charCodes.comma:
         ++this.state.pos;
         this.finishToken(tt.comma);
@@ -770,6 +772,7 @@ export default class Tokenizer extends ParserErrors {
       // we now use the arabic comma
       // so let do the same as the english one
       // don't return or break
+      // eslint-disable-next-line no-fallthrough
       case charCodes.questionMark:
         this.readToken_question();
         return;
