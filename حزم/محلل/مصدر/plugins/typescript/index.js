@@ -414,7 +414,8 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     }
 
     tsParseBindingListForSignature(): $ReadOnlyArray<
-      N.Identifier | N.RestElement | N.ObjectPattern | N.ArrayPattern> {
+      N.Identifier | N.RestElement | N.ObjectPattern | N.ArrayPattern
+    > {
       return this.parseBindingList(tt.parenR, charCodes.rightParenthesis).map((pattern) => {
         if (
           pattern.type !== 'Identifier' &&

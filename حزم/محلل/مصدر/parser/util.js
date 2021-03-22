@@ -167,7 +167,8 @@ export default class UtilParser extends Tokenizer {
   tryParse<T: Node | $ReadOnlyArray<Node>>(
     fn: (abort: (node?: T) => empty) => T,
     oldState: State = this.state.clone()
-  ): | TryParse<T, null, false, false, null>
+  ):
+    | TryParse<T, null, false, false, null>
     | TryParse<T | null, SyntaxError, boolean, false, State>
     | TryParse<T | null, null, false, true, State> {
     const abortSignal: { node: T | null } = { node: null };

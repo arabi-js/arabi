@@ -35,11 +35,11 @@
   "private": true,
   "repository": "arabi-js/arabi.git",
   "scripts": {
-    "build": "yarn workspaces run build",
-    "clean": "yarn workspaces run test",
-    "format": "syncpack format && yarn workspaces run format",
-    "lint": "yarn workspaces run lint",
-    "test": "yarn workspaces run test"
+    "build": "lerna run build --concurrency 4 --stream",
+    "clean": "lerna run test --concurrency 4",
+    "format": "syncpack format && lerna run format --concurrency 4 --stream",
+    "lint": "lerna run lint --concurrency 4 --stream",
+    "test": "lerna run test --concurrency 4 --stream"
   },
   "workspaces": [
     "حزم/*",
