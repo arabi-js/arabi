@@ -6,15 +6,16 @@
 
 هذه هي المقالة المشار إليها كتبها صاحب الكود: https://www.a1k0n.net/2011/07/20/donut-math.html
 
-![](استعراض.gif)
+![استعراض](استعراض.gif)
 
 ## تشغيل المثال
 
 <div dir=ltr>
 
 ```bash
-npm install
-npm start
+> npm i
+> npm run build
+> npm start
 ```
 
 </div>
@@ -26,4 +27,3 @@ npm start
 3. يتم إضافة تعريبات خاصة بالكائن `process` الموجود في `Nodejs@14` والتي لم تكن موجودة في الإصدار الأخير حينها من <span dir=ltr><code>@arabi/maps</code></span>.
 
 </div>
-

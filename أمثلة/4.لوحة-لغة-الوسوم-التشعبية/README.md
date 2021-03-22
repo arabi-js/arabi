@@ -11,8 +11,9 @@
 <div dir=ltr>
 
 ```bash
-❯ npm i
-❯ npm start
+> npm i
+> npm run build
+> npm start
 ```
 
 </div>
