@@ -1,4 +1,11 @@
-import path from "path";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+const path = require("path");
 
 const REL_PATH_REGEX = /^\.{1,2}/;
 
@@ -7,17 +14,12 @@ function isRelativePath(filePath) {
 }
 
 function resolveAbsolutePath(currentFilePath, moduleToResolve) {
-  return isRelativePath(moduleToResolve)
-    ? path.resolve(path.dirname(currentFilePath), moduleToResolve)
-    : moduleToResolve;
+  return isRelativePath(moduleToResolve) ? path.resolve(path.dirname(currentFilePath), moduleToResolve) : moduleToResolve;
 }
 
 function isSourceErrorModule(currentFilePath, targetModulePath, src) {
   for (const srcPath of [src, `${src}.js`, `${src}/index`, `${src}/index.js`]) {
-    if (
-      path.normalize(resolveAbsolutePath(currentFilePath, targetModulePath)) ===
-      path.normalize(resolveAbsolutePath(currentFilePath, srcPath))
-    ) {
+    if (path.normalize(resolveAbsolutePath(currentFilePath, targetModulePath)) === path.normalize(resolveAbsolutePath(currentFilePath, srcPath))) {
       return true;
     }
   }
@@ -86,10 +88,7 @@ function referencesImportedBinding(node, scope, bindings) {
       const defNode = topLevelDef.node;
 
       for (const spec of bindings) {
-        if (
-          spec.loc.start === defNode.loc.start &&
-          spec.loc.end === defNode.loc.end
-        ) {
+        if (spec.loc.start === defNode.loc.start && spec.loc.end === defNode.loc.end) {
           return true;
         }
       }
@@ -99,43 +98,44 @@ function referencesImportedBinding(node, scope, bindings) {
   return false;
 }
 
-export default {
+var _default = {
   meta: {
     type: "suggestion",
     docs: {
-      description:
-        "enforce @babel/parser's error messages to be consolidated in one module",
+      description: "enforce @babel/parser's error messages to be consolidated in one module"
     },
-    schema: [
-      {
-        type: "object",
-        properties: {
-          errorModule: { type: "string" },
-        },
-        additionalProperties: false,
-        required: ["errorModule"],
+    schema: [{
+      type: "object",
+      properties: {
+        errorModule: {
+          type: "string"
+        }
       },
-    ],
+      additionalProperties: false,
+      required: ["errorModule"]
+    }],
     messages: {
-      mustBeImported: 'Error messages must be imported from "{{errorModule}}".',
-    },
+      mustBeImported: 'Error messages must be imported from "{{errorModule}}".'
+    }
   },
-  create({ options, report, getFilename, getScope }) {
-    const [{ errorModule = "" } = {}] = options;
+
+  create({
+    options,
+    report,
+    getFilename,
+    getScope
+  }) {
+    const [{
+      errorModule = ""
+    } = {}] = options;
     const filename = getFilename();
     const importedBindings = new Set();
 
-    if (
-      // Do not run check if errorModule config option is not given.
-      !errorModule.length ||
-      // Do not check the target error module file.
-      isCurrentFileErrorModule(filename, errorModule)
-    ) {
+    if (!errorModule.length || isCurrentFileErrorModule(filename, errorModule)) {
       return {};
     }
 
     return {
-      // Check imports up front so that we don't have to check them for every ThrowStatement.
       ImportDeclaration(node) {
         if (isSourceErrorModule(filename, errorModule, node.source.value)) {
           for (const spec of node.specifiers) {
@@ -143,27 +143,26 @@ export default {
           }
         }
       },
-      "CallExpression[callee.type='MemberExpression'][callee.object.type='ThisExpression'][callee.property.name='raise'][arguments.length>=2]"(
-        node,
-      ) {
+
+      "CallExpression[callee.type='MemberExpression'][callee.object.type='ThisExpression'][callee.property.name='raise'][arguments.length>=2]"(node) {
         const [, errorMsgNode] = node.arguments;
         const nodesToCheck = findIdNodes(errorMsgNode);
 
-        if (
-          Array.isArray(nodesToCheck) &&
-          nodesToCheck.every(node =>
-            referencesImportedBinding(node, getScope(), importedBindings),
-          )
-        ) {
+        if (Array.isArray(nodesToCheck) && nodesToCheck.every(node => referencesImportedBinding(node, getScope(), importedBindings))) {
           return;
         }
 
         report({
           node: errorMsgNode,
           messageId: "mustBeImported",
-          data: { errorModule },
+          data: {
+            errorModule
+          }
         });
-      },
+      }
+
     };
-  },
+  }
+
 };
+exports.default = _default;
