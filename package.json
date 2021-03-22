@@ -34,11 +34,6 @@
   },
   "homepage": "https://github.com/arabi-js/arabi#readme",
   "license": "MIT",
-  "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.--stream": "prettier --write",
-    "**/package.json": "syncpack format"
-  },
   "private": true,
   "repository": "arabi-js/arabi.git",
   "scripts": {
