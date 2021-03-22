@@ -9,7 +9,7 @@ import path from 'path';
 import manager from './مترجم/مدير-الترجمة';
 import arabiTranslate from '@arabi/translate';
 import { stringify as thatStringify } from 'flatted';
-import { isIdentifierName } from '@arabi/parser/src/helper-validator-identifier/identifier';
+import { isIdentifierName } from '@arabi/parser/مصدر/helper-validator-identifier/identifier';
 import type { Codes } from './أنواع';
 
 export function addToScope(ids, type: 'lex' | 'var') {

@@ -1,6 +1,5 @@
 const path = require('path');
 const cjsGlobals = ['__dirname', '__filename', 'require', 'module', 'exports'];
-const babelOptions = require('./.babelrc');
 
 const flowPackages = ['حزم/لب/مصدر/**/*.js'];
 
@@ -14,9 +13,7 @@ module.exports = {
       files: flowPackages,
       parser: '@babel/eslint-parser', // to enable flowjs syntax to be parsed
       parserOptions: {
-        sourceType: 'module',
-        requireConfigFile: false,
-        babelOptions
+        sourceType: 'module'
       },
       plugins: ['flowtype', '@babel/development-internal'],
       extends: ['eslint:recommended', 'plugin:flowtype/recommended'],
