@@ -1,5 +1,5 @@
 {
-  "name": "@arabi/arabi",
+  "name": "arabi",
   "description": "جافاسكريبت معربةً",
   "bugs": "https://github.com/arabi-js/arabi/issues",
   "contributors": [
@@ -51,5 +51,9 @@
     "حزم/*",
     "أمثلة/*",
     "تضميد/*"
-  ]
+  ],
+  "volta": {
+    "node": "14.16.0",
+    "yarn": "1.22.10"
+  }
 }
