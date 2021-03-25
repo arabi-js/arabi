@@ -8,7 +8,8 @@
   },
   "devDependencies": {
     "@arabi/core": "^1.0.0",
-    "@arabi/maps": "^1.4.1"
+    "@arabi/maps": "^1.4.1",
+    "rimraf": "^3.0.2"
   },
   "license": "MIT",
   "main": "تجميع.js",

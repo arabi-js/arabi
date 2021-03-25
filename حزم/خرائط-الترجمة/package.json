@@ -24,5 +24,8 @@
   },
   "scripty": {
     "path": "../../أوامر/حزم"
+  },
+  "devDependencies": {
+    "scripty": "^2.0.0"
   }
 }

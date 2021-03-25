@@ -10,15 +10,19 @@
     "charcodes": "^0.2.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.13.10",
     "@babel/eslint-config-internal": "^7.12.13",
-    "@babel/eslint-plugin-development-internal": "^7.13.10"
+    "@babel/eslint-parser": "^7.13.10",
+    "@babel/eslint-plugin-development-internal": "^7.13.10",
+    "eslint": "^7.22.0",
+    "eslint-plugin-flowtype": "^5.4.0",
+    "scripty": "^2.0.0"
   },
   "files": [
     "dist"
   ],
   "license": "MIT",
   "main": "توزيعة/main.js",
-  "private": false,
   "publishConfig": {
     "access": "public"
   },

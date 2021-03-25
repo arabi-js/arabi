@@ -6,46 +6,26 @@
     "محمد سمير الصوالحي"
   ],
   "devDependencies": {
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "^7.12.10",
-    "@babel/eslint-parser": "^7.13.10",
-    "@babel/plugin-proposal-class-properties": "^7.12.1",
-    "@babel/plugin-transform-runtime": "^7.12.10",
-    "@babel/plugin-transform-spread": "7.12.1",
-    "@babel/preset-env": "^7.12.10",
-    "@babel/preset-flow": "^7.12.13",
-    "babel-loader": "^8.2.2",
-    "eslint": "^7.15.0",
-    "eslint-plugin-flowtype": "^5.4.0",
-    "lerna": "^4.0.0",
-    "lerna-update-wizard": "^0.17.8",
     "lint-staged": ">=10",
-    "nodemon": "^2.0.7",
-    "prettier": "^2.2.1",
-    "rimraf": "^3.0.2",
+    "micromatch": "^4.0.2",
     "scripty": "^2.0.0",
     "simple-git-hooks": "^2.0.3",
-    "syncpack": "^5.7.11",
-    "webpack": "^5.10.3",
-    "webpack-bundle-analyzer": "^4.2.0",
-    "webpack-clean-plugin": "^0.2.3",
-    "webpack-cli": "^4.2.0",
-    "webpack-dev-server": "^3.11.0"
+    "syncpack": "^5.7.11"
   },
   "homepage": "https://github.com/arabi-js/arabi#readme",
   "license": "MIT",
   "private": true,
   "repository": "arabi-js/arabi.git",
   "scripts": {
-    "build": "lerna run build --concurrency 4 --stream",
-    "clean": "lerna run test --concurrency 4",
-    "format": "syncpack format && lerna run format --concurrency 4 --stream",
-    "lint": "lerna run lint --concurrency 4 --stream",
-    "prepare": "yarn simple-git-hooks",
-    "test": "lerna run test --concurrency 4 --stream"
+    "prepare": "simple-git-hooks",
+    "build": "yarn workspaces foreach -pt run build",
+    "clean": "yarn workspaces foreach -pt run clean",
+    "format": "yarn workspaces foreach -pt run format && syncpack format",
+    "lint": "yarn workspaces foreach -pt run lint",
+    "test": "yarn workspaces foreach -pt run test"
   },
   "simple-git-hooks": {
-    "pre-commit": "yarn lint-staged"
+    "pre-commit": "lint-staged"
   },
   "workspaces": [
     "حزم/*",
