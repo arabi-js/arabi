@@ -6,8 +6,10 @@
     "محمد سمير الصوالحي"
   ],
   "devDependencies": {
+    "eslint": "^7.23.0",
     "lint-staged": ">=10",
     "micromatch": "^4.0.2",
+    "prettier": "^2.2.1",
     "scripty": "^2.0.0",
     "simple-git-hooks": "^2.0.3",
     "syncpack": "^5.7.11"
@@ -17,23 +19,23 @@
   "private": true,
   "repository": "arabi-js/arabi.git",
   "scripts": {
-    "prepare": "simple-git-hooks",
     "build": "yarn workspaces foreach -pt run build",
     "clean": "yarn workspaces foreach -pt run clean",
     "format": "yarn workspaces foreach -pt run format && syncpack format",
     "lint": "yarn workspaces foreach -pt run lint",
+    "prepare": "simple-git-hooks",
     "test": "yarn workspaces foreach -pt run test"
   },
   "simple-git-hooks": {
-    "pre-commit": "lint-staged"
+    "pre-commit": "yarn lint-staged"
+  },
+  "volta": {
+    "node": "14.16.0",
+    "yarn": "1.22.10"
   },
   "workspaces": [
     "حزم/*",
     "أمثلة/*",
     "تضميد/*"
-  ],
-  "volta": {
-    "node": "14.16.0",
-    "yarn": "1.22.10"
-  }
+  ]
 }
