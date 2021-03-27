@@ -6,14 +6,14 @@
     "محمد سمير الصوالحي"
   ],
   "dependencies": {
-    "@arabi/maps": "^1.4.1",
+    "@arabi/maps": "workspace:*",
     "charcodes": "^0.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",
-    "@babel/eslint-config-internal": "^7.12.13",
+    "@babel/eslint-config-internal": "workspace:*",
     "@babel/eslint-parser": "^7.13.10",
-    "@babel/eslint-plugin-development-internal": "^7.13.10",
+    "@babel/eslint-plugin-development-internal": "workspace:*",
     "eslint": "^7.22.0",
     "eslint-plugin-flowtype": "^5.4.0",
     "scripty": "^2.0.0"

@@ -2,20 +2,20 @@
   "name": "@arabi/example2",
   "version": "1.0.0",
   "dependencies": {
-    "@arabi/translate": "^1.2.5",
+    "@arabi/translate": "workspace:*",
     "flatted": "^3.1.1",
     "jquery": "^3.5.1"
   },
   "devDependencies": {
-    "@arabi/core": "^1.0.0",
-    "@arabi/maps": "^1.4.1",
+    "@arabi/core": "workspace:*",
+    "@arabi/maps": "workspace:*",
     "rimraf": "^3.0.2",
     "webpack": "^5.28.0"
   },
   "private": true,
   "scripts": {
     "build": "webpack",
-    "trans": "node ./تجميع",
+    "trans": "node ./ترجم",
     "transbuild": "npm run trans && npm run build"
   }
 }
