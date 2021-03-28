@@ -10,7 +10,7 @@ module.exports = {
   target: 'node',
   entry: path.resolve(__dirname, './مصدر/index.js'),
   output: {
-    path: path.resolve(__dirname, 'توزيعة'),
+    path: path.resolve(__dirname, 'حزمة'),
     libraryTarget: 'commonjs'
   },
   module: {

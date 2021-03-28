@@ -2,7 +2,7 @@ const path = require('path');
 const babelOptions = require('./babel.config.js');
 
 module.exports = {
-  entry: path.resolve(__dirname, './خارج/مدخل.جس.js'),
+  entry: path.resolve(__dirname, './خرج/مدخل.جس.js'),
   devtool: 'source-map',
   mode: 'development',
   output: {

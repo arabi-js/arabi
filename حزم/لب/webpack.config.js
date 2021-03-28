@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
 const CleanPlugin = require('webpack-clean-plugin');
+const { indentPlaceholder } = require('@arabi/translate');
 
 // I dont't know the babel-loader is not working for
 // the files inside node_modules, it is working with the
@@ -45,7 +46,7 @@ let comModuleTranslationCode = fs.readFileSync(comModuleTranslationPath, { encod
 // it is the same replaceIndent in @arabi/translate/build.js
 function replaceIndents(s) {
   return s.replace(/^( {2})+/gm, (m) =>
-    new Array(m.length / 2 + 1).fill('').join('_@_@indent@_@_')
+    new Array(m.length / 2 + 1).fill('').join(indentPlaceholder)
   );
 }
 
