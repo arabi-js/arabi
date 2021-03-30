@@ -17,11 +17,10 @@
     "حزمة"
   ],
   "keywords": [
+    "arabi",
     "arabic",
     "javascript",
     "js",
-    "pegjs",
-    "programming-in-arabic",
     "جافاسكريبت",
     "عربي",
     "لغة-عربية"
@@ -33,19 +32,11 @@
   },
   "repository": "arabi-js/arabi.git",
   "scripts": {
-    "analyze": "webpack --profile --json=webpack.stats.json",
-    "build": "webpack --mode development",
-    "format": "scripty ./مصدر",
-    "lint": "scripty ./مصدر",
-    "preprod": "npm run style && npm run lint && npm run test",
-    "prod": "npm run build",
-    "start": "webpack --watch --mode development",
-    "test": "echo testing!!!"
-  },
-  "scripty": {
-    "path": "../../أوامر/حزم"
-  },
-  "devDependencies": {
-    "scripty": "^2.0.0"
+    "analyze": "run webpack:analyze \"$(pwd)\"",
+    "build": "run webpack:build \"$(pwd)\"",
+    "format": "run workspace:lint \"$(pwd)\"",
+    "lint": "run workspace:lint \"$(pwd)\"",
+    "test": "echo testing!!!",
+    "watch": "run webpack:watch \"$(pwd)\""
   }
 }

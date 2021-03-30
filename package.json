@@ -6,25 +6,44 @@
     "محمد سمير الصوالحي"
   ],
   "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/eslint-config-internal": "workspace:*",
+    "@babel/eslint-parser": "^7.13.10",
+    "@babel/eslint-plugin-development-internal": "workspace:*",
+    "@babel/plugin-transform-spread": "7.12.1",
+    "@babel/preset-env": "^7.12.10",
+    "@babel/preset-flow": "^7.12.13",
+    "babel-loader": "^8.2.2",
     "eslint": "^7.23.0",
+    "eslint-plugin-flowtype": "^5.4.0",
     "lint-staged": ">=10",
     "micromatch": "^4.0.2",
     "prettier": "^2.2.1",
     "scripty": "^2.0.0",
     "simple-git-hooks": "^2.0.3",
-    "syncpack": "^5.7.11"
+    "syncpack": "^5.7.11",
+    "webpack": "^5.10.3",
+    "webpack-clean-plugin": "^0.2.3",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
   },
   "homepage": "https://github.com/arabi-js/arabi#readme",
   "license": "MIT",
   "private": true,
   "repository": "arabi-js/arabi.git",
   "scripts": {
-    "build": "yarn workspaces foreach -pt run build",
-    "clean": "yarn workspaces foreach -pt run clean",
-    "format": "yarn workspaces foreach -pt run format && syncpack format",
-    "lint": "yarn workspaces foreach -pt run lint",
-    "prepare": "simple-git-hooks",
-    "test": "yarn workspaces foreach -pt run test"
+    "all:build": "yarn workspaces foreach -pt run build",
+    "all:clean": "rm -rf ./حزم/*/حزمة && rm -rf ./أمثلة/*/{خرج,حزمة}",
+    "all:format": "yarn workspaces foreach -pt run format && syncpack format",
+    "all:lint": "yarn workspaces foreach -pt run lint",
+    "all:test": "yarn workspaces foreach -pt run test",
+    "bootsrap": "simple-git-hooks",
+    "examples:build": "make build-examples",
+    "webpack:analyze": "path=\"$0\" make analyze",
+    "webpack:build": "path=\"$0\" make build",
+    "webpack:watch": "path=\"$0\" make watch",
+    "workspace:format": "path=\"$0\" make format",
+    "workspace:lint": "path=\"$0\" make lint"
   },
   "simple-git-hooks": {
     "pre-commit": "yarn lint-staged"

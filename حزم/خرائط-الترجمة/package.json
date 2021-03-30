@@ -19,13 +19,7 @@
   },
   "repository": "arabi-js/arabi.git",
   "scripts": {
-    "format": "scripty ./مصدر",
-    "lint": "scripty ./مصدر"
-  },
-  "scripty": {
-    "path": "../../أوامر/حزم"
-  },
-  "devDependencies": {
-    "scripty": "^2.0.0"
+    "format": "run workspace:lint \"$(pwd)\"",
+    "lint": "run workspace:lint \"$(pwd)\""
   }
 }

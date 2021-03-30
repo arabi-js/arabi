@@ -9,32 +9,21 @@
     "@arabi/maps": "workspace:*",
     "charcodes": "^0.2.0"
   },
-  "devDependencies": {
-    "@babel/core": "^7.13.10",
-    "@babel/eslint-config-internal": "workspace:*",
-    "@babel/eslint-parser": "^7.13.10",
-    "@babel/eslint-plugin-development-internal": "workspace:*",
-    "eslint": "^7.23.0",
-    "eslint-plugin-flowtype": "^5.4.0",
-    "scripty": "^2.0.0"
-  },
   "files": [
     "dist"
   ],
   "license": "MIT",
-  "main": "توزيعة/main.js",
+  "main": "حزمة/main.js",
   "publishConfig": {
     "access": "public"
   },
   "repository": "arabi-js/arabi.git",
   "scripts": {
-    "analyze": "webpack --profile --json=webpack.stats.json",
-    "build": "webpack --mode development",
-    "build:watch": "webpack --mode development --watch",
-    "format": "scripty ./مصدر",
-    "lint": "scripty ./مصدر"
-  },
-  "scripty": {
-    "path": "../../أوامر/حزم"
+    "analyze": "run webpack:analyze \"$(pwd)\"",
+    "build": "run webpack:build \"$(pwd)\"",
+    "format": "run workspace:lint \"$(pwd)\"",
+    "lint": "run workspace:lint \"$(pwd)\"",
+    "test": "echo testing!!!",
+    "watch": "run webpack:watch \"$(pwd)\""
   }
 }

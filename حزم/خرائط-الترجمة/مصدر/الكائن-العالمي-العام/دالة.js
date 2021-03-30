@@ -1,4 +1,4 @@
-import { _arguments } from '../كلمات-مفتاحية';
+const { _arguments } = require('../كلمات-مفتاحية');
 
 const functionPrototypeMap = {
   اربط: 'bind',

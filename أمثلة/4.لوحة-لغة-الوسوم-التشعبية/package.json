@@ -24,11 +24,12 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "webpack",
-    "build:watch": "webpack --watch",
+    "analyze": "run webpack:analyze \"$(pwd)\"",
+    "build": "yarn trans && run webpack:build \"$(pwd)\"",
+    "build-watch": "run webpack:watch \"$(pwd)\"",
     "serve": "http-server ./وجهة/ -o /مدخل",
     "start": "node ./تزامن trans:watch build:watch serve",
-    "trans": "node ./تجميع",
-    "trans:watch": "nodemon -w ./داخل -e جس -x npm run trans"
+    "trans": "node ./ترجم",
+    "trans-watch": "nodemon -w ./داخل -e جس -x npm run trans"
   }
 }

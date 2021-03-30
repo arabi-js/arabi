@@ -15,7 +15,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "node ./تجميع.js",
+    "build": "node ./ترجم.js",
     "start": "node donut.js"
   }
 }

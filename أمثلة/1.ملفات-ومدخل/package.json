@@ -11,8 +11,8 @@
     "@arabi/maps": "workspace:*",
     "rimraf": "^3.0.2"
   },
+  "private": true,
   "scripts": {
-    "trans": "node ترجم"
-  },
-  "private": true
+    "build": "node ترجم"
+  }
 }

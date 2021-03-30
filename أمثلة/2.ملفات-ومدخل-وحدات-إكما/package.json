@@ -9,13 +9,11 @@
   "devDependencies": {
     "@arabi/core": "workspace:*",
     "@arabi/maps": "workspace:*",
-    "rimraf": "^3.0.2",
-    "webpack": "^5.28.0"
+    "rimraf": "^3.0.2"
   },
   "private": true,
   "scripts": {
-    "build": "webpack",
-    "trans": "node ./ترجم",
-    "transbuild": "npm run trans && npm run build"
+    "build": "node trans && run webpack:build \"$(pwd)\"",
+    "trans": "node ./ترجم"
   }
 }

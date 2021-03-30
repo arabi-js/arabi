@@ -5,6 +5,9 @@
   "contributors": [
     "محمد سمير الصوالحي"
   ],
+  "devDependencies": {
+    "scripty": "^2.0.0"
+  },
   "keywords": [
     "arabi",
     "arabic",
@@ -23,14 +26,7 @@
   "repository": "arabi-js/arabi.git",
   "scripts": {
     "build": "node ./بناء.js",
-    "format": "scripty ./مصدر",
-    "lint": "scripty ./مصدر",
-    "asd": "echo SCRIPTY_PATH"
-  },
-  "scripty": {
-    "path": "../../أوامر/حزم"
-  },
-  "devDependencies": {
-    "scripty": "^2.0.0"
+    "format": "run workspace:lint \"$(pwd)\"",
+    "lint": "run workspace:lint \"$(pwd)\""
   }
 }
