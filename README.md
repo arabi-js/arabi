@@ -97,7 +97,7 @@ arabi.translate(options);
 ```bash
 > yarn examples:build # بناء كل الأمثلة
 > yarn workspace @arabi/example1 build # بناء المثال الأول
-> yarn workspace '@arabi/example{1..3}' build # بناء الأمثلة من 1 إلى 3
+> yarn workspaces --include '@arabi/example{1..3}' build # بناء الأمثلة من 1 إلى 3
 ```
 
 </div>
