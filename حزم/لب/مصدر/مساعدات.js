@@ -326,21 +326,27 @@ export function translatingModuleGenerator(_m) {
   return { filepath, generator };
 }
 
-export function addNewFiles() {
-  let all = [...manager.filesToAdd];
+export function createNewFiles() {
+  let all = [...manager.filesToCreate];
   while (all.length) {
+    // TODO: new `manager.reset` reset to the default according to options,
+    // so there will be no need to the follow ine of code
     manager.reset();
-    // this line won't be excuten unless isModules was true;
+    // this function `createNewFiles` won't be executed unless
+    // isModules was true. So, let's return it back to original value
     manager.isModules = true;
     let f = all.shift();
     let dirname = path.dirname(f.filepath);
     let code = f.generator();
     let header = getTopHeader();
+    // pad with one line from each sides, top and bottom
     if (header.length) header.push(manager.voidline), header.unshift(manager.voidline);
+    // prepend the header to the code
     if (header.length) code = header.join(manager.voidline) + code;
     if (!fs.existsSync(dirname)) fs.mkdirSync(dirname, { recursive: true });
     fs.writeFileSync(f.filepath, code);
-    all.push(...manager.filesToAdd);
+    // this just created file wants to create new files
+    all.push(...manager.filesToCreate);
     log('file created:'.success.bold.underline, f.filepath);
   }
 }

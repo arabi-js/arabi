@@ -130,13 +130,13 @@ class Manager extends NamesAddtionalCodeManager {
     }
   }
 
-  addFile(file) {
+  createFile(file) {
     if (!this.isModules)
       this.error(
         'Function Abuse',
         'you can only create new files incase of translating connected modules inside a dir'
       );
-    this.filesToAdd.push(file);
+    this.filesToCreate.push(file);
   }
 
   error(node, ...msgs) {
@@ -184,7 +184,7 @@ class Manager extends NamesAddtionalCodeManager {
     // the dependencies that the cureent file imports, or requires
     // { [source: string]: [ [ string /* name */, string /* localName */ ] ] }
     this.topImports = {};
-    this.filesToAdd = [];
+    this.filesToCreate = [];
     // translating directory and options.entry is set
     this.isModules = false;
     this.isEntry = false;

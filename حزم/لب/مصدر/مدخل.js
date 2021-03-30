@@ -30,7 +30,7 @@ Object.defineProperty(parser, '__info_', {
 
 export { parser };
 
-let filesToAdd, modulesToTranslate;
+let filesToCreate, modulesToTranslate;
 // we need to translate module stored in modulesToTranslate
 let tmodulesDir;
 let parserOptions;
@@ -64,7 +64,7 @@ function translateCode(arCode) {
         path.dirname(manager._filepath),
         globalTransModuleName
       );
-      manager.addFile({
+      manager.createFile({
         filepath: globalTransModulePath,
         generator() {
           manager.setLineHead(lh);
@@ -148,12 +148,12 @@ function translateDir(tree) {
 
       manager.modulesToTranslate.forEach((a) => modulesToTranslate.add(a));
       // add them to the array to create translation modules after finishing the loop
-      for (let newf of manager.filesToAdd) {
-        for (let __ of filesToAdd) {
+      for (let newf of manager.filesToCreate) {
+        for (let __ of filesToCreate) {
           if (__.filepath === newf.filepath)
             manager.error('Re-adding file', 'you are trying to generate the same file twice');
         }
-        filesToAdd.push(newf);
+        filesToCreate.push(newf);
       }
 
       // this doesn't affect the ES6 imports in other modules
@@ -177,7 +177,7 @@ function translateDir(tree) {
 // TODO: create sourcemap file if needed
 
 export function translate(options: Options, _parserOptions: ParserOptions | null): string {
-  filesToAdd = [];
+  filesToCreate = [];
   modulesToTranslate = new Set();
 
   if (!options) manager.error('Invalid Arguments', 'You have to pass options into the 1st arg!');
@@ -277,13 +277,13 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
     if (modulesToTranslate.size) {
       for (let _module of modulesToTranslate) {
         let m = helpers.translatingModuleGenerator(_module);
-        filesToAdd.push(m);
+        filesToCreate.push(m);
       }
     }
 
-    filesToAdd.length && (outputTree.newFiles = filesToAdd.map((f) => f.filepath));
-    manager.filesToAdd = filesToAdd;
-    helpers.addNewFiles();
+    filesToCreate.length && (outputTree.newFiles = filesToCreate.map((f) => f.filepath));
+    manager.filesToCreate = filesToCreate;
+    helpers.createNewFiles();
     return outputTree;
   }
 
