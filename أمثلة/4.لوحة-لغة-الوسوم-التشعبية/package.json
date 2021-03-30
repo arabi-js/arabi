@@ -27,7 +27,7 @@
     "analyze": "run webpack:analyze \"$(pwd)\"",
     "build": "yarn trans && run webpack:build \"$(pwd)\"",
     "build-watch": "run webpack:watch \"$(pwd)\"",
-    "serve": "http-server ./وجهة/ -o /مدخل",
+    "serve": "http-server -o مدخل.html",
     "start": "node ./تزامن trans:watch build:watch serve",
     "trans": "node ./ترجم",
     "trans-watch": "nodemon -w ./داخل -e جس -x npm run trans"

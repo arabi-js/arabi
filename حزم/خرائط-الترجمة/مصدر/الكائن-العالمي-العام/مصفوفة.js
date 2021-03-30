@@ -36,8 +36,8 @@ const arrayPrototypeMap = {
 
 const arrayMap = {
   هل_مصفوفة: 'isArray',
-  من: 'from',
-  من: 'of'
+  من: 'from'
+  // من: 'of'
   // the followning properties will be maped in ./رمز
   // "": "Array.prototype[@@unscopables]",
   // "": "Array.prototype[@@iterator]()",

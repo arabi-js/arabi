@@ -354,7 +354,8 @@ export function createNewFiles() {
 function getPrototypeTranslator(enName, constructMap) {
   // TODO: evaluate from @arabi/translate when `options.runtime`, it has to be has to be nearly isolated and independent;
   // TODO: take care of the properties' descriptor
-  if (constructMap.length !== 1)
+  if (!Array.isArray(constructMap) || constructMap.length !== 1)
+    // TODO: more info about the invalid options
     manager.error(
       "Translation Maps Doesn't Abide By The Schema",
       'global construct maps has to be an array of length 1'

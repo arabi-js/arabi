@@ -13,7 +13,7 @@
   },
   "private": true,
   "scripts": {
-    "build": "node trans && run webpack:build \"$(pwd)\"",
+    "build": "yarn trans && run webpack:build \"$(pwd)\"",
     "trans": "node ./ترجم"
   }
 }

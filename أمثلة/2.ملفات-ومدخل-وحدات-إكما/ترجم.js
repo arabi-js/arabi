@@ -15,6 +15,7 @@ arabi.translate({
   input: path.resolve(__dirname, './دخل'),
   output: OUTPUT,
   entry: path.resolve(__dirname, './دخل/مدخل.جس'),
+  // after building these ESModules, I want to run with node
   maps: arabiMaps.commonjs,
   globalObject: 'global'
 });
