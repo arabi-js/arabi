@@ -352,8 +352,7 @@ export function createNewFiles() {
 }
 
 function getPrototypeTranslator(enName, constructMap) {
-  // TODO: evaluate from @arabi/translate when `options.runtime`, it has to be has to be nearly isolated and independent;
-  // TODO: take care of the properties' descriptor
+  // TODO: evaluate from @arabi/translate when options.runtime = true, it has to be nearly isolated and independent;
   if (!Array.isArray(constructMap) || constructMap.length !== 1)
     // TODO: more info about the invalid options
     manager.error(
@@ -374,9 +373,10 @@ function getPrototypeTranslator(enName, constructMap) {
         descriptor = [
           '{',
           `get: function(){ return ${_name} },`,
-          `set: function(v){ return ${_name} = v },`,
+          `set: function(v){ ${_name} = v },`,
+          `enumerable: false`,
           '}'
-        ].join('');
+        ].join(' ');
       } else {
         let _name = map[0];
         let _map = map[1];
@@ -390,8 +390,9 @@ function getPrototypeTranslator(enName, constructMap) {
             _map
           )}, ${stringify(_options)}) },`,
           `set: function(v){ return ${_name} = v },`,
+          `enumerable: false`,
           '}'
-        ].join('');
+        ].join(' ');
       }
       prototypeCode +=
         manager.indent +
@@ -412,7 +413,7 @@ function getMemberFromGlobal(name) {
 
 // get member expression form strings, the 1st one is the top object
 // the following are the properties' name
-function getMember(obj, ...mem) {
+function getMember(obj: string, ...mem: string): string {
   let memexpr = obj;
   while (mem.length) {
     let name = mem.shift();
