@@ -13,9 +13,10 @@
 <div dir=ltr>
 
 ```bash
-> npm i
-> npm run build
-> npm start
+> yarn       # to install packages
+> yarn build # translate
+> yarn watch # to watch change and build
+> yarn start # to run the translated file
 ```
 
 </div>
