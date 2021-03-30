@@ -7,14 +7,14 @@ const arabiMaps = require('@arabi/maps');
 
 // const code = fs.readFileSync('./examples/2.arabi', { encoding: 'utf8' });
 
-const OUTPUT = path.resolve(__dirname, './خارج');
+const OUTPUT = path.resolve(__dirname, './خرج');
 
 rimraf.sync(OUTPUT);
 
 arabi.translate({
-  input: path.resolve(__dirname, './داخل'),
+  input: path.resolve(__dirname, './دخل'),
   output: OUTPUT,
-  entry: path.resolve(__dirname, './داخل/مدخل.جس'),
+  entry: path.resolve(__dirname, './دخل/مدخل.جس'),
   outputType: 'commonjs',
-  maps: arabiMaps.commonjs,
+  maps: arabiMaps.commonjs
 });

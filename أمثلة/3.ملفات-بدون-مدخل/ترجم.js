@@ -7,8 +7,8 @@ const path = require('path');
 
 // const code = fs.readFileSync('./examples/2.arabi', { encoding: 'utf8' });
 
-const OUTPUT = path.resolve(__dirname, './خارج');
-const INPUT = path.resolve(__dirname, './داخل');
+const OUTPUT = path.resolve(__dirname, './خرج');
+const INPUT = path.resolve(__dirname, './دخل');
 
 rimraf.sync(OUTPUT);
 
@@ -16,6 +16,5 @@ arabi.translate({
   input: INPUT,
   output: OUTPUT,
   inputType: 'mixed',
-  maps: arabiMaps.general 
+  maps: arabiMaps.general
 });
-
