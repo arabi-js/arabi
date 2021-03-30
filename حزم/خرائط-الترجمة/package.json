@@ -19,7 +19,7 @@
   },
   "repository": "arabi-js/arabi.git",
   "scripts": {
-    "format": "run workspace:lint \"$(pwd)\"",
-    "lint": "run workspace:lint \"$(pwd)\""
+    "format": "run workspace:format",
+    "lint": "run workspace:lint"
   }
 }

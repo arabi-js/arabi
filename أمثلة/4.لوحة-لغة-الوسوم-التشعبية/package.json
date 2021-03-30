@@ -13,23 +13,19 @@
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/plugin-proposal-private-methods": "^7.13.0",
     "@babel/preset-env": "^7.13.12",
-    "babel-loader": "^8.2.2",
-    "colors": "^1.4.0",
     "http-server": "^0.12.3",
     "nodemon": "^2.0.7",
-    "rimraf": "^3.0.2",
-    "webpack": "^5.28.0",
-    "webpack-dev-server": "^3.11.2"
+    "rimraf": "^3.0.2"
   },
   "license": "MIT",
   "private": true,
   "scripts": {
-    "analyze": "run webpack:analyze \"$(pwd)\"",
-    "build": "yarn trans && run webpack:build \"$(pwd)\"",
-    "build-watch": "run webpack:watch \"$(pwd)\"",
-    "serve": "http-server -o مدخل.html",
-    "start": "node ./تزامن trans:watch build:watch serve",
+    "analyze": "run webpack:analyze",
+    "build": "run tasks:series trans webpack:build",
+    "build-watch": "run webpack:watch",
+    "start": "http-server -o مدخل.html",
     "trans": "node ./ترجم",
-    "trans-watch": "nodemon -w ./داخل -e جس -x npm run trans"
+    "trans-watch": "nodemon -w ./داخل -e جس -x npm run trans",
+    "watch": "run tasks:parallel trans-watch build-watch serve"
   }
 }

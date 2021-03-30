@@ -1,0 +1,50 @@
+#!/usr/bin/env node
+
+const { spawn, spawnSync } = require('child_process');
+const { Transform } = require('stream');
+require('colors');
+
+const cwd = process.env.INIT_CWD;
+const isSeries = process.argv[2] === '--series';
+const cmds = process.argv.slice(3);
+const rndColors = ['cyan', 'yellow', 'green', 'blue'];
+
+if (cmds.length > 4) {
+  throw "can't sync more than 4 tasks";
+}
+
+let debug = (c, color) => {
+  let d = `[[${c}]]: `[color];
+  return new Transform({
+    transform(chunk, encoding, callback) {
+      let lines = chunk.toString().split('\n');
+      lines.pop();
+      lines = lines.map((l) => d + l).join('\n');
+      lines += '\n';
+      this.push(lines);
+      callback();
+    }
+  });
+};
+
+for (let cmd of cmds) {
+
+  if (isSeries) {
+    const yarnRun = spawnSync('yarn', ['run', cmd], { cwd });
+    const color = rndColors.shift();
+    const stdout = debug(cmd, color);
+    const stderr = debug(cmd, 'red');
+    stdout.pipe(process.stdout);
+    stderr.pipe(process.stderr);
+    stdout.write(yarnRun.stdout.toString());
+    stderr.write(yarnRun.stderr.toString());
+    continue;
+  }
+
+  const yarnRun = spawn('yarn', ['run', cmd], { cwd });
+  const color = rndColors.shift();
+  process.stdin.pipe(yarnRun.stdin);
+  yarnRun.stdout.pipe(debug(cmd, color)).pipe(process.stdout);
+  yarnRun.stderr.pipe(debug(cmd, 'red')).pipe(process.stderr);
+  
+}

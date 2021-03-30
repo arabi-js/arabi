@@ -32,11 +32,11 @@
   },
   "repository": "arabi-js/arabi.git",
   "scripts": {
-    "analyze": "run webpack:analyze \"$(pwd)\"",
-    "build": "run webpack:build \"$(pwd)\"",
-    "format": "run workspace:lint \"$(pwd)\"",
-    "lint": "run workspace:lint \"$(pwd)\"",
+    "analyze": "run webpack:analyze",
+    "build": "run webpack:build",
+    "format": "run workspace:format",
+    "lint": "run workspace:lint",
     "test": "echo testing!!!",
-    "watch": "run webpack:watch \"$(pwd)\""
+    "watch": "run webpack:watch"
   }
 }

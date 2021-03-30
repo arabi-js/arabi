@@ -26,7 +26,7 @@
   "repository": "arabi-js/arabi.git",
   "scripts": {
     "build": "node ./بناء.js",
-    "format": "run workspace:lint \"$(pwd)\"",
-    "lint": "run workspace:lint \"$(pwd)\""
+    "format": "run workspace:format",
+    "lint": "run workspace:lint"
   }
 }

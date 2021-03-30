@@ -10,12 +10,14 @@
   "devDependencies": {
     "@arabi/core": "workspace:*",
     "@arabi/maps": "workspace:*",
+    "nodemon": "^2.0.7",
     "rimraf": "^3.0.2"
   },
   "license": "MIT",
   "private": true,
   "scripts": {
     "build": "node ./ترجم.js",
-    "start": "node donut.js"
+    "start": "node donut.js",
+    "watch": "nodemon -w طارة.جس -x yarn build"
   }
 }

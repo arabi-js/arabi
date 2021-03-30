@@ -67,14 +67,10 @@ __metadata:
     "@babel/plugin-proposal-class-properties": ^7.13.0
     "@babel/plugin-proposal-private-methods": ^7.13.0
     "@babel/preset-env": ^7.13.12
-    babel-loader: ^8.2.2
-    colors: ^1.4.0
     flatted: ^3.1.1
     http-server: ^0.12.3
     nodemon: ^2.0.7
     rimraf: ^3.0.2
-    webpack: ^5.28.0
-    webpack-dev-server: ^3.11.2
   languageName: unknown
   linkType: soft
 
@@ -87,6 +83,7 @@ __metadata:
     "@arabi/translate": "workspace:*"
     ansi-escapes: ^4.3.1
     flatted: ^3.1.1
+    nodemon: ^2.0.7
     rimraf: ^3.0.2
   languageName: unknown
   linkType: soft
@@ -8131,7 +8128,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"webpack-dev-server@npm:^3.11.0, webpack-dev-server@npm:^3.11.2":
+"webpack-dev-server@npm:^3.11.0":
   version: 3.11.2
   resolution: "webpack-dev-server@npm:3.11.2"
   dependencies:
@@ -8209,7 +8206,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.10.3, webpack@npm:^5.28.0":
+"webpack@npm:^5.10.3":
   version: 5.28.0
   resolution: "webpack@npm:5.28.0"
   dependencies:

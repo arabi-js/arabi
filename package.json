@@ -39,11 +39,13 @@
     "all:test": "yarn workspaces foreach -pt run test",
     "bootsrap": "simple-git-hooks",
     "examples:build": "make build-examples",
-    "webpack:analyze": "path=\"$0\" make analyze",
-    "webpack:build": "path=\"$0\" make build",
-    "webpack:watch": "path=\"$0\" make watch",
-    "workspace:format": "path=\"$0\" make format",
-    "workspace:lint": "path=\"$0\" make lint"
+    "tasks:parallel": "./أوامر/تزامن --parallel \"$@\"",
+    "tasks:series": "./أوامر/تزامن --series \"$@\"",
+    "webpack:analyze": "make analyze",
+    "webpack:build": "make build",
+    "webpack:watch": "make watch",
+    "workspace:format": "make format",
+    "workspace:lint": "make lint"
   },
   "simple-git-hooks": {
     "pre-commit": "yarn lint-staged"
