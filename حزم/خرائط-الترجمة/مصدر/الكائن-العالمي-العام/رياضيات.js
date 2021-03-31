@@ -45,4 +45,4 @@ const mathMap = {
   وتر: 'hypot'
 };
 
-module.exports = ['Math', mathMap];
+export default ['Math', mathMap];

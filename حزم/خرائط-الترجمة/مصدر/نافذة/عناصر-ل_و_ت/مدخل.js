@@ -1,4 +1,4 @@
-const canvasElementMap = require('./لوحة');
+import canvasElementMap from './لوحة';
 
 // if you pass a translation map as a function
 // you have to ensure that, the body of this
@@ -8,7 +8,7 @@ const canvasElementMap = require('./لوحة');
 // import that module inside the translation map generator function,
 // to make it easy and simple, we will use "Function.toString()"
 // to get the same exact code you wrote
-// exports.htmlElementMap = function (el) {
+// export const htmlElementMap = function (el) {
 // 	const me = arguments.callee;
 // 	const map = {
 // 		// a function returns an object, that object will be translated as well
@@ -30,7 +30,7 @@ const canvasElementMap = require('./لوحة');
 // put all the element maps into one huge map
 // we can use a function that check the html
 // element type and then return the coresponding map
-const htmlElementMap = {
+export const htmlElementMap = {
   ...canvasElementMap,
   عرض: 'width',
   طول: 'height',
@@ -46,7 +46,7 @@ const htmlElementMap = {
   لوت_الداخلية: 'innerHTML'
 };
 
-const elementSelectors = {
+export const elementSelectors = {
   // a function returns an object, that object will be translated as well
   محدد_الاستعلام: ['querySelector', null, { returnMap: [htmlElementMap] }],
   محدد_الاستعلام_الشامل: ['querySelectorAll', null, { returnMap: [htmlElementMap] }],
@@ -57,6 +57,3 @@ const elementSelectors = {
 };
 
 Object.assign(htmlElementMap, elementSelectors);
-
-exports.elementSelectors = elementSelectors;
-exports.htmlElementMap = htmlElementMap;

@@ -65,7 +65,7 @@ const canvasContextMap = {
   حول: 'transform'
 };
 
-module.exports = {
+export default {
   احضر_السياق: ['getContext', null, { returnMap: [canvasContextMap] }]
 };
 

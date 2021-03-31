@@ -45,4 +45,4 @@ const arrayMap = {
   // "": "Array.prototype[@@iterator]()",
 };
 
-module.exports = ['Array', arrayMap, { constructMap: [arrayPrototypeMap] }];
+export default ['Array', arrayMap, { constructMap: [arrayPrototypeMap] }];

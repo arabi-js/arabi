@@ -1,9 +1,9 @@
-const { htmlElementMap, elementSelectors } = require('./عناصر-ل_و_ت/مدخل');
-const generalGlobalThis = require('../الكائن-العالمي-العام/مدخل');
+import { htmlElementMap, elementSelectors } from './عناصر-ل_و_ت/مدخل';
+import generalGlobalThis from '../الكائن-العالمي-العام/مدخل';
 
 // create sub-directory for sub-repos
 // create sub-packages: arjs-translate, arjs-maps
-module.exports = {
+export default {
   انذر: 'alert',
   ...generalGlobalThis,
 

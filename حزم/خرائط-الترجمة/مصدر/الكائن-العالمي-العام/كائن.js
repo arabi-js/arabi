@@ -33,4 +33,4 @@ const objectMap = {
   امنع_الامتدادات: 'preventExtensions'
 };
 
-module.exports = ['Object', objectMap, { constructMap: [objectPrototypeMap] }];
+export default ['Object', objectMap, { constructMap: [objectPrototypeMap] }];

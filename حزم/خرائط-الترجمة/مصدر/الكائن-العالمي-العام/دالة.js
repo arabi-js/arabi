@@ -1,4 +1,4 @@
-const { _arguments } = require('../كلمات-مفتاحية');
+import { _arguments } from '../كلمات-مفتاحية';
 
 const functionPrototypeMap = {
   اربط: 'bind',
@@ -15,4 +15,4 @@ const functionPrototypeMap = {
 
 const functionMap = null;
 
-module.exports = ['Function', functionMap, { constructMap: [functionPrototypeMap] }];
+export default ['Function', functionMap, { constructMap: [functionPrototypeMap] }];

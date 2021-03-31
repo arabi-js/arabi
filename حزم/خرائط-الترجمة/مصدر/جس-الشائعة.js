@@ -1,6 +1,6 @@
-const generalGlobalThis = require('./الكائن-العالمي-العام/مدخل');
+import generalGlobalThis from './الكائن-العالمي-العام/مدخل';
 
-module.exports = {
+export default {
   // it is now converted to require for bundlers consideration.
   // استدعي: 'require',
   ...generalGlobalThis

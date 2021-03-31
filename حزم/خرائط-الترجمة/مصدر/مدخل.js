@@ -1,24 +1,23 @@
-const windowMap = require('./نافذة/مدخل');
-const commonjsMap = require('./جس-الشائعة');
-const commonjsVars = require('./متغيرات-جس-الشائعة');
-const generalGlobalThis = require('./الكائن-العالمي-العام/مدخل');
-const modules = require('./وحدات-النود/مدخل');
-const keywordsMap = require('./كلمات-مفتاحية');
+import windowMap from './نافذة/مدخل';
+import commonjsMap from './جس-الشائعة';
+import commonjsVars from './متغيرات-جس-الشائعة';
+import generalGlobalThis from './الكائن-العالمي-العام/مدخل';
+import modules from './وحدات-النود/مدخل';
 
-exports.keywordsMap = keywordsMap;
+export * as keywordsMap from './كلمات-مفتاحية';
 
-exports.commonjs = {
+export const commonjs = {
   global: commonjsMap,
   globalVars: commonjsVars,
   modules
 };
 
-exports.window = {
+export const window = {
   global: windowMap,
   modules
 };
 
-exports.general = {
+export const general = {
   global: generalGlobalThis,
   modules
 };

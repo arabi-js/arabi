@@ -103,4 +103,4 @@ const stringMap = {
   '': 'raw'
 };
 
-module.exports = ['String', stringMap, { constructMap: [stringPrototype] }];
+export default ['String', stringMap, { constructMap: [stringPrototype] }];
