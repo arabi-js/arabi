@@ -3,9 +3,8 @@
 import translate from '../مدخل';
 import manager from '../مدير-الترجمة';
 import path from 'path';
-import { getRandomName } from '../../مساعدات';
+import { getRandomName, stringify } from '../../مساعدات';
 import { type Translator } from '../../أنواع.js';
-import { stringify } from '../../مساعدات';
 
 function importSpecifierstranslate(s, map, mapOptions) {
   let isTranslated = typeof map !== 'undefined' && !manager.isModules;

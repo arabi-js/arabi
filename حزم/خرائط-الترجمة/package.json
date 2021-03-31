@@ -13,12 +13,14 @@
     "خراط-الترجمة"
   ],
   "license": "MIT",
-  "main": "./مصدر/مدخل.js",
+  "main": "./مكتبة/مدخل.js",
+  "module": "./مصدر/مدخل.js",
   "publishConfig": {
     "access": "public"
   },
   "repository": "arabi-js/arabi.git",
   "scripts": {
+    "build": "run babel:build",
     "format": "run workspace:format",
     "lint": "run workspace:lint"
   }

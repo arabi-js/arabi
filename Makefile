@@ -2,7 +2,7 @@ path = $(INIT_CWD)
 YARN = yarn
 NODE = $(YARN) node
 
-.PHONY: lint format test build build-* watch watch-* analyze analyze-*
+.PHONY: lint format test build build-* babel-build watch watch-* analyze analyze-*
 
 analyze:
 	@./أوامر/عنوان-الأمر analyzing
@@ -17,6 +17,10 @@ build:
 
 build-examples:
 	$(YARN) workspaces foreach --include '@arabi/example*' -pt run build
+
+babel-build:
+	@./أوامر/عنوان-الأمر building
+	$(YARN) babel "$(path)"/مصدر --out-dir "$(path)"/مكتبة
 
 watch:
 	@./أوامر/عنوان-الأمر watching

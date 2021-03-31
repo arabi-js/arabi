@@ -6,6 +6,7 @@
     "محمد سمير الصوالحي"
   ],
   "devDependencies": {
+    "@babel/cli": "^7.13.14",
     "@babel/core": "^7.13.10",
     "@babel/eslint-config-internal": "workspace:*",
     "@babel/eslint-parser": "^7.13.10",
@@ -40,6 +41,7 @@
     "all:format": "yarn workspaces foreach -pt run format && syncpack format",
     "all:lint": "yarn workspaces foreach -pt run lint",
     "all:test": "yarn workspaces foreach -pt run test",
+    "babel:build": "make babel-build",
     "bootsrap": "simple-git-hooks",
     "examples:build": "make build-examples",
     "tasks:parallel": "./أوامر/تزامن --parallel \"$@\"",

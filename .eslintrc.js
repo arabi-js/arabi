@@ -1,7 +1,7 @@
 const path = require('path');
 const cjsGlobals = ['__dirname', '__filename', 'require', 'module', 'exports'];
 
-const flowPackages = ['حزم/لب/**/*.js'];
+const flowPackages = ['حزم/{لب,خرائط-الترجمة}/**/*.js'];
 
 const configs = [
   'eslint:recommended',
