@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-pkg=$(which jq 2>&1 > /dev/null \
-  && cat "$2"/package.json | jq '.name' \
-  || echo $2)
+task=$1
+path=$INIT_CWD
+pkg=$(command -v jq > /dev/null \
+  && jq '.name' < "$path/package.json" \
+  || echo "$path")
 
 declare -A emojis
 
@@ -13,5 +15,4 @@ emojis["formatting"]=📑
 emojis["watching"]=👀
 emojis["analyzing"]=📈
 
-echo "┏━━━ ${emojis[$1]} $1: $pkg ━━━━━━━━━━━━━━━━━━━"
-
+echo "┏━━━━━ ${emojis[$task]} $task: $pkg ━━━━━━━━━━━━━━━━━━━━━━━━━━"
