@@ -46,16 +46,16 @@ var وحدة = __arjs__translate__(module, { صادرات: 'exports' });
 
 ```ts
 interface BasicTranslationMap {
-  [ArabicName: string]: /* EnglishName */ string | [
-    EnglishName: string,
-    TranlationMap,
-    TranslationMapOptions?
-  ];
+  [ArabicName: string]:
+    | string // english name
+    | [
+        EnglishName: string, // english name
+        TranlationMap,
+        TranslationMapOptions?
+      ];
 }
 
-type TranslationMap =
-  BasicTranslationMap |
-  (objToBeTranslated: object) => BasicTranslationMap;
+type TranslationMap = BasicTranslationMap | ((objToBeTranslated: object) => BasicTranslationMap);
 ```
 
 ### TranslationMapOptions

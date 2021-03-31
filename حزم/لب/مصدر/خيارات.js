@@ -13,15 +13,26 @@ export interface GlobalMap {
 }
 
 export interface BasicTranslationMap {
-  [ArabicName: string]: | string
-    | /* EnglishName */ [
+  [ArabicName: string]:
+    | string // EnglishName
+    | [
         string, // English Name
         TranslationMap,
         ?TranslationMapOptions
       ];
 }
 
-export type TranslationMap = BasicTranslationMap | ((obj: object) => BasicTranslationMap);
+export type TranslationMap =
+  | BasicTranslationMap
+  | ((objToBeTranslated: object) => BasicTranslationMap);
+
+export interface TranslationMapOptions {
+  // this is an option for translating the returned value of a function
+  returnMap?: [TranslationMap, ?TranslationMapOptions];
+  // this is an option for a "constructor", function or class, and
+  //  we want to translate it's API, to translate each `new` instance.
+  constructMap?: [TranslationMap, ?TranslationMapOptions];
+}
 
 export type ModuleType = 'module' | 'commonjs';
 
