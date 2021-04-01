@@ -116,12 +116,7 @@ arabi.translate(options);
 
 # الخطوات القادمة
 
-- النهوض بما تم التعليق به داخل الكود، قم بالبحث عن `TODO`.
-- إنتاج "خرائط المصدر" (sourcemaps).
-- إكمال [محمل وإضافة ويب_باك](https://github.com/javascript-in-arabic/webpack-plugin.git).
-- إضافات لمحررات الأكواد للتلوين النحوي (syntax hightling)، وإظهار التوقع الذكي (auto-prediction).
-- [واجهة السطر الأمري](https://ar.wikipedia.org/wiki/%D9%88%D8%A7%D8%AC%D9%87%D8%A9_%D8%B3%D8%B7%D8%B1_%D8%A7%D9%84%D8%A3%D9%88%D8%A7%D9%85%D8%B1)، _و_ _س_ _أ_،على [هذا المستودع](https://github.com/javascript-in-arabic/cli.git).
-- العمل على التعريب نفسه بخرائط الترجمة، على [هذا المستودع](https://github.com/javascript-in-arabic/maps.git).
+انظر تبويب projects.
 
 # الترخيص
 
