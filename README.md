@@ -20,6 +20,8 @@
 لكل(عرف ر من مصفوفة_الأرقام) لوحة.اطبع(ر)؛
 ```
 
+⬅️ بعض المناقشات: [أهلا بكم في جافاسكريبت بالعربية](https://github.com/arabi-js/arabi/discussions/1), [رصد للواقع ومقترحات](https://github.com/arabi-js/arabi/discussions/4).
+
 ## طريقة الاستخدام
 
 <div dir=ltr>
