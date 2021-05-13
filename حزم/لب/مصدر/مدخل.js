@@ -206,7 +206,7 @@ export function translate(options: Options, _parserOptions: ParserOptions | null
     entry: false,
 
     // test for files to be translated!
-    patterns: /\.(:?arabi|جس|ج.س)$/,
+    patterns: /\.(:?ar|جس|ج.س)$/,
     ignores: null, // ignore specific files when translating
     globalIgnores: null, // ignore files from being copied to the output when when translating dir && isModules
     keepExtension: false,
